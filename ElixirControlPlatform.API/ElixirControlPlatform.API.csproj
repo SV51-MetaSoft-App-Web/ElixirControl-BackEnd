@@ -25,66 +25,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ProductManagement\Application\Internal\CommandServices\" />
-      <Folder Include="ProductManagement\Application\Internal\QueryServices\" />
-      <Folder Include="ProductManagement\Domain\Model\Aggregate\" />
-      <Folder Include="ProductManagement\Domain\Model\Commands\" />
-      <Folder Include="ProductManagement\Domain\Model\Entities\" />
-      <Folder Include="ProductManagement\Domain\Model\Queries\" />
-      <Folder Include="ProductManagement\Domain\Model\ValueObjects\" />
-      <Folder Include="ProductManagement\Domain\Repositories\" />
-      <Folder Include="ProductManagement\Domain\Services\" />
-      <Folder Include="ProductManagement\Infrastructure\Persistence\EFC\Repositories\" />
-      <Folder Include="ProductManagement\Interfaces\REST\Resources\" />
-      <Folder Include="ProductManagement\Interfaces\REST\Transform\" />
-      <Folder Include="OrderRequest\Application\Internal\CommandServices\" />
-      <Folder Include="OrderRequest\Application\Internal\QueryServices\" />
-      <Folder Include="OrderRequest\Domain\Model\Aggregate\" />
-      <Folder Include="OrderRequest\Domain\Model\Commands\" />
-      <Folder Include="OrderRequest\Domain\Model\Entities\" />
-      <Folder Include="OrderRequest\Domain\Model\Queries\" />
-      <Folder Include="OrderRequest\Domain\Model\ValueObjects\" />
-      <Folder Include="OrderRequest\Domain\Repositories\" />
-      <Folder Include="OrderRequest\Domain\Services\" />
-      <Folder Include="OrderRequest\Infrastructure\Persistence\EFC\Repositories\" />
-      <Folder Include="OrderRequest\Interfaces\REST\Resources\" />
-      <Folder Include="OrderRequest\Interfaces\REST\Transform\" />
-      <Folder Include="OrderManagement\Application\Internal\CommandServices\" />
-      <Folder Include="OrderManagement\Application\Internal\QueryServices\" />
-      <Folder Include="OrderManagement\Domain\Model\Aggregate\" />
-      <Folder Include="OrderManagement\Domain\Model\Commands\" />
-      <Folder Include="OrderManagement\Domain\Model\Entities\" />
-      <Folder Include="OrderManagement\Domain\Model\Queries\" />
-      <Folder Include="OrderManagement\Domain\Model\ValueObjects\" />
-      <Folder Include="OrderManagement\Domain\Repositories\" />
-      <Folder Include="OrderManagement\Domain\Services\" />
-      <Folder Include="OrderManagement\Infrastructure\Persistence\EFC\Repositories\" />
-      <Folder Include="OrderManagement\Interfaces\REST\Resources\" />
-      <Folder Include="OrderManagement\Interfaces\REST\Transform\" />
       <Folder Include="WinemakingProcess\Application\Internal\CommandServices\" />
       <Folder Include="WinemakingProcess\Application\Internal\QueryServices\" />
-      <Folder Include="WinemakingProcess\Domain\Model\Aggregate\" />
-      <Folder Include="WinemakingProcess\Domain\Model\Commands\" />
       <Folder Include="WinemakingProcess\Domain\Model\Entities\" />
-      <Folder Include="WinemakingProcess\Domain\Model\Queries\" />
       <Folder Include="WinemakingProcess\Domain\Model\ValueObjects\" />
-      <Folder Include="WinemakingProcess\Domain\Repositories\" />
-      <Folder Include="WinemakingProcess\Domain\Services\" />
       <Folder Include="WinemakingProcess\Infrastructure\Persistence\EFC\Repositories\" />
       <Folder Include="WinemakingProcess\Interfaces\REST\Resources\" />
       <Folder Include="WinemakingProcess\Interfaces\REST\Transform\" />
-      <Folder Include="InventoryManagement\Application\Internal\CommandServices\" />
-      <Folder Include="InventoryManagement\Application\Internal\QueryServices\" />
-      <Folder Include="InventoryManagement\Domain\Model\Aggregate\" />
-      <Folder Include="InventoryManagement\Domain\Model\Commands\" />
-      <Folder Include="InventoryManagement\Domain\Model\Entities\" />
-      <Folder Include="InventoryManagement\Domain\Model\Queries\" />
-      <Folder Include="InventoryManagement\Domain\Model\ValueObjects\" />
-      <Folder Include="InventoryManagement\Domain\Repositories\" />
-      <Folder Include="InventoryManagement\Domain\Services\" />
-      <Folder Include="InventoryManagement\Infrastructure\Persistence\EFC\Repositories\" />
-      <Folder Include="InventoryManagement\Interfaces\REST\Resources\" />
-      <Folder Include="InventoryManagement\Interfaces\REST\Transform\" />
     </ItemGroup>
 
 </Project>
