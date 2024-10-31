@@ -1,6 +1,7 @@
-﻿using MetaSoftAppWeb.API.OrderManagement.Domain.Model.Commands;
+﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
 
 
+namespace ElixirControlPlatform.API.OrderManagement.Domain.Services;
 
 /// <summary>
 /// Order command service interface
