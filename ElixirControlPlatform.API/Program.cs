@@ -2,6 +2,11 @@ using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.WinemakingProcess.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.WinemakingProcess.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Repositories;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
+using ElixirControlPlatform.API.WinemakingProcess.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +56,10 @@ builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
 
 
 //===================================== 1. GONZALO Bounded Context ================================
+//----------------- Batches -----------------
+builder.Services.AddScoped<IBatchRepository, BatchRepository>();
+builder.Services.AddScoped<IBatchCommandService, BatchCommandService>();
+builder.Services.AddScoped<IBatchQueryService, BatchQueryService>();
 
 
 //===================================== END GONZALO Bounded Context ===============================

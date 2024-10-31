@@ -27,8 +27,6 @@
     <ItemGroup>
       <Folder Include="WinemakingProcess\Domain\Model\Entities\" />
       <Folder Include="WinemakingProcess\Domain\Model\ValueObjects\" />
-      <Folder Include="WinemakingProcess\Interfaces\REST\Resources\" />
-      <Folder Include="WinemakingProcess\Interfaces\REST\Transform\" />
     </ItemGroup>
 
 </Project>

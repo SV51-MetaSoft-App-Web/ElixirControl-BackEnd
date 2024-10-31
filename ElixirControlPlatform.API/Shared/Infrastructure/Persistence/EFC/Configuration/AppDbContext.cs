@@ -1,4 +1,5 @@
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,16 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          
       //===================================== 1. GONZALO Bounded Context ================================
          
+      builder.Entity<Batch>().HasKey(b => b.Id);
+      builder.Entity<Batch>().Property(b => b.Id).IsRequired().ValueGeneratedOnAdd();
+      
+      builder.Entity<Batch>().Property(b => b.VineyardCode).IsRequired().HasMaxLength(50);
+      builder.Entity<Batch>().Property(b => b.GrapeVariety).IsRequired().HasMaxLength(50);
+      builder.Entity<Batch>().Property(b => b.HarvestDate).IsRequired();
+      builder.Entity<Batch>().Property(b => b.GrapeQuantity).IsRequired();
+      builder.Entity<Batch>().Property(b => b.VineyardOrigin).IsRequired().HasMaxLength(50);
+      builder.Entity<Batch>().Property(b => b.ProcessStartDate).IsRequired();
+      
          
       //===================================== END GONZALO Bounded Context ===============================
          
