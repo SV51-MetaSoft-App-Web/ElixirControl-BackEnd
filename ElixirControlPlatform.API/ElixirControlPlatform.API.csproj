@@ -25,11 +25,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="WinemakingProcess\Application\Internal\CommandServices\" />
-      <Folder Include="WinemakingProcess\Application\Internal\QueryServices\" />
       <Folder Include="WinemakingProcess\Domain\Model\Entities\" />
       <Folder Include="WinemakingProcess\Domain\Model\ValueObjects\" />
-      <Folder Include="WinemakingProcess\Infrastructure\Persistence\EFC\Repositories\" />
       <Folder Include="WinemakingProcess\Interfaces\REST\Resources\" />
       <Folder Include="WinemakingProcess\Interfaces\REST\Transform\" />
     </ItemGroup>
