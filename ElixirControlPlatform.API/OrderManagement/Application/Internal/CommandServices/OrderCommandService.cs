@@ -1,4 +1,9 @@
-﻿namespace ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
+using ElixirControlPlatform.API.OrderManagement.Domain.Repositories;
+using ElixirControlPlatform.API.OrderManagement.Domain.Services;
+using ElixirControlPlatform.API.Shared.Domain.Repositories;
+
+namespace ElixirControlPlatform.API.OrderManagement.Application.Internal.CommandServices;
 
 public class OrderCommandService
 {
