@@ -1,5 +1,6 @@
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Entities;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       //=================================================================================================
          
       //===================================== 1. GONZALO Bounded Context ================================
-         
+      // Configuration by Batch
       builder.Entity<Batch>().HasKey(b => b.Id);
       builder.Entity<Batch>().Property(b => b.Id).IsRequired().ValueGeneratedOnAdd();
       
@@ -34,7 +35,27 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Batch>().Property(b => b.VineyardOrigin).IsRequired().HasMaxLength(50);
       builder.Entity<Batch>().Property(b => b.ProcessStartDate).IsRequired();
       
-         
+      //---------------------------------------------------------------------------------------------------
+      // Configuration de Fermentation
+      builder.Entity<Fermentation>().HasKey(f => f.Id);
+      builder.Entity<Fermentation>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
+      
+      builder.Entity<Fermentation>().Property(f => f.BatchId).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.StartDate).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.EndDate).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.AverageTemperature).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.InitialDensity).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.InitialPh).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.FinalDensity).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.FinalPh).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.ResidualSugar).IsRequired();
+      
+      
+      
+      // Configuración de la relación uno a uno
+      builder.Entity<Batch>()
+         .HasOne(b => b.Fermentation);
+      
       //===================================== END GONZALO Bounded Context ===============================
          
          

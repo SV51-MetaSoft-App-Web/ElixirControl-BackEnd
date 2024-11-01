@@ -62,6 +62,8 @@ builder.Services.AddScoped<IBatchCommandService, BatchCommandService>();
 builder.Services.AddScoped<IBatchQueryService, BatchQueryService>();
 
 
+
+
 //===================================== END GONZALO Bounded Context ===============================
 
 

@@ -16,15 +16,14 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces;
 public class BatchController(IBatchQueryService batchQueryService, IBatchCommandService batchCommandService): ControllerBase
 {
     
-    
     [HttpGet("{batchId:int}")]
     [SwaggerOperation(
         Summary = "Get a Batch by id",
         Description = "Get a Batch by id",
         OperationId = "GetBatchById"
     )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The tutorial was successfully retrieved", typeof(BatchResource))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "The tutorial was not found")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Batch was successfully retrieved", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Batch was not found")]
     public async Task<IActionResult> GetBatchById(int batchId)
     {
         var getBatchByIdQuery = new GetBatchByIdQuery(batchId);
@@ -72,7 +71,10 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
     }
     
     
+
     
     
+   
     
+   
 }
