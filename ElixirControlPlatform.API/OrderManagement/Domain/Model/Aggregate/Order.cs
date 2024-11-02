@@ -1,9 +1,12 @@
-﻿namespace ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
-///Orders aggregate
+﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
+
+
+namespace ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
+///Order aggregate
 /// <summary>
-/// This class represents the Orders aggregate. It is used to store the information of the orders.
+/// This class represents the Order aggregate. It is used to store the information of the order.
 /// </summary>
-public class Orders
+public class Order
 {
     public int Id { get; private set; }
     public string BusinessName {get ; private set;}
@@ -15,15 +18,14 @@ public class Orders
     public string ProductName {get; private set;}
     public string TransportCondition {get; private set;}
     public string PaymentTerms {get; private set;}
-    public string ContactName {get; private set;}
     public string Address {get; private set;}
     public string Email {get; private set;}
     public string Ruc {get; private set;}
     public string WineType {get; private set;}
-    public string paymentMethod {get; private set;}
+    public string PaymentMethod {get; private set;}
     public string DeliveryDate {get; private set;}
     
-    protected Orders()
+    protected Order()
     {
         this.BusinessName = string.Empty;
         this.RequestedDate = string.Empty;
@@ -39,7 +41,7 @@ public class Orders
         this.Email = string.Empty;
         this.Ruc = string.Empty;
         this.WineType = string.Empty;
-        this.paymentMethod = string.Empty;
+        this.PaymentMethod = string.Empty;
         this.DeliveryDate = string.Empty;
     }
     
@@ -50,7 +52,7 @@ public class Orders
     /// This constructor is the command handle for the CreateOrdersCommand.
     /// </remarks>
     /// <param name="command"></param>
-    public Orders(CreateOrdersCommand command)
+    public Order(CreateOrderSourceCommand command)
     {
         this.BusinessName = command.BusinessName;
         this.RequestedDate = command.RequestedDate;
@@ -66,7 +68,7 @@ public class Orders
         this.Email = command.Email;
         this.Ruc = command.Ruc;
         this.WineType = command.WineType;
-        this.paymentMethod = command.paymentMethod;
+        this.PaymentMethod = command.PaymentMethod;
         this.DeliveryDate = command.DeliveryDate;
     }
 }
