@@ -49,4 +49,19 @@ public class OrdersController(IOrderCommandService orderCommandService, IOrderQu
         var resource = OrderResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
     }
+    
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Get all Orders",
+        Description = "Get all Orders",
+        OperationId = "GetAllOrders"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The orders were successfully retrieved", typeof(IEnumerable<OrderResource>))]
+    public async Task<IActionResult> GetAllOrders()
+    {
+        var getAllOrdersQuery = new GetAllOrdersQuery();
+        var orders = await orderQueryService.Handle(getAllOrdersQuery);
+        var orderResources = orders.Select(OrderResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(orderResources);
+    }
 }
