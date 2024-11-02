@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Entities;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Queries;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
 using ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Resources;
@@ -16,22 +17,38 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST;
 public class WinemakingProcessByBatchController(IBatchQueryService batchQueryService, IBatchCommandService batchCommandService): ControllerBase
 {
     
-    [HttpGet("{batchId:int}")]
+    [HttpGet("batch/{batchId:int}/fermentation")]
     [SwaggerOperation(
-        Summary = "Get a Batch by id",
-        Description = "Get a Batch by id",
-        OperationId = "GetBatchById"
+        Summary = "Get a Fermentation by Batch",
+        Description = "Get a Fermentation by Batch",
+        OperationId = "GetFermentationByBatch"
     )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The Batch was successfully retrieved", typeof(BatchResource))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "The Batch was not found")]
-    public async Task<IActionResult> GetBatchById(int batchId)
+    [SwaggerResponse(StatusCodes.Status200OK, "The Fermentation was successfully retrieved", typeof(FermentationResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Fermentation was not found")]
+    public async Task<IActionResult> GetFermentationByBatch(int batchId)
     {
         var getBatchByIdQuery = new GetBatchByIdQuery(batchId);
         var batch = await batchQueryService.Handle(getBatchByIdQuery);
-        if (batch is null) return NotFound();
-        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return Ok(batchResource);
+        if (batch.Fermentation is null) return NotFound();
+        return Ok(batch.Fermentation);
     }
+    
+    [HttpGet("batch/{batchId:int}/clarification")]
+    [SwaggerOperation(
+        Summary = "Get a Clarification by Batch",
+        Description = "Get a Clarification by Batch",
+        OperationId = "GetClarificationByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Clarification was successfully retrieved", typeof(ClarificationResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Clarification was not found")]
+    public async Task<IActionResult> GetClarificationByBatch(int batchId)
+    {
+        var getBatchByIdQuery = new GetBatchByIdQuery(batchId);
+        var batch = await batchQueryService.Handle(getBatchByIdQuery);
+        if (batch.Clarification is null) return NotFound();
+        return Ok(batch.Clarification);
+    }
+    
     
     //AddFermentationToBatchCommand
     [HttpPost("{batchId:int}/fermentation")]
@@ -48,8 +65,9 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batch = await batchCommandService.Handle(addFermentationToBatchCommand);
         if (batch is null) return BadRequest();
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetBatchById), new {batchId = batch.Id}, batchResource);
+        return CreatedAtAction(nameof(GetFermentationByBatch), new {batchId = batch.Id}, batchResource);
     }
+    
     
     //AddClarificationToBatchCommand
     [HttpPost("{batchId:int}/clarification")]
@@ -66,6 +84,6 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batch = await batchCommandService.Handle(addClarificationToBatchCommand);
         if (batch is null) return BadRequest();
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetBatchById), new {batchId = batch.Id}, batchResource);
+        return CreatedAtAction(nameof(GetClarificationByBatch), new {batchId = batch.Id}, batchResource);
     }
 }

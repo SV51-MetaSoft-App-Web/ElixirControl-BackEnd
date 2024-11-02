@@ -9,10 +9,5 @@ public interface IBatchQueryService
     
     Task<Batch?> Handle(GetBatchByIdQuery query);
     
-    Task<Fermentation> Handle(GetFermentationByBatchIdQuery query);
-    
     Task<IEnumerable<Batch>> Handle(GetAllBatchesQuery query);
-  
-    
-    
 }

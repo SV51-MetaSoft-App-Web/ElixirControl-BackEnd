@@ -87,5 +87,4 @@ public partial class Batch
     }
     //------------------------ end Clarification ----------------------------
     
-    
 }
