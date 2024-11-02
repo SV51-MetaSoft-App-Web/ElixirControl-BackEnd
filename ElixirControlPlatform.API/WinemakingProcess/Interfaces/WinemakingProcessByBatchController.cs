@@ -10,9 +10,9 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST;
 
 
 [ApiController]
-[Route("api/v1/WinemakingProcess")]
+[Route("api/v1/winemakingProcess")]
 [Produces(MediaTypeNames.Application.Json)]
-[SwaggerTag("Available Winemaking Process Endpoints")]
+[SwaggerTag("Available Winemaking Process by batch Endpoints")]
 public class WinemakingProcessByBatchController(IBatchQueryService batchQueryService, IBatchCommandService batchCommandService): ControllerBase
 {
     

@@ -21,11 +21,13 @@ public partial class Batch
     
     //============ Winemaking Process - Propiedad de navegación =============
     public Fermentation Fermentation { get; private set; }
+    public Clarification Clarification { get; private set; }
     //=========== end Winemaking Process - Propiedad de navegación ==========
     
     
     public Batch()
     {
+        this.Clarification = new Clarification();
         this.Fermentation = new Fermentation();
         this.VineyardCode = string.Empty;
         this.GrapeVariety = string.Empty;
@@ -56,10 +58,34 @@ public partial class Batch
         ProcessStartDate = command.ProcessStartDate;
     }
     
+    
+    
+    
+    
+    //========================== Winemaking Process ==========================
+    //-------------------------- Fermentation ------------------------------
     public void AddFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature, double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
     {
         Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh, finalDensity, finalPh, residualSugar);
     }
+    
+    public void UpdateFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature, double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
+    {
+        Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh, finalDensity, finalPh, residualSugar);
+    }
+    //------------------------ end Fermentation ----------------------------
+    
+    //-------------------------- Clarification ------------------------------
+    public void AddClarificationToBatch(int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
+    {
+        Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel, startDate, endDate);
+    }
+    
+    public void UpdateClarificationToBatch(int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
+    {
+        Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel, startDate, endDate);
+    }
+    //------------------------ end Clarification ----------------------------
     
     
     

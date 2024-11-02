@@ -50,6 +50,23 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Fermentation>().Property(f => f.FinalPh).IsRequired();
       builder.Entity<Fermentation>().Property(f => f.ResidualSugar).IsRequired();
       
+      //---------------------------------------------------------------------------------------------------
+      // Configuration de "clarification"
+      builder.Entity<Clarification>().HasKey(c => c.Id);
+      builder.Entity<Clarification>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+      
+      builder.Entity<Clarification>().Property(c => c.BatchId).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.StartDate).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.EndDate).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.ProductsUsed).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.ClarificationMethod).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.FiltrationDate).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.ClarityLevel).IsRequired();
+      
+      
+      
+      
+      
       
       
       // Configuración de la relación uno a uno
