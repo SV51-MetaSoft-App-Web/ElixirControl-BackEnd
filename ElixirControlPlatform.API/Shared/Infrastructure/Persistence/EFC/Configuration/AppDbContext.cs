@@ -1,4 +1,5 @@
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,6 +47,24 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          
          
       //===================================== 5. VICENTE Bounded Context ================================
+        builder.Entity<Order>().HasKey(o => o.Id);
+         builder.Entity<Order>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
+         builder.Entity<Order>().Property(o => o.BusinessName).IsRequired().HasMaxLength(50);
+         builder.Entity<Order>().Property(o => o.RequestedDate).IsRequired();
+         builder.Entity<Order>().Property(o => o.Quantity).IsRequired();
+         builder.Entity<Order>().Property(o => o.Phone).IsRequired();
+         builder.Entity<Order>().Property(o => o.Status).IsRequired();
+         builder.Entity<Order>().Property(o => o.ContactName).IsRequired();
+         builder.Entity<Order>().Property(o => o.ProductName).IsRequired();
+         builder.Entity<Order>().Property(o => o.TransportCondition).IsRequired();
+         builder.Entity<Order>().Property(o => o.PaymentTerms).IsRequired();
+         builder.Entity<Order>().Property(o => o.ContactName).IsRequired();
+         builder.Entity<Order>().Property(o => o.Address).IsRequired();
+         builder.Entity<Order>().Property(o => o.Email).IsRequired();
+         builder.Entity<Order>().Property(o => o.Ruc).IsRequired();
+         builder.Entity<Order>().Property(o => o.WineType).IsRequired();
+         builder.Entity<Order>().Property(o => o.PaymentMethod).IsRequired();
+         builder.Entity<Order>().Property(o => o.DeliveryDate).IsRequired();
          
          
       //===================================== END VICENTE Bounded Context ===============================
