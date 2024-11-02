@@ -1,7 +1,8 @@
 ﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Queries;
-using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
+using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
 
 namespace ElixirControlPlatform.API.OrderManagement.Domain.Services;
+
 /// <summary>
 /// Order query service interface
 /// </summary>
@@ -14,5 +15,6 @@ public interface IOrderQueryService
     /// <returns>
     /// The order if successful otherwise null
     /// </returns>
-    Task<Orders?> Handle(GetOrderByIdQuery query);
+    Task<Order?> Handle(GetOrderByIdQuery query);
+    Task<IEnumerable<Order>> Handle(GetAllOrdersQuery query); 
 }
