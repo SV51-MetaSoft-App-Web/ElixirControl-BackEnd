@@ -1,5 +1,5 @@
-﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
-using ElixirControlPlatform.APII.Shared.Domain.Repositories;
+﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
+using ElixirControlPlatform.API.Shared.Domain.Repositories;
 
 //namespace ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 namespace ElixirControlPlatform.API.OrderManagement.Domain.Repositories;
