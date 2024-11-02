@@ -18,4 +18,13 @@ public class BatchQueryService(IBatchRepository batchRepository) : IBatchQuerySe
         return await batchRepository.ListAsync();
     }
     
+    public async Task<Fermentation?> Handle(GetFermentationByBatchIdQuery query)
+    {
+        return await batchRepository.GetFermentationByBatchAsync(query.BatchId);
+    }
+    
+    public async Task<Clarification?> Handle(GetClarificationByBatchIdQuery query)
+    {
+        return await batchRepository.GetClarificationByBatchAsync(query.BatchId);
+    }
 }

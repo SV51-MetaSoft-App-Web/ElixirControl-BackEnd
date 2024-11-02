@@ -27,28 +27,14 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
     [SwaggerResponse(StatusCodes.Status404NotFound, "The Fermentation was not found")]
     public async Task<IActionResult> GetFermentationByBatch(int batchId)
     {
-        var getBatchByIdQuery = new GetBatchByIdQuery(batchId);
-        var batch = await batchQueryService.Handle(getBatchByIdQuery);
-        if (batch.Fermentation is null) return NotFound();
-        return Ok(batch.Fermentation);
+        var fermentation = await batchQueryService.Handle(new GetFermentationByBatchIdQuery(batchId));
+        if (fermentation is null) return NotFound();
+        var fermentationResource = FermentationResourceFromEntityAssembler.ToResourceFromEntity(fermentation);
+        return Ok(fermentationResource);
     }
     
-    [HttpGet("batch/{batchId:int}/clarification")]
-    [SwaggerOperation(
-        Summary = "Get a Clarification by Batch",
-        Description = "Get a Clarification by Batch",
-        OperationId = "GetClarificationByBatch"
-    )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The Clarification was successfully retrieved", typeof(ClarificationResource))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "The Clarification was not found")]
-    public async Task<IActionResult> GetClarificationByBatch(int batchId)
-    {
-        var getBatchByIdQuery = new GetBatchByIdQuery(batchId);
-        var batch = await batchQueryService.Handle(getBatchByIdQuery);
-        if (batch.Clarification is null) return NotFound();
-        return Ok(batch.Clarification);
-    }
     
+   
     
     //AddFermentationToBatchCommand
     [HttpPost("{batchId:int}/fermentation")]
@@ -86,4 +72,22 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
         return CreatedAtAction(nameof(GetClarificationByBatch), new {batchId = batch.Id}, batchResource);
     }
+    
+    
+    [HttpGet("batch/{batchId:int}/clarification")]
+    [SwaggerOperation(
+        Summary = "Get a Clarification by Batch",
+        Description = "Get a Clarification by Batch",
+        OperationId = "GetClarificationByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Clarification was successfully retrieved", typeof(ClarificationResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Clarification was not found")]
+    public async Task<IActionResult> GetClarificationByBatch(int batchId)
+    {
+        var clarification = await batchQueryService.Handle(new GetClarificationByBatchIdQuery(batchId));
+        if (clarification is null) return NotFound();
+        var clarificationResource = ClarificationResourceFromEntityAssembler.ToResourceFromEntity(clarification);
+        return Ok(clarificationResource);
+    }
+    
 }

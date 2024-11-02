@@ -1,10 +1,11 @@
 ﻿namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Resources;
 
 public record ClarificationResource(
-    int batchId, 
+    int      Id,
+    int    batchId, 
     string productsUsed, 
     string clarificationMethod, 
-    string filtrationDate, 
+    DateTime? filtrationDate, 
     double clarityLevel, 
-    string startDate,
-    string endDate);
+    DateTime? startDate,
+    DateTime? endDate);
