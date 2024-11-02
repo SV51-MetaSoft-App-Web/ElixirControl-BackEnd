@@ -1,4 +1,4 @@
-﻿namespace ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+﻿namespace ElixirControlPlatform.API.OrderManagement.Interfaces.REST.Resources;
 
 /// <summary>
 /// Resource to create an order
