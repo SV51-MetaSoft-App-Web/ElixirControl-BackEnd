@@ -50,4 +50,22 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
         return CreatedAtAction(nameof(GetBatchById), new {batchId = batch.Id}, batchResource);
     }
+    
+    //AddClarificationToBatchCommand
+    [HttpPost("{batchId:int}/clarification")]
+    [SwaggerOperation(
+        Summary = "Add a Clarification to a Batch",
+        Description = "Add a Clarification to a Batch",
+        OperationId = "AddClarificationToBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Clarification was successfully added to the Batch", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The Clarification was not added to the Batch")]
+    public async Task<IActionResult> AddClarificationToBatch([FromBody] AddClarificationToBatchResource resource, int batchId)
+    {
+        var addClarificationToBatchCommand = AddClarificationToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
+        var batch = await batchCommandService.Handle(addClarificationToBatchCommand);
+        if (batch is null) return BadRequest();
+        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
+        return CreatedAtAction(nameof(GetBatchById), new {batchId = batch.Id}, batchResource);
+    }
 }

@@ -33,7 +33,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Batch>().Property(b => b.HarvestDate).IsRequired();
       builder.Entity<Batch>().Property(b => b.GrapeQuantity).IsRequired();
       builder.Entity<Batch>().Property(b => b.VineyardOrigin).IsRequired().HasMaxLength(50);
-      builder.Entity<Batch>().Property(b => b.ProcessStartDate).IsRequired();
+      builder.Entity<Batch>().Property(b => b.ProcessStartDate);
+      builder.Entity<Batch>().Property(b => b.Status);
       
       //---------------------------------------------------------------------------------------------------
       // Configuration de Fermentation
@@ -42,7 +43,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       
       builder.Entity<Fermentation>().Property(f => f.BatchId).IsRequired();
       builder.Entity<Fermentation>().Property(f => f.StartDate).IsRequired();
-      builder.Entity<Fermentation>().Property(f => f.EndDate).IsRequired();
+      builder.Entity<Fermentation>().Property(f => f.EndDate);
       builder.Entity<Fermentation>().Property(f => f.AverageTemperature).IsRequired();
       builder.Entity<Fermentation>().Property(f => f.InitialDensity).IsRequired();
       builder.Entity<Fermentation>().Property(f => f.InitialPh).IsRequired();
@@ -50,28 +51,15 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Fermentation>().Property(f => f.FinalPh).IsRequired();
       builder.Entity<Fermentation>().Property(f => f.ResidualSugar).IsRequired();
       
-      //---------------------------------------------------------------------------------------------------
-      // Configuration de "clarification"
-      builder.Entity<Clarification>().HasKey(c => c.Id);
-      builder.Entity<Clarification>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
-      
-      builder.Entity<Clarification>().Property(c => c.BatchId).IsRequired();
-      builder.Entity<Clarification>().Property(c => c.StartDate).IsRequired();
-      builder.Entity<Clarification>().Property(c => c.EndDate).IsRequired();
-      builder.Entity<Clarification>().Property(c => c.ProductsUsed).IsRequired();
-      builder.Entity<Clarification>().Property(c => c.ClarificationMethod).IsRequired();
-      builder.Entity<Clarification>().Property(c => c.FiltrationDate).IsRequired();
-      builder.Entity<Clarification>().Property(c => c.ClarityLevel).IsRequired();
-      
-      
-      
-      
       
       
       
       // Configuración de la relación uno a uno
       builder.Entity<Batch>()
          .HasOne(b => b.Fermentation);
+      
+      //---------------------------------------------------------------------------------------------------
+
       
       //===================================== END GONZALO Bounded Context ===============================
          

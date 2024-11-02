@@ -71,10 +71,6 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
     }
     
     
-
-    
-    
-   
     
    
 }

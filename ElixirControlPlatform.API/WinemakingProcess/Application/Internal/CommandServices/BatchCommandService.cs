@@ -1,6 +1,7 @@
 ﻿using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Commands;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.ValueObjects;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Repositories;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
 
@@ -36,9 +37,11 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
             command.FinalPh, 
             command.ResidualSugar);
         
+       
         await unitOfWork.CompleteAsync();
         return batch;
     }
+    
     //======================== end Fermentation ========================
     
     //========================== Clarification ==========================
@@ -47,8 +50,10 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
     {
         var batch = await batchRepository.FindByIdAsync(command.BatchId);
         if (batch is null) throw new Exception("Batch not found");
-        if (batch.Fermentation is null) throw new Exception("The fermentation stage has not been added to the batch");
-        if (batch.Clarification is not null) throw new Exception("Clarification already added to batch");
+        if (batch.Status != CurrentBatchStatus.Fermentation) throw new Exception("The batch must first go through the fermentation stage");
+      
+        
+        Console.WriteLine("batch.Status: " + batch.Status);
         
         batch.AddClarificationToBatch(
             command.BatchId, 

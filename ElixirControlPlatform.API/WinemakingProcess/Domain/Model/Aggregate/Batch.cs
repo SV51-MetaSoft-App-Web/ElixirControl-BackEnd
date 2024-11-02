@@ -16,7 +16,7 @@ public partial class Batch
     public string VineyardOrigin { get; private set; } 
     public string ProcessStartDate { get; private set; }
     
-    public CurrentBatchStatus Status { get; private set; }
+    public CurrentBatchStatus Status { get; internal set; }
 
     //======================== end Batch Information ========================
     
@@ -31,8 +31,6 @@ public partial class Batch
     public Batch()
     {
         this.Status = CurrentBatchStatus.Collected;
-        this.Clarification = new Clarification();
-        this.Fermentation = new Fermentation();
         this.VineyardCode = string.Empty;
         this.GrapeVariety = string.Empty;
         this.HarvestDate = string.Empty;
@@ -66,8 +64,8 @@ public partial class Batch
     //-------------------------- Fermentation ------------------------------
     public void AddFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature, double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
     {
-        Status = CurrentBatchStatus.Fermentation;
         Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh, finalDensity, finalPh, residualSugar);
+        this.Status = CurrentBatchStatus.Fermentation;
     }
     
     public void UpdateFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature, double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
@@ -79,8 +77,8 @@ public partial class Batch
     //-------------------------- Clarification ------------------------------
     public void AddClarificationToBatch(int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
     {
-        Status = CurrentBatchStatus.Clarification;
         Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel, startDate, endDate);
+        this.Status = CurrentBatchStatus.Clarification;
     }
     
     public void UpdateClarificationToBatch(int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
