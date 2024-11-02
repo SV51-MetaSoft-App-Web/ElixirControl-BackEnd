@@ -11,5 +11,7 @@ public interface IBatchRepository : IBaseRepository<Batch>
     
     Task<Clarification?> GetClarificationByBatchAsync(int batchId);
     
+    Task<Pressing?> GetPressingByBatchAsync(int batchId);
+    
     
 }

@@ -17,5 +17,7 @@ public interface IBatchCommandService
     
     // =========== end Clarification
     
+    //=========== Pressing
+    public Task<Batch?> Handle(AddPressingToBatchCommand command);
     
 }

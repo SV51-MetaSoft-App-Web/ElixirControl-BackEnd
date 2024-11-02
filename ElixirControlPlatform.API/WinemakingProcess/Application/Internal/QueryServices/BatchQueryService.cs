@@ -27,4 +27,9 @@ public class BatchQueryService(IBatchRepository batchRepository) : IBatchQuerySe
     {
         return await batchRepository.GetClarificationByBatchAsync(query.BatchId);
     }
+    
+    public async Task<Pressing?> Handle(GetPressingByBatchIdQuery query)
+    {
+        return await batchRepository.GetPressingByBatchAsync(query.BatchId);
+    }
 }

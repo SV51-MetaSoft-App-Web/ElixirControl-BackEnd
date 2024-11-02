@@ -95,5 +95,37 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
     
     //============================================== END BATCH - CLARIFICATION =========================================
     
-
+    [HttpGet("batch/{batchId:int}/pressing")]
+    [SwaggerOperation(
+        Summary = "Get a Pressing by Batch",
+        Description = "Get a Pressing by Batch",
+        OperationId = "GetPressingByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Pressing was successfully retrieved", typeof(PressingResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Pressing was not found")]
+    public async Task<IActionResult> GetPressingByBatch(int batchId)
+    {
+        var pressing = await batchQueryService.Handle(new GetPressingByBatchIdQuery(batchId));
+        if (pressing is null) return NotFound();
+        var pressingResource = PressingResourceFromEntityAssembler.ToResourceFromEntity(pressing);
+        return Ok(pressingResource);
+    }
+    
+    [HttpPost("{batchId:int}/pressing")]
+    [SwaggerOperation(
+        Summary = "Add a Pressing to a Batch",
+        Description = "Add a Pressing to a Batch",
+        OperationId = "AddPressingToBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Pressing was successfully added to the Batch", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The Pressing was not added to the Batch")]
+    public async Task<IActionResult> AddPressingToBatch([FromBody] AddPressingToBatchResource resource, int batchId)
+    {
+        var addPressingToBatchCommand = AddPressingToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
+        var batch = await batchCommandService.Handle(addPressingToBatchCommand);
+        if (batch is null) return BadRequest();
+        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
+        return CreatedAtAction(nameof(GetPressingByBatch), new {batchId = batch.Id}, batchResource);
+    }
+    
 }

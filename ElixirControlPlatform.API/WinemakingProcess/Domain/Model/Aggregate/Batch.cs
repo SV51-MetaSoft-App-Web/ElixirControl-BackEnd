@@ -25,6 +25,7 @@ public partial class Batch
     //============ Winemaking Process - Propiedad de navegación =============
     public Fermentation Fermentation { get; private set; }
     public Clarification Clarification { get; private set; }
+    public Pressing Pressing { get; private set; }
     //=========== end Winemaking Process - Propiedad de navegación ==========
     
     
@@ -81,10 +82,16 @@ public partial class Batch
         this.Status = CurrentBatchStatus.Clarification;
     }
     
-    public void UpdateClarificationToBatch(int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
+    public void AddPressingToBatch (int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
     {
         Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel, startDate, endDate);
     }
     //------------------------ end Clarification ----------------------------
     
+    //-------------------------- Pressing ------------------------------
+    public void AddPressingToBatch(int batchId, string pressingDate, double mustVolume, string pressType, double appliedPressure)
+    {
+        Pressing = new Pressing(batchId, pressingDate, mustVolume, pressType, appliedPressure);
+        this.Status = CurrentBatchStatus.Pressing;
+    }
 }

@@ -68,4 +68,25 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         return batch;
     }
     //======================== end Clarification ========================
+    
+    
+    //========================== Pressing ==========================
+    
+    public async Task<Batch?> Handle(AddPressingToBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        if (batch is null) throw new Exception("Batch not found");
+        if (batch.Status != CurrentBatchStatus.Clarification) throw new Exception("The batch must first go through the clarification stage");
+        
+        batch.AddPressingToBatch(
+            command.BatchId, 
+            command.PressingDate, 
+            command.MustVolume, 
+            command.PressType, 
+            command.AppliedPressure);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    //======================== end Pressing ========================
 }

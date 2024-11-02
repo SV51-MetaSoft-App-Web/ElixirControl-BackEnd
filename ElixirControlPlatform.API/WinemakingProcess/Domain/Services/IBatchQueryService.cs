@@ -13,5 +13,7 @@ public interface IBatchQueryService
     
     Task<Fermentation?> Handle(GetFermentationByBatchIdQuery query);
 
-    Task<Clarification> Handle(GetClarificationByBatchIdQuery query);
+    Task<Clarification?> Handle(GetClarificationByBatchIdQuery query);
+    
+    Task<Pressing?> Handle(GetPressingByBatchIdQuery query);
 }

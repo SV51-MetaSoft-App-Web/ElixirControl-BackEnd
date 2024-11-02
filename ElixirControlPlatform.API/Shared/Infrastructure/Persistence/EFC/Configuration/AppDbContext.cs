@@ -51,13 +51,46 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Fermentation>().Property(f => f.FinalPh).IsRequired();
       builder.Entity<Fermentation>().Property(f => f.ResidualSugar).IsRequired();
       
-      
-      
-      
       // Configuración de la relación uno a uno
       builder.Entity<Batch>()
          .HasOne(b => b.Fermentation);
       
+      
+      //---------------------------------------------------------------------------------------------------
+      // Configuration de Clarification
+      builder.Entity<Clarification>().HasKey(c => c.Id);
+      builder.Entity<Clarification>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+      
+      builder.Entity<Clarification>().Property(c => c.BatchId).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.ProductsUsed).IsRequired().HasMaxLength(50);
+      builder.Entity<Clarification>().Property(c => c.ClarificationMethod).IsRequired().HasMaxLength(50);
+      builder.Entity<Clarification>().Property(c => c.FiltrationDate);
+      builder.Entity<Clarification>().Property(c => c.ClarityLevel).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.StartDate).IsRequired();
+      builder.Entity<Clarification>().Property(c => c.EndDate).IsRequired();
+      
+      // Configuración de la relación uno a uno
+      builder.Entity<Batch>()
+         .HasOne(b => b.Clarification);
+      
+      //---------------------------------------------------------------------------------------------------
+      // Configuration de Pressing
+      
+      //int batchId, string pressingDate, double mustVolume, string pressType, double appliedPressure
+      builder.Entity<Pressing>().HasKey(p => p.Id);
+      builder.Entity<Pressing>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+      
+      builder.Entity<Pressing>().Property(p => p.BatchId).IsRequired();
+      builder.Entity<Pressing>().Property(p => p.PressingDate).IsRequired();
+      builder.Entity<Pressing>().Property(p => p.MustVolume).IsRequired();
+      builder.Entity<Pressing>().Property(p => p.PressType).IsRequired().HasMaxLength(50);
+      builder.Entity<Pressing>().Property(p => p.AppliedPressure).IsRequired();
+      
+      // Configuración de la relación uno a uno
+      builder.Entity<Batch>()
+         .HasOne(b => b.Pressing);
+      
+     
       //---------------------------------------------------------------------------------------------------
 
       
