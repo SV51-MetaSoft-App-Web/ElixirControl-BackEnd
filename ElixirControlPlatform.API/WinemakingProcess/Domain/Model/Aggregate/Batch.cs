@@ -1,5 +1,6 @@
 ﻿using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Commands;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Entities;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.ValueObjects;
 
 namespace ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
 
@@ -14,6 +15,8 @@ public partial class Batch
     public int GrapeQuantity { get; private set; } 
     public string VineyardOrigin { get; private set; } 
     public string ProcessStartDate { get; private set; }
+    
+    public CurrentBatchStatus Status { get; private set; }
 
     //======================== end Batch Information ========================
     
@@ -27,6 +30,7 @@ public partial class Batch
     
     public Batch()
     {
+        this.Status = CurrentBatchStatus.Collected;
         this.Clarification = new Clarification();
         this.Fermentation = new Fermentation();
         this.VineyardCode = string.Empty;
@@ -58,14 +62,11 @@ public partial class Batch
         ProcessStartDate = command.ProcessStartDate;
     }
     
-    
-    
-    
-    
     //========================== Winemaking Process ==========================
     //-------------------------- Fermentation ------------------------------
     public void AddFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature, double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
     {
+        Status = CurrentBatchStatus.Fermentation;
         Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh, finalDensity, finalPh, residualSugar);
     }
     
@@ -78,6 +79,7 @@ public partial class Batch
     //-------------------------- Clarification ------------------------------
     public void AddClarificationToBatch(int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
     {
+        Status = CurrentBatchStatus.Clarification;
         Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel, startDate, endDate);
     }
     
@@ -86,7 +88,6 @@ public partial class Batch
         Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel, startDate, endDate);
     }
     //------------------------ end Clarification ----------------------------
-    
     
     
 }

@@ -18,6 +18,8 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         return batch;
     }
 
+    
+    //========================== Fermentation ==========================
     public async Task<Batch?> Handle(AddFermentationToBatchCommand command)
     {
         var batch = await batchRepository.FindByIdAsync(command.BatchId);
@@ -37,4 +39,28 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         await unitOfWork.CompleteAsync();
         return batch;
     }
+    //======================== end Fermentation ========================
+    
+    //========================== Clarification ==========================
+    
+    public async Task<Batch?> Handle(AddClarificationToBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        if (batch is null) throw new Exception("Batch not found");
+        if (batch.Fermentation is null) throw new Exception("The fermentation stage has not been added to the batch");
+        if (batch.Clarification is not null) throw new Exception("Clarification already added to batch");
+        
+        batch.AddClarificationToBatch(
+            command.BatchId, 
+            command.ProductsUsed, 
+            command.ClarificationMethod, 
+            command.FiltrationDate, 
+            command.ClarityLevel, 
+            command.StartDate, 
+            command.EndDate);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    //======================== end Clarification ========================
 }
