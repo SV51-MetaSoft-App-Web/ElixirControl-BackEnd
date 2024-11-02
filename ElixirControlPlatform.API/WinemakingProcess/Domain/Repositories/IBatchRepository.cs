@@ -13,5 +13,9 @@ public interface IBatchRepository : IBaseRepository<Batch>
     
     Task<Pressing?> GetPressingByBatchAsync(int batchId);
     
+    Task<Aging?> GetAgingByBatchAsync(int batchId);
+    
+    
+    
     
 }

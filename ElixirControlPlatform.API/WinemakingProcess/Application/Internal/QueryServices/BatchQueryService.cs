@@ -32,4 +32,9 @@ public class BatchQueryService(IBatchRepository batchRepository) : IBatchQuerySe
     {
         return await batchRepository.GetPressingByBatchAsync(query.BatchId);
     }
+    
+    public async Task<Aging?> Handle(GetAgingByBatchIdQuery query)
+    {
+        return await batchRepository.GetAgingByBatchAsync(query.BatchId);
+    }
 }

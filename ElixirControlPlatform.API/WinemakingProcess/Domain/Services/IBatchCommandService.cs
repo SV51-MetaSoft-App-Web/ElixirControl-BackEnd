@@ -20,4 +20,13 @@ public interface IBatchCommandService
     //=========== Pressing
     public Task<Batch?> Handle(AddPressingToBatchCommand command);
     
+    // =========== end Pressing
+    
+    
+    //=========== Aging
+    public Task<Batch?> Handle(AddAgingToBatchCommand command);
+    
+    // =========== end Aging
+    
+    
 }

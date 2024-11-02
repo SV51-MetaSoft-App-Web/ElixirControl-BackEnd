@@ -2,14 +2,14 @@
 
 public class Pressing
 {
-    public int Id { get; set; }
+    public int Id { get;  set; }
     
     //========================== Fermentation Pressing ==========================
-    public int BatchId { get; set; }
-    public DateTime? PressingDate { get; set; }
-    public double MustVolume { get; set; }
-    public string PressType { get; set; }
-    public double AppliedPressure { get; set; }
+    public int BatchId { get; private set; }
+    public DateTime? PressingDate { get; private set; }
+    public double MustVolume { get; private set; }
+    public string PressType { get; private set; }
+    public double AppliedPressure { get; private set; }
     //======================== end Fermentation Pressing ========================
 
     public Pressing()

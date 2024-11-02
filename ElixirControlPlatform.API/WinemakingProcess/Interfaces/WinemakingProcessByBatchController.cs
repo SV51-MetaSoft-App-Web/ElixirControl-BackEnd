@@ -34,14 +34,15 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(fermentationResource);
     }
    
-    
+    //--------------------------------------------------------------------------------------------------------------
+
     [HttpPost("{batchId:int}/fermentation")]
     [SwaggerOperation(
         Summary = "Add a Fermentation to a Batch",
         Description = "Add a Fermentation to a Batch",
         OperationId = "AddFermentationToBatch"
     )]
-    [SwaggerResponse(StatusCodes.Status201Created, "The Fermentation was successfully added to the Batch", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Fermentation was successfully added to the Batch", typeof(FermentationResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Fermentation was not added to the Batch")]
     public async Task<IActionResult> AddFermentationToBatch([FromBody] AddFermentationToBatchResource resource, int batchId)
     {
@@ -49,7 +50,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batch = await batchCommandService.Handle(addFermentationToBatchCommand);
         if (batch is null) return BadRequest();
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetFermentationByBatch), new {batchId = batch.Id}, batchResource);
+        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
     //============================================== END BATCH - FERMENTATION =========================================
@@ -75,14 +76,15 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(clarificationResource);
     }
     
-    
+    //--------------------------------------------------------------------------------------------------------------
+
     [HttpPost("{batchId:int}/clarification")]
     [SwaggerOperation(
         Summary = "Add a Clarification to a Batch",
         Description = "Add a Clarification to a Batch",
         OperationId = "AddClarificationToBatch"
     )]
-    [SwaggerResponse(StatusCodes.Status201Created, "The Clarification was successfully added to the Batch", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Clarification was successfully added to the Batch", typeof(ClarificationResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Clarification was not added to the Batch")]
     public async Task<IActionResult> AddClarificationToBatch([FromBody] AddClarificationToBatchResource resource, int batchId)
     {
@@ -90,11 +92,12 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batch = await batchCommandService.Handle(addClarificationToBatchCommand);
         if (batch is null) return BadRequest();
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetClarificationByBatch), new {batchId = batch.Id}, batchResource);
+        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
     //============================================== END BATCH - CLARIFICATION =========================================
     
+    //================================================= BATCH - PRESSING ==========================================
     [HttpGet("batch/{batchId:int}/pressing")]
     [SwaggerOperation(
         Summary = "Get a Pressing by Batch",
@@ -111,13 +114,15 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(pressingResource);
     }
     
+    //--------------------------------------------------------------------------------------------------------------
+    
     [HttpPost("{batchId:int}/pressing")]
     [SwaggerOperation(
         Summary = "Add a Pressing to a Batch",
         Description = "Add a Pressing to a Batch",
         OperationId = "AddPressingToBatch"
     )]
-    [SwaggerResponse(StatusCodes.Status201Created, "The Pressing was successfully added to the Batch", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Pressing was successfully added to the Batch", typeof(ClarificationResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Pressing was not added to the Batch")]
     public async Task<IActionResult> AddPressingToBatch([FromBody] AddPressingToBatchResource resource, int batchId)
     {
@@ -125,7 +130,47 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batch = await batchCommandService.Handle(addPressingToBatchCommand);
         if (batch is null) return BadRequest();
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetPressingByBatch), new {batchId = batch.Id}, batchResource);
+        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
+    //============================================== END BATCH - PRESSING =========================================
+    
+    
+    //================================================= BATCH - AGING ==========================================
+    [HttpGet("batch/{batchId:int}/aging")]
+    [SwaggerOperation(
+        Summary = "Get a Aging by Batch",
+        Description = "Get a Aging by Batch",
+        OperationId = "GetAgingByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Aging was successfully retrieved", typeof(AgingResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Aging was not found")]
+    public async Task<IActionResult> GetAgingByBatch(int batchId)
+    {
+        var aging = await batchQueryService.Handle(new GetAgingByBatchIdQuery(batchId));
+        if (aging is null) return NotFound();
+        var agingResource = AgingResourceFromEntityAssembler.ToResourceFromEntity(aging);
+        return Ok(agingResource);
+    }
+    
+    //--------------------------------------------------------------------------------------------------------------
+    
+    [HttpPost("{batchId:int}/aging")]
+    [SwaggerOperation(
+        Summary = "Add a Aging to a Batch",
+        Description = "Add a Aging to a Batch",
+        OperationId = "AddAgingToBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Aging was successfully added to the Batch", typeof(AgingResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The Aging was not added to the Batch")]
+    public async Task<IActionResult> AddAgingToBatch([FromBody] AddAgingToBatchResource resource, int batchId)
+    {
+        var addAgingToBatchCommand = AddAgingToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
+        var batch = await batchCommandService.Handle(addAgingToBatchCommand);
+        if (batch is null) return BadRequest();
+        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
+        
+        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
+    }
 }
+

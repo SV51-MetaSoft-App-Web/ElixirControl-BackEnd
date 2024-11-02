@@ -28,4 +28,10 @@ public class BatchRepository(AppDbContext context) : BaseRepository<Batch>(conte
             .FirstOrDefaultAsync(pressing => pressing.BatchId == batchId);
     }
     
+    public async Task<Aging?> GetAgingByBatchAsync(int batchId)
+    {
+        return await Context.Set<Aging>()
+            .FirstOrDefaultAsync(aging => aging.BatchId == batchId);
+    }
+    
 }

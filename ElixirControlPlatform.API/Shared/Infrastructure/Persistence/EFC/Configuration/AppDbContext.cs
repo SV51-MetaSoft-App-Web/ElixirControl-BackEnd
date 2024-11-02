@@ -75,8 +75,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       
       //---------------------------------------------------------------------------------------------------
       // Configuration de Pressing
-      
-      //int batchId, string pressingDate, double mustVolume, string pressType, double appliedPressure
       builder.Entity<Pressing>().HasKey(p => p.Id);
       builder.Entity<Pressing>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
       
@@ -89,6 +87,24 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       // Configuración de la relación uno a uno
       builder.Entity<Batch>()
          .HasOne(b => b.Pressing);
+      
+      //---------------------------------------------------------------------------------------------------
+      // Configuration de Aging
+      builder.Entity<Aging>().HasKey(a => a.Id);
+      builder.Entity<Aging>().Property(a => a.Id).IsRequired().ValueGeneratedOnAdd();
+      
+      builder.Entity<Aging>().Property(a => a.BatchId).IsRequired();
+      builder.Entity<Aging>().Property(a => a.BarrelType).IsRequired().HasMaxLength(50);
+      builder.Entity<Aging>().Property(a => a.StartDate).IsRequired();
+      builder.Entity<Aging>().Property(a => a.EndDate);
+      builder.Entity<Aging>().Property(a => a.AgingDurationMonths).IsRequired();
+      builder.Entity<Aging>().Property(a => a.InspectionsPerformed).IsRequired();
+      builder.Entity<Aging>().Property(a => a.InspectionResult).IsRequired().HasMaxLength(50);
+      
+      // Configuración de la relación uno a uno
+      builder.Entity<Batch>()
+         .HasOne(b => b.Aging);
+      
       
      
       //---------------------------------------------------------------------------------------------------

@@ -16,4 +16,6 @@ public interface IBatchQueryService
     Task<Clarification?> Handle(GetClarificationByBatchIdQuery query);
     
     Task<Pressing?> Handle(GetPressingByBatchIdQuery query);
+    
+    Task<Aging?> Handle(GetAgingByBatchIdQuery query);
 }

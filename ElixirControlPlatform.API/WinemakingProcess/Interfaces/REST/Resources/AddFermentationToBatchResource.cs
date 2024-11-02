@@ -1,6 +1,7 @@
 ﻿namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Resources;
 
 public record AddFermentationToBatchResource(
+    int BatchId,
     string StartDate, 
     string EndDate, 
     double AverageTemperature, 

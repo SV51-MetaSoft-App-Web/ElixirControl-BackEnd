@@ -9,26 +9,27 @@ public partial class Batch
     public int Id { get; private set; }
 
     //========================== Batch Information ==========================
-    public string VineyardCode { get; private set; } 
-    public string GrapeVariety { get; private set; } 
-    public string HarvestDate { get; private set; } 
-    public int GrapeQuantity { get; private set; } 
-    public string VineyardOrigin { get; private set; } 
+    public string VineyardCode { get; private set; }
+    public string GrapeVariety { get; private set; }
+    public string HarvestDate { get; private set; }
+    public int GrapeQuantity { get; private set; }
+    public string VineyardOrigin { get; private set; }
     public string ProcessStartDate { get; private set; }
-    
+
     public CurrentBatchStatus Status { get; internal set; }
 
     //======================== end Batch Information ========================
-    
-    
-    
+
+
+
     //============ Winemaking Process - Propiedad de navegación =============
     public Fermentation Fermentation { get; private set; }
     public Clarification Clarification { get; private set; }
     public Pressing Pressing { get; private set; }
+    public Aging Aging { get; private set; }
     //=========== end Winemaking Process - Propiedad de navegación ==========
-    
-    
+
+
     public Batch()
     {
         this.Status = CurrentBatchStatus.Collected;
@@ -38,10 +39,11 @@ public partial class Batch
         this.GrapeQuantity = 0;
         this.VineyardOrigin = string.Empty;
         this.ProcessStartDate = string.Empty;
-        
+
     }
-    
-    public Batch (string vineyardCode, string grapeVariety, string harvestDate, int grapeQuantity, string vineyardOrigin, string processStartDate) : this()
+
+    public Batch(string vineyardCode, string grapeVariety, string harvestDate, int grapeQuantity, string vineyardOrigin,
+        string processStartDate) : this()
     {
         VineyardCode = vineyardCode;
         GrapeVariety = grapeVariety;
@@ -50,7 +52,7 @@ public partial class Batch
         VineyardOrigin = vineyardOrigin;
         ProcessStartDate = processStartDate;
     }
-    
+
     public Batch(CreateBatchCommand command) : this()
     {
         VineyardCode = command.VineyardCode;
@@ -60,38 +62,74 @@ public partial class Batch
         VineyardOrigin = command.VineyardOrigin;
         ProcessStartDate = command.ProcessStartDate;
     }
-    
+
     //========================== Winemaking Process ==========================
     //-------------------------- Fermentation ------------------------------
-    public void AddFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature, double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
+    public void AddFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature,
+        double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
     {
-        Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh, finalDensity, finalPh, residualSugar);
+        Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh,
+            finalDensity, finalPh, residualSugar);
         this.Status = CurrentBatchStatus.Fermentation;
     }
-    
-    public void UpdateFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature, double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
+
+    public void UpdateFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature,
+        double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
     {
-        Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh, finalDensity, finalPh, residualSugar);
+        Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh,
+            finalDensity, finalPh, residualSugar);
     }
     //------------------------ end Fermentation ----------------------------
-    
+
     //-------------------------- Clarification ------------------------------
-    public void AddClarificationToBatch(int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
+    public void AddClarificationToBatch(int batchId, string productsUsed, string clarificationMethod,
+        string filtrationDate, double clarityLevel, string startDate, string endDate)
     {
-        Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel, startDate, endDate);
+        Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel,
+            startDate, endDate);
         this.Status = CurrentBatchStatus.Clarification;
     }
     
-    public void AddPressingToBatch (int batchId, string productsUsed, string clarificationMethod, string filtrationDate, double clarityLevel, string startDate, string endDate)
+    public void UpdateClarificationToBatch(int batchId, string productsUsed, string clarificationMethod,
+        string filtrationDate, double clarityLevel, string startDate, string endDate)
     {
-        Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel, startDate, endDate);
+        Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel,
+            startDate, endDate);
     }
-    //------------------------ end Clarification ----------------------------
     
+    //------------------------ end Clarification ----------------------------
+
     //-------------------------- Pressing ------------------------------
-    public void AddPressingToBatch(int batchId, string pressingDate, double mustVolume, string pressType, double appliedPressure)
+    public void AddPressingToBatch(int batchId, string pressingDate, double mustVolume, string pressType,
+        double appliedPressure)
     {
         Pressing = new Pressing(batchId, pressingDate, mustVolume, pressType, appliedPressure);
         this.Status = CurrentBatchStatus.Pressing;
     }
+    
+    public void UpdatePressingToBatch(int batchId, string pressingDate, double mustVolume, string pressType,
+        double appliedPressure)
+    {
+        Pressing = new Pressing(batchId, pressingDate, mustVolume, pressType, appliedPressure);
+    }
+
+    //------------------------ end Pressing ----------------------------
+
+    
+    //-------------------------- Aging ------------------------------
+    public void AddAgingToBatch(int BatchId, string BarrelType, string StartDate, string EndDate, int AgingDurationMonths, int InspectionsPerformed, string InspectionResult)
+    {
+        Aging = new Aging(BatchId, BarrelType, StartDate, EndDate, AgingDurationMonths, InspectionsPerformed, InspectionResult);
+        this.Status = CurrentBatchStatus.Aging;
+    }
+    
+    public void UpdateAgingToBatch(int BatchId, string BarrelType, string StartDate, string EndDate, int AgingDurationMonths, int InspectionsPerformed, string InspectionResult)
+    {
+        Aging = new Aging(BatchId, BarrelType, StartDate, EndDate, AgingDurationMonths, InspectionsPerformed, InspectionResult);
+    }
+    //------------------------ end Aging ----------------------------
+
+    
+    //======================== end Winemaking Process ========================
+
 }

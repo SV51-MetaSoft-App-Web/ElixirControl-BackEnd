@@ -89,4 +89,26 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         return batch;
     }
     //======================== end Pressing ========================
+    
+    //========================== Aging ==========================
+    
+    public async Task<Batch?> Handle(AddAgingToBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        if (batch is null) throw new Exception("Batch not found");
+        if (batch.Status != CurrentBatchStatus.Pressing) throw new Exception("The batch must first go through the pressing stage");
+        
+        batch.AddAgingToBatch(
+            command.BatchId, 
+            command.BarrelType, 
+            command.StartDate, 
+            command.EndDate, 
+            command.AgingDurationMonths, 
+            command.InspectionsPerformed, 
+            command.InspectionResult);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    //======================== end Aging ========================
 }
