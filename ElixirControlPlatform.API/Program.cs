@@ -2,6 +2,11 @@ using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.OrderManagement.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.OrderManagement.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.OrderManagement.Domain.Repositories;
+using ElixirControlPlatform.API.OrderManagement.Domain.Services;
+using ElixirControlPlatform.API.OrderManagement.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,7 +80,10 @@ builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
 
 
 //===================================== 5. VICENTE Bounded Context ================================
-
+//----------------- Orders -----------------
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderCommandService, OrderCommandService>();
+builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
 
 //===================================== END VICENTE Bounded Context ===============================
 
