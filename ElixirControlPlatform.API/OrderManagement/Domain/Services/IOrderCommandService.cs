@@ -1,5 +1,5 @@
 ﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
-
+using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
 
 namespace ElixirControlPlatform.API.OrderManagement.Domain.Services;
 
@@ -12,9 +12,9 @@ public interface IOrderCommandService
     /// <summary>
     /// Handle create order command
     /// </summary>
-    /// <param name="command"></param>
+    /// <param name="sourceCommand"></param>
     /// <returns>
     /// The created order if successful otherwise null
     /// </returns>
-    Task<Orders?> Handle(CreateOrderCommand command);
+    Task<Order?> Handle(CreateOrderSourceCommand sourceCommand);
 }
