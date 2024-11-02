@@ -1,5 +1,4 @@
 ﻿using System.Net.Mime;
-using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Entities;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Queries;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
 using ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Resources;
@@ -17,6 +16,8 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST;
 public class WinemakingProcessByBatchController(IBatchQueryService batchQueryService, IBatchCommandService batchCommandService): ControllerBase
 {
     
+    //================================================= BATCH - FERMENTATION ==========================================
+    
     [HttpGet("batch/{batchId:int}/fermentation")]
     [SwaggerOperation(
         Summary = "Get a Fermentation by Batch",
@@ -32,11 +33,8 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var fermentationResource = FermentationResourceFromEntityAssembler.ToResourceFromEntity(fermentation);
         return Ok(fermentationResource);
     }
-    
-    
    
     
-    //AddFermentationToBatchCommand
     [HttpPost("{batchId:int}/fermentation")]
     [SwaggerOperation(
         Summary = "Add a Fermentation to a Batch",
@@ -54,25 +52,12 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return CreatedAtAction(nameof(GetFermentationByBatch), new {batchId = batch.Id}, batchResource);
     }
     
+    //============================================== END BATCH - FERMENTATION =========================================
+        
     
-    //AddClarificationToBatchCommand
-    [HttpPost("{batchId:int}/clarification")]
-    [SwaggerOperation(
-        Summary = "Add a Clarification to a Batch",
-        Description = "Add a Clarification to a Batch",
-        OperationId = "AddClarificationToBatch"
-    )]
-    [SwaggerResponse(StatusCodes.Status201Created, "The Clarification was successfully added to the Batch", typeof(BatchResource))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "The Clarification was not added to the Batch")]
-    public async Task<IActionResult> AddClarificationToBatch([FromBody] AddClarificationToBatchResource resource, int batchId)
-    {
-        var addClarificationToBatchCommand = AddClarificationToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
-        var batch = await batchCommandService.Handle(addClarificationToBatchCommand);
-        if (batch is null) return BadRequest();
-        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetClarificationByBatch), new {batchId = batch.Id}, batchResource);
-    }
     
+    
+    //================================================= BATCH - CLARIFICATION ==========================================
     
     [HttpGet("batch/{batchId:int}/clarification")]
     [SwaggerOperation(
@@ -90,4 +75,25 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(clarificationResource);
     }
     
+    
+    [HttpPost("{batchId:int}/clarification")]
+    [SwaggerOperation(
+        Summary = "Add a Clarification to a Batch",
+        Description = "Add a Clarification to a Batch",
+        OperationId = "AddClarificationToBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Clarification was successfully added to the Batch", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The Clarification was not added to the Batch")]
+    public async Task<IActionResult> AddClarificationToBatch([FromBody] AddClarificationToBatchResource resource, int batchId)
+    {
+        var addClarificationToBatchCommand = AddClarificationToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
+        var batch = await batchCommandService.Handle(addClarificationToBatchCommand);
+        if (batch is null) return BadRequest();
+        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
+        return CreatedAtAction(nameof(GetClarificationByBatch), new {batchId = batch.Id}, batchResource);
+    }
+    
+    //============================================== END BATCH - CLARIFICATION =========================================
+    
+
 }
