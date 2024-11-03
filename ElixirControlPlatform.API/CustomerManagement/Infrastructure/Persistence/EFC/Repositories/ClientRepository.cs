@@ -16,13 +16,8 @@ public class ClientRepository(AppDbContext context)
 {
     
     /// <inheritdoc cref="IClientRepository.FindByDniAsync"/>
-    public async Task<IEnumerable<Client>> FindByDniAsync(string dni)
+    public async Task<Client?> FindByDniAsync(string dni)
     {
-        return await Context.Set<Client>().Where( f => f.Dni == dni).ToListAsync();
-    }
-    
-    public async Task<IEnumerable<Client>> FindAllClientsAsync()
-    {
-        return await Context.Set<Client>().ToListAsync();
+        return await Context.Set<Client>().FirstOrDefaultAsync(client => client.Dni == dni);
     }
 }

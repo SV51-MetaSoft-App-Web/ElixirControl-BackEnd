@@ -26,7 +26,7 @@ public interface IClientQueryService
     /// The list of clients if successful otherwise null
     /// </returns>
     /// see <see cref="GetAllClientsByDniQuery"/>
-    Task<IEnumerable<Client>> Handle(GetAllClientsByDniQuery query);
+    Task<Client?> Handle(GetAllClientsByDniQuery query);
     
     
     Task<IEnumerable<Client>> Handle(GetAllClientsQuery query);

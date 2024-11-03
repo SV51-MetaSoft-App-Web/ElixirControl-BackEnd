@@ -72,23 +72,7 @@ public class ClientsController(
         return Ok(resource);
     }
     
-    /// <summary>
-    /// Get all clients by dni
-    /// </summary>
-    /// <param name="dni">
-    /// The dni to get all clients for
-    /// </param>
-    /// <returns>
-    /// The <see cref="ActionResult"/> of the request containing the <see cref="ClientResource"/> resources for the given dni
-    /// </returns>
-    private async Task<ActionResult> GetAllClientsByDni(string dni)
-    {
-        var getAllClientsByDniQuery = new GetAllClientsByDniQuery(dni);
-        var result = await clientQueryService.Handle(getAllClientsByDniQuery);
-        var resources =
-            result.Select(ClientResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
-    }
+    
 
     /// <summary>
     /// Get clients by dni
@@ -99,16 +83,33 @@ public class ClientsController(
     /// <returns>
     /// The <see cref="ActionResult"/> of the request containing the <see cref="ClientResource"/> resources for the given dni
     /// </returns>
-    [HttpGet("{dni}")]
+    [HttpGet("{dni}/client")]
     [SwaggerOperation(
         Summary = "Get clients by dni",
         Description = "Gets clients by dni",
         OperationId = "GetClientsByDni")]
-    public async Task<ActionResult> GetClientsFromQuery(
-        [FromQuery] string dni)
+    public async Task<ActionResult> GetClientsFromQuery(string dni)
     {
-        return await GetAllClientsByDni(dni);
+        return await GetClientsByDni(dni);
+    }
+    /// <summary>
+    /// Get all clients by dni
+    /// </summary>
+    /// <param name="dni">
+    /// The dni to get all clients for
+    /// </param>
+    /// <returns>
+    /// The <see cref="ActionResult"/> of the request containing the <see cref="ClientResource"/> resources for the given dni
+    /// </returns>
+    private async Task<ActionResult> GetClientsByDni(string dni)
+    {
         
+        var getAllClientsByDniQuery = new GetAllClientsByDniQuery(dni);
+        
+        var result = await clientQueryService.Handle(getAllClientsByDniQuery);
+        if(result is null) return NotFound();
+        var resources = ClientResourceFromEntityAssembler.ToResourceFromEntity(result);
+        return Ok(resources);
     }
     
     

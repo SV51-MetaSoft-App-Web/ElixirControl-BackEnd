@@ -16,13 +16,13 @@ public class ClientQueryService(IClientRepository clientRepository) : IClientQue
         return await clientRepository.FindByIdAsync(query.Id);
     }
     
-    public async Task<IEnumerable<Client>> Handle(GetAllClientsByDniQuery query)
+    public async Task<Client?> Handle(GetAllClientsByDniQuery query)
     {
         return await clientRepository.FindByDniAsync(query.Dni);
     }
     
     public async Task<IEnumerable<Client>> Handle(GetAllClientsQuery query)
     {
-        return await clientRepository.FindAllClientsAsync();
+        return await clientRepository.ListAsync();
     }
 }

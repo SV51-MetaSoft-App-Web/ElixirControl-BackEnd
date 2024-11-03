@@ -18,20 +18,15 @@ public class ClientCommandService(IClientRepository clientRepository, IUnitOfWOr
     public async Task<Client?> Handle(CreateClientsSourceCommand command)
     {
         var client =
-            (await clientRepository.FindByDniAsync(command.Dni)).FirstOrDefault();
+            await clientRepository.FindByDniAsync(command.Dni);
         if (client != null)
             throw new Exception("Client with DNI already exists");
         client = new Client(command);
-        try 
-        {
-            await clientRepository.AddAsync(client);
-            await unitOfWork.CompleteAsync();
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
-
+        await clientRepository.AddAsync(client);
+        await unitOfWork.CompleteAsync();
         return client;
     }
+    
+    
+    
 }
