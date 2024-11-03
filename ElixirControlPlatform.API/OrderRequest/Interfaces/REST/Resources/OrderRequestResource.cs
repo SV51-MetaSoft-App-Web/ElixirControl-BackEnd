@@ -1,6 +1,7 @@
 namespace ElixirControlPlatform.API.OrderRequest.Interfaces.REST.Resources;
 
-public record CreateOrderResource(
+public record OrderRequestResource(
+    int Id,
     int Quantity,
     int Price,
     string Status,
@@ -14,4 +15,5 @@ public record CreateOrderResource(
     string Date,
     string DeliveryDate,
     string Type
+    
     );

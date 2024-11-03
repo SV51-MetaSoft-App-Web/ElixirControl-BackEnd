@@ -5,7 +5,7 @@ using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositori
 
 namespace ElixirControlPlatform.API.OrderRequest.Infrastructure.Persistence.EFC.Repositories;
 
-public class OrderRepository(AppDbContext context): BaseRepository<OrderRequests>(context), IOrderRepository
+public class OrderRequestRequestRepository(AppDbContext context): BaseRepository<OrderRequests>(context), IOrderRequestRepository
 {
     
 }

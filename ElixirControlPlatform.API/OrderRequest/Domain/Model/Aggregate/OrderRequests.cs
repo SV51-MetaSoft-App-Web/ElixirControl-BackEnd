@@ -42,20 +42,20 @@ public class OrderRequests
         
     }
 
-    public OrderRequests(CreateOrderCommand command) : this()
+    public OrderRequests(CreateOrderRequestCommand requestCommand) : this()
     {
-        Quantity = command.Quantity;
-        Price = command.Price;
-        Status = command.Status;
-        OrderNumber = command.OrderNumber;
-        OrderDate = command.OrderDate;
-        TransportCondition = command.TransportCondition;
-        PaymentMethod = command.PaymentMethod;
-        ConsumerPhone = command.ConsumerPhone;
-        ProducerPhone = command.ProducerPhone;
-        PaymentTerms = command.PaymentTerms;
-        Date = command.Date;
-        DeliveryDate = command.DeliveryDate;
-        Type = command.Type;
+        Quantity = requestCommand.Quantity;
+        Price = requestCommand.Price;
+        Status = requestCommand.Status;
+        OrderNumber = requestCommand.OrderNumber;
+        OrderDate = requestCommand.OrderDate;
+        TransportCondition = requestCommand.TransportCondition;
+        PaymentMethod = requestCommand.PaymentMethod;
+        ConsumerPhone = requestCommand.ConsumerPhone;
+        ProducerPhone = requestCommand.ProducerPhone;
+        PaymentTerms = requestCommand.PaymentTerms;
+        Date = requestCommand.Date;
+        DeliveryDate = requestCommand.DeliveryDate;
+        Type = requestCommand.Type;
     }    
 }

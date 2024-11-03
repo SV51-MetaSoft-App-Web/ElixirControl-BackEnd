@@ -3,11 +3,11 @@ using ElixirControlPlatform.API.OrderRequest.Interfaces.REST.Resources;
 
 namespace ElixirControlPlatform.API.OrderRequest.Interfaces.REST.Transform;
 
-public static class OrderResourceFromEntityAssembler
+public static class OrderRequestResourceFromEntityAssembler
 {
-    public static OrderResource ToResourceFromEntity(OrderRequests entity)
+    public static OrderRequestResource ToResourceFromEntity(OrderRequests entity)
     {
-        return new OrderResource(
+        return new OrderRequestResource(
             entity.Id,
             entity.Quantity,
             entity.Price,

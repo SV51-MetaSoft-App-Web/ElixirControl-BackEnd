@@ -1,3 +1,3 @@
 namespace ElixirControlPlatform.API.OrderRequest.Domain.Model.Queries;
 
-public record GetAllOrdersQuery();
+public record GetAllOrdersRequestQuery();

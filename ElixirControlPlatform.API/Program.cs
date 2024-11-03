@@ -74,9 +74,9 @@ builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
 
 
 //===================================== 4. OSCAR Bounded Context ==================================
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderCommandService, OrderCommandService>();
-builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
+builder.Services.AddScoped<IOrderRequestRepository, OrderRequestRequestRepository>();
+builder.Services.AddScoped<IOrderRequestCommandService, OrderRequestRequestCommandService>();
+builder.Services.AddScoped<IOrderRequestQueryService, OrderRequestRequestQueryService>();
 
 //===================================== END OSCAR Bounded Context =================================
 

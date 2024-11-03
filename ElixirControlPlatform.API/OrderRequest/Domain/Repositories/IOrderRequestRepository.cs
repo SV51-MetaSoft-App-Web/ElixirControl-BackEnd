@@ -3,7 +3,7 @@ using ElixirControlPlatform.API.Shared.Domain.Repositories;
 
 namespace ElixirControlPlatform.API.OrderRequest.Domain.Repositories;
 
-public interface IOrderRepository : IBaseRepository<OrderRequests>
+public interface IOrderRequestRepository : IBaseRepository<OrderRequests>
 {
     
 }

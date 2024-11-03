@@ -1,6 +1,6 @@
 namespace ElixirControlPlatform.API.OrderRequest.Domain.Model.Commands;
 
-public record CreateOrderCommand(
+public record CreateOrderRequestCommand(
     int Quantity,
     int Price,
     string Status,
