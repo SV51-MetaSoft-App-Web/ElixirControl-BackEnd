@@ -1,3 +1,8 @@
+using ElixirControlPlatform.API.CustomerManagement.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.CustomerManagement.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.CustomerManagement.Domain.Repositories;
+using ElixirControlPlatform.API.CustomerManagement.Domain.Services;
+using ElixirControlPlatform.API.CustomerManagement.Infrastructure.Persistence.EFC.Repositories;
 using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -68,7 +73,9 @@ builder.Services.AddScoped<IBatchQueryService, BatchQueryService>();
 
 
 //===================================== 2. GUSTAVO Bounded Context ================================
-
+builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
 
 //===================================== END GUSTAVO Bounded Context ===============================
 
