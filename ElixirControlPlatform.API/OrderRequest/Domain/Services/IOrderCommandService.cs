@@ -5,5 +5,5 @@ namespace ElixirControlPlatform.API.OrderRequest.Domain.Services;
 
 public interface IOrderCommandService
 {
-    public Task<Order> Handle(CreateOrderCommand command);
+    public Task<OrderRequests?> Handle(CreateOrderCommand command);
 }

@@ -1,3 +1,8 @@
+using ElixirControlPlatform.API.OrderRequest.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.OrderRequest.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.OrderRequest.Domain.Repositories;
+using ElixirControlPlatform.API.OrderRequest.Domain.Services;
+using ElixirControlPlatform.API.OrderRequest.Infrastructure.Persistence.EFC.Repositories;
 using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -69,7 +74,9 @@ builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
 
 
 //===================================== 4. OSCAR Bounded Context ==================================
-
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderCommandService, OrderCommandService>();
+builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
 
 //===================================== END OSCAR Bounded Context =================================
 

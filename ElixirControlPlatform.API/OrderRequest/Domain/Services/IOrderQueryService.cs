@@ -5,7 +5,7 @@ namespace ElixirControlPlatform.API.OrderRequest.Domain.Services;
 
 public interface IOrderQueryService
 {
-    Task<IEnumerable<Order>> Handle(GetAllOrdersQuery query);
+    Task<IEnumerable<OrderRequests>> Handle(GetAllOrdersQuery query);
     
-    Task<Order?> Handle(GetOrderByIdQuery query);
+    Task<OrderRequests?> Handle(GetOrderByIdQuery query);
 }

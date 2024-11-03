@@ -1,5 +1,4 @@
 using System.Net.Mime;
-using ElixirControlPlatform.API.OrderRequest.Domain.Model.Commands;
 using ElixirControlPlatform.API.OrderRequest.Domain.Model.Queries;
 using ElixirControlPlatform.API.OrderRequest.Domain.Services;
 using ElixirControlPlatform.API.OrderRequest.Interfaces.REST.Resources;
@@ -14,7 +13,7 @@ namespace ElixirControlPlatform.API.OrderRequest.Interfaces;
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Order Requests")]
 
-public class OrderController(IOrderQueryService orderQueryService, IOrderCommandService orderCommandService): ControllerBase
+public class OrderRequestController(IOrderQueryService orderQueryService, IOrderCommandService orderCommandService): ControllerBase
 
 {
     [HttpGet("{orderId:int}")]
@@ -26,7 +25,7 @@ public class OrderController(IOrderQueryService orderQueryService, IOrderCommand
     [SwaggerResponse(StatusCodes.Status200OK, "The tutorial was successfully retrieved", typeof(OrderResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The order was not found")]
 
-    public async Task<IActionResult> GetOrderById(int orderId)
+    public async Task<IActionResult> GetOrderRequestById(int orderId)
     {
         var getOrderByIdQuery = new GetOrderByIdQuery(orderId);
         var order = await orderQueryService.Handle(getOrderByIdQuery);
@@ -40,7 +39,7 @@ public class OrderController(IOrderQueryService orderQueryService, IOrderCommand
     [SwaggerResponse(StatusCodes.Status201Created, "The order was successfully created", typeof(OrderResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The order was not found")]
 
-    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderResource resource)
+    public async Task<IActionResult> CreateOrderRequest([FromBody] CreateOrderResource resource)
     {
         var createOrderCommand = CreateOrderCommandFromResourceAssembler.ToCommandFromResource(resource);
         var order = await orderCommandService.Handle(createOrderCommand);
@@ -49,7 +48,7 @@ public class OrderController(IOrderQueryService orderQueryService, IOrderCommand
         
         var orderResource = OrderResourceFromEntityAssembler.ToResourceFromEntity(order);
         
-        return CreatedAtAction(nameof(GetOrderById), new { orderId = order.Id }, orderResource);
+        return CreatedAtAction(nameof(GetOrderRequestById), new { orderId = order.Id }, orderResource);
     }
 
     [HttpGet]
@@ -57,7 +56,7 @@ public class OrderController(IOrderQueryService orderQueryService, IOrderCommand
     [SwaggerResponse(StatusCodes.Status200OK, "The Orders were successfully retrieved",
         typeof(IEnumerable<OrderResource>))]
 
-    public async Task<IActionResult> GetOrders()
+    public async Task<IActionResult> GetOrdersRequest()
     {
         var getAllOrdersQuery = new GetAllOrdersQuery();
         var orders = await orderQueryService.Handle(getAllOrdersQuery);

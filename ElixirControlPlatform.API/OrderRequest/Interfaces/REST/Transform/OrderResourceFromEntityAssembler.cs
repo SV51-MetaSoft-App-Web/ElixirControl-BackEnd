@@ -5,7 +5,7 @@ namespace ElixirControlPlatform.API.OrderRequest.Interfaces.REST.Transform;
 
 public static class OrderResourceFromEntityAssembler
 {
-    public static OrderResource ToResourceFromEntity(Order entity)
+    public static OrderResource ToResourceFromEntity(OrderRequests entity)
     {
         return new OrderResource(
             entity.Id,

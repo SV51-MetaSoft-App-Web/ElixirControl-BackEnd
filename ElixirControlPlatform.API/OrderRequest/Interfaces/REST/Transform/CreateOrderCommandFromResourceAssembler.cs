@@ -8,7 +8,6 @@ public static class CreateOrderCommandFromResourceAssembler
     public static CreateOrderCommand ToCommandFromResource(CreateOrderResource resource)
     {
         return new CreateOrderCommand(
-            resource.OrderId,
             resource.Quantity,
             resource.Price,
             resource.Status,

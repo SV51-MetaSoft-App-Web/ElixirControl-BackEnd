@@ -8,12 +8,13 @@ namespace ElixirControlPlatform.API.OrderRequest.Application.Internal.CommandSer
 
 public class OrderCommandService(IOrderRepository orderRepository, IUnitOfWOrk unitOfWOrk): IOrderCommandService
 {
-    public async Task<Order?> Handle(CreateOrderCommand command)
+    public async Task<OrderRequests?> Handle(CreateOrderCommand command)
     {
-        var order = new Order(command);
+        var order = new OrderRequests(command);
         await orderRepository.AddAsync(order);
         await unitOfWOrk.CompleteAsync();
         return order;
 
     }
+    
 }
