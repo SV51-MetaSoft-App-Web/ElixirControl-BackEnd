@@ -47,7 +47,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          
          
       //===================================== 5. VICENTE Bounded Context ================================
-        builder.Entity<Order>().HasKey(o => o.Id);
+         builder.Entity<Order>().HasKey(o => o.Id);
          builder.Entity<Order>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
          builder.Entity<Order>().Property(o => o.BusinessName).IsRequired().HasMaxLength(50);
          builder.Entity<Order>().Property(o => o.RequestedDate).IsRequired();
