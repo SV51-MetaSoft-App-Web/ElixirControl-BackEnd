@@ -1,7 +1,6 @@
 ﻿
 namespace ElixirControlPlatform.API.InventoryManagement.Interfaces.REST.Resources;
     public record CreateInventoryResource(
-        int Id,
         string Name,
         string Type,
         string Unit,
