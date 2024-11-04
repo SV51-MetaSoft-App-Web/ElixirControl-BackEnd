@@ -5,24 +5,15 @@ using ElixirControlPlatform.API.InventoryManagement.Domain.Services;
 
 namespace ElixirControlPlatform.API.InventoryManagement.Application.Internal.QueryServices;
 
-public class InventoryQueryService : IInventoryQueryService
+public class InventoryQueryService(IInventoryRepository inventoryRepository) : IInventoryQueryService
 {
-    private readonly IInventoryRepository inventoryRepository;
-
-    public InventoryQueryService(IInventoryRepository inventoryRepository)
+    public async Task<Inventory?> Handle(GetInventoryByIdQuery query)
     {
-        this.inventoryRepository = inventoryRepository;
+        return await inventoryRepository.FindByIdAsync(query.Id);
     }
 
     public async Task<IEnumerable<Inventory>> Handle(GetAllInventoriesQuery query)
     {
-        // Lógica para obtener todos los inventarios
-        return await Task.FromResult<IEnumerable<Inventory>>(new List<Inventory>());
-    }
-
-    public async Task<Inventory?> Handle(GetInventoryByIdQuery query)
-    {
-        // Lógica para obtener un inventario por ID
-        return await Task.FromResult<Inventory?>(null);
+        return await inventoryRepository.ListAsync();
     }
 }
