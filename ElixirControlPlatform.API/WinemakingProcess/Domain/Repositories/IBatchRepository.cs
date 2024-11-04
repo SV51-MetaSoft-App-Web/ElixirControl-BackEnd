@@ -18,4 +18,5 @@ public interface IBatchRepository : IBaseRepository<Batch>
     
     
     
+    
 }

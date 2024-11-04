@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Commands;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Queries;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
 using ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Resources;
@@ -53,6 +54,24 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
+    //--------------------------------------------------------------------------------------------------------------
+    
+    [HttpDelete("{batchId:int}/fermentation")]
+    [SwaggerOperation(
+        Summary = "Delete a Fermentation by Batch",
+        Description = "Delete a Fermentation by Batch",
+        OperationId = "DeleteFermentationByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The Fermentation was successfully deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Fermentation was not found")]
+    public async Task<IActionResult> DeleteFermentationByBatch(int batchId)
+    {
+        var deleteFermentationByBatchCommand = new DeleteFermentationByBatchCommand(batchId);
+        var batch = await batchCommandService.Handle(deleteFermentationByBatchCommand);
+        if (batch is null) return NotFound();
+        return Ok(new { title = "Delete Fermentation", Message = $"Fermentation for batch {batchId} was successfully deleted" });
+    }
+  
     //============================================== END BATCH - FERMENTATION =========================================
         
     
@@ -95,6 +114,26 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
+    //--------------------------------------------------------------------------------------------------------------
+    
+    
+    [HttpDelete("{batchId:int}/clarification")]
+    [SwaggerOperation(
+        Summary = "Delete a Clarification by Batch",
+        Description = "Delete a Clarification by Batch",
+        OperationId = "DeleteClarificationByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The Clarification was successfully deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Clarification was not found")]
+    public async Task<IActionResult> DeleteClarificationByBatch(int batchId)
+    {
+        var deleteClarificationByBatchCommand = new DeleteClarificationByBatchCommand(batchId);
+        var batch = await batchCommandService.Handle(deleteClarificationByBatchCommand);
+        if (batch is null) return NotFound();
+        return Ok(new { title = "Delete Clarification", Message = $"Clarification for batch {batchId} was successfully deleted" });
+    }
+    
+    
     //============================================== END BATCH - CLARIFICATION =========================================
     
     //================================================= BATCH - PRESSING ==========================================
@@ -131,6 +170,24 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         if (batch is null) return BadRequest();
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
         return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
+    }
+    
+    //--------------------------------------------------------------------------------------------------------------
+    
+    [HttpDelete("{batchId:int}/pressing")]
+    [SwaggerOperation(
+        Summary = "Delete a Pressing by Batch",
+        Description = "Delete a Pressing by Batch",
+        OperationId = "DeletePressingByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The Pressing was successfully deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Pressing was not found")]
+    public async Task<IActionResult> DeletePressingByBatch(int batchId)
+    {
+        var deletePressingByBatchCommand = new DeletePressingByBatchCommand(batchId);
+        var batch = await batchCommandService.Handle(deletePressingByBatchCommand);
+        if (batch is null) return NotFound();
+        return Ok(new { title = "Delete Pressing", Message = $"Pressing for batch {batchId} was successfully deleted" });
     }
     
     //============================================== END BATCH - PRESSING =========================================
@@ -171,6 +228,24 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
         
         return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
+    }
+    
+    //--------------------------------------------------------------------------------------------------------------
+    
+    [HttpDelete("{batchId:int}/aging")]
+    [SwaggerOperation(
+        Summary = "Delete a Aging by Batch",
+        Description = "Delete a Aging by Batch",
+        OperationId = "DeleteAgingByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The Aging was successfully deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Aging was not found")]
+    public async Task<IActionResult> DeleteAgingByBatch(int batchId)
+    {
+        var deleteAgingByBatchCommand = new DeleteAgingByBatchCommand(batchId);
+        var batch = await batchCommandService.Handle(deleteAgingByBatchCommand);
+        if (batch is null) return NotFound();
+        return Ok(new { title = "Delete Aging", Message = $"Aging for batch {batchId} was successfully deleted" });
     }
 }
 
