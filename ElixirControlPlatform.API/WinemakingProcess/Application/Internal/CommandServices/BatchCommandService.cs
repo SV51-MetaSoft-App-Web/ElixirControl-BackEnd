@@ -9,7 +9,6 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Application.Internal.Comma
 
 public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk unitOfWork) : IBatchCommandService
 {
-    private IBatchCommandService _batchCommandServiceImplementation;
 
     public async Task<Batch?> Handle(CreateBatchCommand command)
     {
@@ -26,7 +25,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         var batch = await batchRepository.FindByIdAsync(command.BatchId);
         if (batch is null) throw new Exception("Batch not found");
         
-        batch.AddFermentationToBatch(
+        batch.AddFermentationByBatch(
             command.BatchId, 
             command.StartDate, 
             command.EndDate, 
@@ -37,12 +36,28 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
             command.FinalPh, 
             command.ResidualSugar);
         
-       
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    
+    public async Task<Batch?> Handle(DeleteFermentationByBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var fermentation = await batchRepository.GetFermentationByBatchAsync(command.BatchId);
+        
+        if (batch is null) throw new Exception("Batch not found");
+        if (fermentation is null) throw new Exception("The batch has no registered fermentation");
+ 
+        batch.DeleteFermentationByBatch();
+        
+        batchRepository.Update(batch);
+        
         await unitOfWork.CompleteAsync();
         return batch;
     }
     
     //======================== end Fermentation ========================
+    
     
     //========================== Clarification ==========================
     
@@ -55,7 +70,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         
         Console.WriteLine("batch.Status: " + batch.Status);
         
-        batch.AddClarificationToBatch(
+        batch.AddClarificationByBatch(
             command.BatchId, 
             command.ProductsUsed, 
             command.ClarificationMethod, 
@@ -67,6 +82,24 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         await unitOfWork.CompleteAsync();
         return batch;
     }
+    
+    public async Task<Batch?> Handle(DeleteClarificationByBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var clarification = await batchRepository.GetClarificationByBatchAsync(command.BatchId);
+        
+        if (batch is null) throw new Exception("Batch not found");
+        if (clarification is null) throw new Exception("The batch has no registered clarification");
+        
+        batch.DeleteClarificationByBatch();
+        
+        batchRepository.Update(batch);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+ 
+    
     //======================== end Clarification ========================
     
     
@@ -78,7 +111,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         if (batch is null) throw new Exception("Batch not found");
         if (batch.Status != CurrentBatchStatus.Clarification) throw new Exception("The batch must first go through the clarification stage");
         
-        batch.AddPressingToBatch(
+        batch.AddPressingByBatch(
             command.BatchId, 
             command.PressingDate, 
             command.MustVolume, 
@@ -88,6 +121,23 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         await unitOfWork.CompleteAsync();
         return batch;
     }
+    
+    public async Task<Batch?> Handle(DeletePressingByBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var pressing = await batchRepository.GetPressingByBatchAsync(command.BatchId);
+        
+        if (batch is null) throw new Exception("Batch not found");
+        if (pressing is null) throw new Exception("The batch has no registered pressing");
+        
+        batch.DeletePressingByBatch();
+        
+        batchRepository.Update(batch);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    
     //======================== end Pressing ========================
     
     //========================== Aging ==========================
@@ -98,7 +148,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         if (batch is null) throw new Exception("Batch not found");
         if (batch.Status != CurrentBatchStatus.Pressing) throw new Exception("The batch must first go through the pressing stage");
         
-        batch.AddAgingToBatch(
+        batch.AddAgingByBatch(
             command.BatchId, 
             command.BarrelType, 
             command.StartDate, 
@@ -106,6 +156,22 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
             command.AgingDurationMonths, 
             command.InspectionsPerformed, 
             command.InspectionResult);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+
+    public async Task<Batch?> Handle(DeleteAgingByBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var aging = await batchRepository.GetAgingByBatchAsync(command.BatchId);
+        
+        if (batch is null) throw new Exception("Batch not found");
+        if (aging is null) throw new Exception("The batch has no registered aging");
+        
+        batch.DeleteAgingByBatch();
+        
+        batchRepository.Update(batch);
         
         await unitOfWork.CompleteAsync();
         return batch;
