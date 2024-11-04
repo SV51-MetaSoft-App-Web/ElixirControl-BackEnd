@@ -3,6 +3,16 @@ using ElixirControlPlatform.API.CustomerManagement.Application.Internal.QuerySer
 using ElixirControlPlatform.API.CustomerManagement.Domain.Repositories;
 using ElixirControlPlatform.API.CustomerManagement.Domain.Services;
 using ElixirControlPlatform.API.CustomerManagement.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.InventoryManagement.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.InventoryManagement.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.InventoryManagement.Domain.Repositories;
+using ElixirControlPlatform.API.InventoryManagement.Domain.Services;
+using ElixirControlPlatform.API.InventoryManagement.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.OrderManagement.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.OrderManagement.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.OrderManagement.Domain.Repositories;
+using ElixirControlPlatform.API.OrderManagement.Domain.Services;
+using ElixirControlPlatform.API.OrderManagement.Infrastructure.Persistence.EFC.Repositories;
 using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -66,36 +76,44 @@ builder.Services.AddScoped<IBatchRepository, BatchRepository>();
 builder.Services.AddScoped<IBatchCommandService, BatchCommandService>();
 builder.Services.AddScoped<IBatchQueryService, BatchQueryService>();
 
-
-
-
 //===================================== END GONZALO Bounded Context ===============================
+
+
 
 
 //===================================== 2. GUSTAVO Bounded Context ================================
 builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
-
 //===================================== END GUSTAVO Bounded Context ===============================
 
 
-//===================================== 3. LUIS Bounded Context ===================================
 
+
+//===================================== 3. LUIS Bounded Context ===================================
+builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IInventoryQueryService, InventoryQueryService>();
 
 //===================================== END LUIS Bounded Context ==================================
 
 
-//===================================== 4. OSCAR Bounded Context ==================================
 
+
+//===================================== 4. OSCAR Bounded Context ==================================
 
 //===================================== END OSCAR Bounded Context =================================
 
 
+
+
 //===================================== 5. VICENTE Bounded Context ================================
-
-
+builder.Services.AddScoped<IOrderCommandService, OrderCommandService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
 //===================================== END VICENTE Bounded Context ===============================
+
+
 
 
 var app = builder.Build();
