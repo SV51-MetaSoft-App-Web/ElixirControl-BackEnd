@@ -31,29 +31,27 @@ public class Inventory
         this.Quantity = 0;
     }
     
-    public Inventory(int id, string name, string type, string unit, DateTime expiration, string supplier, decimal costPerUnit, DateTime lastUpdated, int quantity) : this()
+    public Inventory(string name, string type, string unit, DateTime expiration, string supplier, decimal costPerUnit, int quantity) : this()
     {
-        Id = id;
         Name = name;
         Type = type;
         Unit = unit;
         Expiration = expiration;
         Supplier = supplier;
         CostPerUnit = costPerUnit;
-        LastUpdated = lastUpdated;
         Quantity = quantity;
+        LastUpdated = DateTime.UtcNow; 
     }
-    
+
     public Inventory(CreateInventoryCommand command) : this()
     {
-        Id = command.Id; 
         Name = command.Name;
         Type = command.Type;
         Unit = command.Unit;
         Expiration = command.Expiration;
         Supplier = command.Supplier;
         CostPerUnit = command.CostPerUnit;
-        LastUpdated = DateTime.Now; // Asignar la fecha y hora actual
         Quantity = command.Quantity;
+        LastUpdated = DateTime.UtcNow; 
     }
 }
