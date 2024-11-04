@@ -56,6 +56,22 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         return batch;
     }
     
+    public async Task<Batch?> Handle(UpdateFermentationByBatchCommand command, int batchId)
+    {
+        var batch = await batchRepository.FindByIdAsync(batchId);
+        if (batch is null) throw new Exception("Batch not found");
+        
+        var fermentation = await batchRepository.GetFermentationByBatchAsync(batchId);
+        if (fermentation is null) throw new Exception("The batch has no registered fermentation");
+        
+        batch.UpdateFermentationByBatch(command);
+        
+        batchRepository.Update(batch);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    } 
+    
     //======================== end Fermentation ========================
     
     
@@ -98,7 +114,22 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         await unitOfWork.CompleteAsync();
         return batch;
     }
- 
+    
+    public async Task<Batch?> Handle(UpdateClarificationByBatchCommand command, int batchId)
+    {
+        var batch = await batchRepository.FindByIdAsync(batchId);
+        if (batch is null) throw new Exception("Batch not found");
+        
+        var clarification = await batchRepository.GetClarificationByBatchAsync(batchId);
+        if (clarification is null) throw new Exception("The batch has no registered clarification");
+        
+        batch.UpdateClarificationByBatch(command);
+        
+        batchRepository.Update(batch);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
     
     //======================== end Clarification ========================
     
@@ -138,6 +169,22 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         return batch;
     }
     
+    public async Task<Batch?> Handle(UpdatePressingByBatchCommand command, int batchId)
+    {
+        var batch = await batchRepository.FindByIdAsync(batchId);
+        if (batch is null) throw new Exception("Batch not found");
+        
+        var pressing = await batchRepository.GetPressingByBatchAsync(batchId);
+        if (pressing is null) throw new Exception("The batch has no registered pressing");
+        
+        batch.UpdatePressingToBatch(command);
+        
+        batchRepository.Update(batch);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    
     //======================== end Pressing ========================
     
     //========================== Aging ==========================
@@ -170,6 +217,22 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         if (aging is null) throw new Exception("The batch has no registered aging");
         
         batch.DeleteAgingByBatch();
+        
+        batchRepository.Update(batch);
+        
+        await unitOfWork.CompleteAsync();
+        return batch;
+    }
+    
+    public async Task<Batch?> Handle(UpdateAgingByBatchCommand command, int batchId)
+    {
+        var batch = await batchRepository.FindByIdAsync(batchId);
+        if (batch is null) throw new Exception("Batch not found");
+        
+        var aging = await batchRepository.GetAgingByBatchAsync(batchId);
+        if (aging is null) throw new Exception("The batch has no registered aging");
+        
+        batch.UpdateAgingByBatch(command);
         
         batchRepository.Update(batch);
         

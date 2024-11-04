@@ -83,12 +83,12 @@ public partial class Batch
         this.Status = CurrentBatchStatus.Collected;
     }
 
-    public void UpdateFermentationToBatch(int batchId, string startDate, string endDate, double averageTemperature,
-        double initialDensity, double initialPh, double finalDensity, double finalPh, double residualSugar)
+    public void UpdateFermentationByBatch(UpdateFermentationByBatchCommand command)
     {
-        Fermentation = new Fermentation(batchId, startDate, endDate, averageTemperature, initialDensity, initialPh,
-            finalDensity, finalPh, residualSugar);
+        Fermentation = new Fermentation(Id, command.StartDate, command.EndDate, command.AverageTemperature,
+            command.InitialDensity, command.InitialPh, command.FinalDensity, command.FinalPh, command.ResidualSugar);
     }
+    
     //------------------------ end FERMENTATION ----------------------------
 
     //============================= CLARIFICATION =============================
@@ -106,11 +106,10 @@ public partial class Batch
         this.Status = CurrentBatchStatus.Pressing;
     }
     
-    public void UpdateClarificationByBatch(int batchId, string productsUsed, string clarificationMethod,
-        string filtrationDate, double clarityLevel, string startDate, string endDate)
+    public void UpdateClarificationByBatch(UpdateClarificationByBatchCommand command)
     {
-        Clarification = new Clarification(batchId, productsUsed, clarificationMethod, filtrationDate, clarityLevel,
-            startDate, endDate);
+        Clarification = new Clarification(Id, command.ProductsUsed, command.ClarificationMethod, command.FiltrationDate,
+            command.ClarityLevel, command.StartDate, command.EndDate);
     }
     
     //------------------------ end Clarification ----------------------------
@@ -129,10 +128,9 @@ public partial class Batch
         this.Status = CurrentBatchStatus.Fermentation;
     }
     
-    public void UpdatePressingToBatch(int batchId, string pressingDate, double mustVolume, string pressType,
-        double appliedPressure)
+    public void UpdatePressingToBatch(UpdatePressingByBatchCommand command)
     {
-        Pressing = new Pressing(batchId, pressingDate, mustVolume, pressType, appliedPressure);
+        Pressing = new Pressing(Id, command.PressingDate, command.MustVolume, command.PressType, command.AppliedPressure);
     }
 
     //------------------------ end Pressing ----------------------------
@@ -151,9 +149,9 @@ public partial class Batch
         this.Status = CurrentBatchStatus.Clarification;
     }
     
-    public void UpdateAgingByBatch(int BatchId, string BarrelType, string StartDate, string EndDate, int AgingDurationMonths, int InspectionsPerformed, string InspectionResult)
+    public void UpdateAgingByBatch(UpdateAgingByBatchCommand command)
     {
-        Aging = new Aging(BatchId, BarrelType, StartDate, EndDate, AgingDurationMonths, InspectionsPerformed, InspectionResult);
+        Aging = new Aging(Id, command.BarrelType, command.StartDate, command.EndDate, command.AgingDurationMonths, command.InspectionsPerformed, command.InspectionResult);
     }
     //------------------------ end Aging ----------------------------
 

@@ -35,7 +35,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(fermentationResource);
     }
    
-    //--------------------------------------------------------------------------------------------------------------
+    //POST --------------------------------------------------------------------------------------------------------
 
     [HttpPost("{batchId:int}/fermentation")]
     [SwaggerOperation(
@@ -54,7 +54,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
-    //--------------------------------------------------------------------------------------------------------------
+    // DELETE ------------------------------------------------------------------------------------------------------
     
     [HttpDelete("{batchId:int}/fermentation")]
     [SwaggerOperation(
@@ -70,6 +70,27 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batch = await batchCommandService.Handle(deleteFermentationByBatchCommand);
         if (batch is null) return NotFound();
         return Ok(new { title = "Delete Fermentation", Message = $"Fermentation for batch {batchId} was successfully deleted" });
+    }
+    
+    // UPDATE ------------------------------------------------------------------------------------------------------
+    
+    [HttpPut("{batchId:int}/fermentation")]
+    [SwaggerOperation(
+        Summary = "Update a Fermentation by Batch",
+        Description = "Update a Fermentation by Batch",
+        OperationId = "UpdateFermentationByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Fermentation was successfully updated", typeof(FermentationResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Fermentation was not found")]
+    public async Task<IActionResult> UpdateFermentationByBatch([FromBody] UpdateFermentationByBatchResource resource, int batchId)
+    {
+        var updateFermentationByBatchCommand = UpdateFermentationByBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
+        var updatedBatch = await batchCommandService.Handle(updateFermentationByBatchCommand, batchId);
+        
+        if (updatedBatch is null) return NotFound();
+        
+        return Ok(resource);
     }
   
     //============================================== END BATCH - FERMENTATION =========================================

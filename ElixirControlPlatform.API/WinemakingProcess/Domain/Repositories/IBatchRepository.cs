@@ -15,8 +15,4 @@ public interface IBatchRepository : IBaseRepository<Batch>
     
     Task<Aging?> GetAgingByBatchAsync(int batchId);
     
-    
-    
-    
-    
 }
