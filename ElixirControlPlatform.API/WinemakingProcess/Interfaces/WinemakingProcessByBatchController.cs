@@ -100,6 +100,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
     
     //================================================= BATCH - CLARIFICATION ==========================================
     
+    // GET -----------------------------------------------------------------------------------------------------------
     [HttpGet("batch/{batchId:int}/clarification")]
     [SwaggerOperation(
         Summary = "Get a Clarification by Batch",
@@ -116,7 +117,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(clarificationResource);
     }
     
-    //--------------------------------------------------------------------------------------------------------------
+    //POST ----------------------------------------------------------------------------------------------------------
 
     [HttpPost("{batchId:int}/clarification")]
     [SwaggerOperation(
@@ -135,8 +136,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
-    //--------------------------------------------------------------------------------------------------------------
-    
+    // DELETE --------------------------------------------------------------------------------------------------------
     
     [HttpDelete("{batchId:int}/clarification")]
     [SwaggerOperation(
@@ -154,10 +154,34 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(new { title = "Delete Clarification", Message = $"Clarification for batch {batchId} was successfully deleted" });
     }
     
+    // UPDATE --------------------------------------------------------------------------------------------------------
     
-    //============================================== END BATCH - CLARIFICATION =========================================
+    [HttpPut("{batchId:int}/clarification")]
+    [SwaggerOperation(
+        Summary = "Update a Clarification by Batch",
+        Description = "Update a Clarification by Batch",
+        OperationId = "UpdateClarificationByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Clarification was successfully updated", typeof(ClarificationResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Clarification was not found")]
+    public async Task<IActionResult> UpdateClarificationByBatch([FromBody] UpdateClarificationByBatchResource resource, int batchId)
+    {
+        var updateClarificationByBatchCommand = UpdateClarificationByBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
+        var updatedBatch = await batchCommandService.Handle(updateClarificationByBatchCommand, batchId);
+        
+        if (updatedBatch is null) return NotFound();
+        
+        return Ok(resource);
+    }
+    
+    
+    //============================================== END BATCH - CLARIFICATION ====================================
     
     //================================================= BATCH - PRESSING ==========================================
+    
+    // GET -----------------------------------------------------------------------------------------------------------
+    
     [HttpGet("batch/{batchId:int}/pressing")]
     [SwaggerOperation(
         Summary = "Get a Pressing by Batch",
@@ -174,7 +198,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(pressingResource);
     }
     
-    //--------------------------------------------------------------------------------------------------------------
+    //POST -----------------------------------------------------------------------------------------------------------
     
     [HttpPost("{batchId:int}/pressing")]
     [SwaggerOperation(
@@ -193,7 +217,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
-    //--------------------------------------------------------------------------------------------------------------
+    // DELETE --------------------------------------------------------------------------------------------------------
     
     [HttpDelete("{batchId:int}/pressing")]
     [SwaggerOperation(
@@ -211,10 +235,34 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(new { title = "Delete Pressing", Message = $"Pressing for batch {batchId} was successfully deleted" });
     }
     
-    //============================================== END BATCH - PRESSING =========================================
+    // UPDATE --------------------------------------------------------------------------------------------------------
+    
+    [HttpPut("{batchId:int}/pressing")]
+    [SwaggerOperation(
+        Summary = "Update a Pressing by Batch",
+        Description = "Update a Pressing by Batch",
+        OperationId = "UpdatePressingByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Pressing was successfully updated", typeof(PressingResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Pressing was not found")]
+    public async Task<IActionResult> UpdatePressingByBatch([FromBody] UpdatePressingByBatchResource resource, int batchId)
+    {
+        var updatePressingByBatchCommand = UpdatePressingByBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
+        var updatedBatch = await batchCommandService.Handle(updatePressingByBatchCommand, batchId);
+        
+        if (updatedBatch is null) return NotFound();
+        
+        return Ok(resource);
+    }
+    
+    
+    //============================================== END BATCH - PRESSING ======================================
     
     
     //================================================= BATCH - AGING ==========================================
+    
+    // GET -----------------------------------------------------------------------------------------------------------
     [HttpGet("batch/{batchId:int}/aging")]
     [SwaggerOperation(
         Summary = "Get a Aging by Batch",
@@ -231,7 +279,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return Ok(agingResource);
     }
     
-    //--------------------------------------------------------------------------------------------------------------
+    // POST ---------------------------------------------------------------------------------------------------------
     
     [HttpPost("{batchId:int}/aging")]
     [SwaggerOperation(
@@ -251,7 +299,7 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
     }
     
-    //--------------------------------------------------------------------------------------------------------------
+    // DELETE -------------------------------------------------------------------------------------------------------
     
     [HttpDelete("{batchId:int}/aging")]
     [SwaggerOperation(
@@ -267,6 +315,27 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         var batch = await batchCommandService.Handle(deleteAgingByBatchCommand);
         if (batch is null) return NotFound();
         return Ok(new { title = "Delete Aging", Message = $"Aging for batch {batchId} was successfully deleted" });
+    }
+    
+    // UPDATE -------------------------------------------------------------------------------------------------------
+    
+    [HttpPut("{batchId:int}/aging")]
+    [SwaggerOperation(
+        Summary = "Update a Aging by Batch",
+        Description = "Update a Aging by Batch",
+        OperationId = "UpdateAgingByBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Aging was successfully updated", typeof(AgingResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Aging was not found")]
+    public async Task<IActionResult> UpdateAgingByBatch([FromBody] UpdateAgingByBatchResource resource, int batchId)
+    {
+        var updateAgingByBatchCommand = UpdateAgingByBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
+        var updatedBatch = await batchCommandService.Handle(updateAgingByBatchCommand, batchId);
+        
+        if (updatedBatch is null) return NotFound();
+        
+        return Ok(resource);
     }
 }
 
