@@ -1,3 +1,8 @@
+using ElixirControlPlatform.API.InventoryManagement.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.InventoryManagement.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.InventoryManagement.Domain.Repositories;
+using ElixirControlPlatform.API.InventoryManagement.Domain.Services;
+using ElixirControlPlatform.API.InventoryManagement.Infrastructure.Persistence.EFC.Repositories;
 using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -64,7 +69,9 @@ builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
 
 //===================================== 3. LUIS Bounded Context ===================================
 
-
+builder.Services.AddScoped<IInventoryCommandService, InventoryCommandService>();
+builder.Services.AddScoped<IInventoryQueryService, InventoryQueryService>(); 
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 //===================================== END LUIS Bounded Context ==================================
 
 
