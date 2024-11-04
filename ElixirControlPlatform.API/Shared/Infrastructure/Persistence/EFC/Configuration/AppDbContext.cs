@@ -1,3 +1,4 @@
+using ElixirControlPlatform.API.InventoryManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,18 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          
          
       //===================================== 3. LUIS Bounded Context ===================================
-         
+      builder.Entity<Inventory>().HasKey(i => i.Id); 
+      builder.Entity<Inventory>().Property(i => i.Id).IsRequired().ValueGeneratedOnAdd(); // ID autogenerado
+        
+      builder.Entity<Inventory>().Property(i => i.Name).IsRequired().HasMaxLength(100); 
+      builder.Entity<Inventory>().Property(i => i.Type).IsRequired().HasMaxLength(50); 
+      builder.Entity<Inventory>().Property(i => i.Unit).IsRequired().HasMaxLength(20); 
+      builder.Entity<Inventory>().Property(i => i.Expiration).IsRequired(); 
+      builder.Entity<Inventory>().Property(i => i.Supplier).IsRequired().HasMaxLength(100); 
+      builder.Entity<Inventory>().Property(i => i.CostPerUnit).IsRequired(); 
+      builder.Entity<Inventory>().Property(i => i.Quantity).IsRequired(); 
+      builder.Entity<Inventory>().Property(i => i.LastUpdated).IsRequired(); 
+
          
       //===================================== END LUIS Bounded Context ==================================
          
