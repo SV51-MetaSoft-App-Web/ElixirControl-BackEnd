@@ -34,4 +34,16 @@ public class OrderCommandService(IOrderRepository orderRepository, IUnitOfWOrk u
         await unitOfWork.CompleteAsync();
         return order;
     }
+    
+    public async Task<Order?> Handle(DeleteOrderCommand command)
+    {
+        var order = await orderRepository.FindByIdAsync(command.Id);
+        if (order == null)
+        {
+            return null;
+        }
+        order.Delete();
+        await unitOfWork.CompleteAsync();
+        return order;
+    }
 }
