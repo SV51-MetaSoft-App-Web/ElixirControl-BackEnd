@@ -64,4 +64,20 @@ public class OrdersController(IOrderCommandService orderCommandService, IOrderQu
         var orderResources = orders.Select(OrderResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(orderResources);
     }
+    
+    [HttpPut("{id}")]
+    [SwaggerOperation(
+        Summary = "Update order",
+        Description = "Update an existing order",
+        OperationId = "UpdateOrder"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The order was updated", typeof(OrderResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order could not be updated")]
+    public async Task<IActionResult> UpdateOrder(int id, [FromBody] UpdateOrderResource resource)
+    {
+        var updateOrderCommand = UpdateOrderCommandFromResourceAssembler.ToCommandFromResource(id, resource);
+        var result = await orderCommandService.Handle(updateOrderCommand);
+        if (result is null) return BadRequest();
+        return Ok(OrderResourceFromEntityAssembler.ToResourceFromEntity(result));
+    }
 }
