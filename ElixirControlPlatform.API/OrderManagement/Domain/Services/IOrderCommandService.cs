@@ -18,4 +18,5 @@ public interface IOrderCommandService
     /// </returns>
     Task<Order?> Handle(CreateOrderCommand command);
     Task<Order?> Handle(UpdateOrderStatusCommand statusCommand);
+    Task<Order?> Handle(DeleteOrderCommand command);
 }
