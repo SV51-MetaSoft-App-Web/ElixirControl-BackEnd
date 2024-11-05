@@ -76,4 +76,9 @@ public class Order
     {
        this.Status = command.Status;
     }
+    
+    public void Delete()
+    {
+        
+    }
 }
