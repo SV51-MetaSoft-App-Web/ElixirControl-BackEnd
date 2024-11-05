@@ -3,6 +3,7 @@ using ElixirControlPlatform.API.OrderManagement.Domain.Model.Queries;
 using ElixirControlPlatform.API.OrderManagement.Domain.Services;
 using ElixirControlPlatform.API.OrderManagement.Interfaces.REST.Resources;
 using ElixirControlPlatform.API.OrderManagement.Interfaces.REST.Transform;
+using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -79,5 +80,21 @@ public class OrdersController(IOrderCommandService orderCommandService, IOrderQu
         var result = await orderCommandService.Handle(updateOrderCommand);
         if (result is null) return BadRequest();
         return Ok(OrderResourceFromEntityAssembler.ToResourceFromEntity(result));
+    }
+    
+    [HttpDelete("{id}")]
+    [SwaggerOperation(
+        Summary = "Delete order",
+        Description = "Delete an existing order",
+        OperationId = "DeleteOrder"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The order was deleted")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order could not be deleted")]
+    public async Task<IActionResult> DeleteOrder(int id)
+    {
+        var deleteOrderCommand = new DeleteOrderCommand(id);
+        var result = await orderCommandService.Handle(deleteOrderCommand);
+        if (result is null) return BadRequest();
+        return Ok();
     }
 }
