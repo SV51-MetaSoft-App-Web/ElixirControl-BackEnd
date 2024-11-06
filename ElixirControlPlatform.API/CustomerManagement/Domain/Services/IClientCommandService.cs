@@ -15,6 +15,10 @@ public interface IClientCommandService
     /// <returns>
     /// The created client if successful otherwise null
     /// </returns>
-    /// <see cref="CreateClientsSourceCommand"/>
-    Task<Client?> Handle(CreateClientsSourceCommand command);
+    /// <see cref="CreateClientCommand"/>
+    Task<Client?> Handle(CreateClientCommand command);
+    
+    Task<Client?> Handle(DeleteClientByIdCommand command);
+    
+    Task<Client?> Handle(UpdateClientByIdCommand command);
 }   
