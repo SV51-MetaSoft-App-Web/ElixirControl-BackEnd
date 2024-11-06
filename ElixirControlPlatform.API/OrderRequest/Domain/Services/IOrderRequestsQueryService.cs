@@ -3,9 +3,9 @@ using ElixirControlPlatform.API.OrderRequest.Domain.Model.Queries;
 
 namespace ElixirControlPlatform.API.OrderRequest.Domain.Services;
 
-public interface IOrderRequestQueryService
+public interface IOrderRequestsQueryService
 {
-    Task<IEnumerable<OrderRequests>> Handle(GetAllOrdersRequestQuery requestQuery);
+    Task<IEnumerable<OrderRequests>> Handle(GetAllOrdersRequestsQuery requestsQuery);
     
-    Task<OrderRequests?> Handle(GetOrderRequestByIdQuery query);
+    Task<OrderRequests?> Handle(GetOrderRequestsByIdQuery query);
 }

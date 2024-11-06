@@ -3,7 +3,7 @@ using ElixirControlPlatform.API.OrderRequest.Domain.Model.Commands;
 
 namespace ElixirControlPlatform.API.OrderRequest.Domain.Services;
 
-public interface IOrderRequestCommandService
+public interface IOrderRequestsCommandService
 {
-    public Task<OrderRequests?> Handle(CreateOrderRequestCommand requestCommand);
+    public Task<OrderRequests?> Handle(CreateOrderRequestsCommand requestsCommand);
 }

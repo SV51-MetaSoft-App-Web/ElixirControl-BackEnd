@@ -6,12 +6,12 @@ using ElixirControlPlatform.API.Shared.Domain.Repositories;
 
 namespace ElixirControlPlatform.API.OrderRequest.Application.Internal.CommandServices;
 
-public class OrderRequestRequestCommandService(IOrderRequestRepository orderRequestRepository, IUnitOfWOrk unitOfWOrk): IOrderRequestCommandService
+public class OrderRequestsCommandService(IOrderRequestsRepository orderRequestsRepository, IUnitOfWOrk unitOfWOrk): IOrderRequestsCommandService
 {
-    public async Task<OrderRequests?> Handle(CreateOrderRequestCommand requestCommand)
+    public async Task<OrderRequests?> Handle(CreateOrderRequestsCommand requestsCommand)
     {
-        var order = new OrderRequests(requestCommand);
-        await orderRequestRepository.AddAsync(order);
+        var order = new OrderRequests(requestsCommand);
+        await orderRequestsRepository.AddAsync(order);
         await unitOfWOrk.CompleteAsync();
         return order;
 
