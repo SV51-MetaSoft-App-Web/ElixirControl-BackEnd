@@ -8,14 +8,14 @@ public class Inventory
 
     //========================== Inventory Information ==========================
     
-    public string Name { get; private set; } 
-    public string Type { get; private set; } 
-    public string Unit { get; private set; } 
-    public DateTime Expiration { get; private set; } 
-    public string Supplier { get; private set; } 
-    public decimal CostPerUnit { get; private set; }
+    public string Name { get; set; } 
+    public string Type { get; set; } 
+    public string Unit { get; set; } 
+    public DateTime Expiration { get; set; } 
+    public string Supplier { get; set; } 
+    public decimal CostPerUnit { get; set; }
     public DateTime LastUpdated { get; private set; }
-    public int Quantity { get; private set; } 
+    public int Quantity { get; set; } 
 
     //======================== end Inventory Information ========================
 
