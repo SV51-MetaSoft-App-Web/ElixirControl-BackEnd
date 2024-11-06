@@ -16,4 +16,8 @@ public class InventoryQueryService(IInventoryRepository inventoryRepository) : I
     {
         return await inventoryRepository.ListAsync();
     }
+    public async Task<IEnumerable<Inventory>> Handle(GetInventoriesByFilterQuery query)
+    {
+        return await inventoryRepository.SearchAsync(query.Name, query.Unit, query.Type);
+    }
 }
