@@ -66,4 +66,21 @@ public class InventoryController(IInventoryQueryService inventoryQueryService, I
         var inventoryResources = inventories.Select(InventoryResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(inventoryResources);
     }
+    [HttpGet("search")]
+    [SwaggerOperation(
+        Summary = "Search Inventories",
+        Description = "Search for Inventories by name, unit, or type",
+        OperationId = "SearchInventories"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Inventories were successfully retrieved", typeof(IEnumerable<InventoryResource>))]
+    public async Task<IActionResult> SearchInventories([FromQuery] string? name, [FromQuery] string? unit, [FromQuery] string? type)
+    {
+        var searchQuery = new GetInventoriesByFilterQuery(name, unit, type);
+        
+        var inventories = await inventoryQueryService.Handle(searchQuery);
+        
+        var inventoryResources = inventories.Select(InventoryResourceFromEntityAssembler.ToResourceFromEntity);
+        
+        return Ok(inventoryResources);
+    }
 }
