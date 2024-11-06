@@ -76,7 +76,6 @@
       <Folder Include="InventoryManagement\Application\Internal\CommandServices\" />
       <Folder Include="InventoryManagement\Application\Internal\QueryServices\" />
       <Folder Include="InventoryManagement\Domain\Model\Aggregate\" />
-      <Folder Include="InventoryManagement\Domain\Model\Commands\" />
       <Folder Include="InventoryManagement\Domain\Model\Entities\" />
       <Folder Include="InventoryManagement\Domain\Model\Queries\" />
       <Folder Include="InventoryManagement\Domain\Model\ValueObjects\" />
