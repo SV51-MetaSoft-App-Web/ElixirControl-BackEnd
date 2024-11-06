@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Commands;
 using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Queries;
 using ElixirControlPlatform.API.CustomerManagement.Domain.Services;
 using ElixirControlPlatform.API.CustomerManagement.Interfaces.REST.Resources;
@@ -85,7 +86,7 @@ public class ClientsController(
     /// </returns>
     [HttpGet("{dni}/client")]
     [SwaggerOperation(
-        Summary = "Get clients by dni",
+        Summary = "Get a client by dni",
         Description = "Gets clients by dni",
         OperationId = "GetClientsByDni")]
     public async Task<ActionResult> GetClientsFromQuery(string dni)
@@ -130,6 +131,38 @@ public class ClientsController(
         var clients = await clientQueryService.Handle(query);
         var resources = clients.Select(ClientResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
+    }
+
+    [HttpDelete("{id}/client")]
+    [SwaggerOperation(
+        Summary = "Delete a client by id",
+        Description = "Deletes a client by id",
+        OperationId = "DeleteClientById")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The client was deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The client was not found")]
+    public async Task<ActionResult> DeleteClientById(int id)
+    {
+        
+        var deleteClientByIdCommand = new DeleteClientByIdCommand(id);
+        var result = await clientCommandService.Handle(deleteClientByIdCommand);
+        if (result is null) return NotFound();
+        return Ok(ClientResourceFromEntityAssembler.ToResourceFromEntity(result)); 
+        
+    }
+    
+    [HttpPut("{id}/client")]
+    [SwaggerOperation(
+        Summary = "Update a client by id",
+        Description = "Updates a client by id",
+        OperationId = "UpdateClientById")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The client was updated", typeof(ClientResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The client was not found")]
+    public async Task<ActionResult> UpdateClientById(int id, [FromBody] UpdateClientByIdResource resource)
+    {
+        var updateClientByIdCommand = UpdateClientByIdCommandFromResourceAssembler.ToCommandFromResource(id,resource);
+        var result = await clientCommandService.Handle(updateClientByIdCommand);
+        if (result is null) return NotFound();
+        return Ok(ClientResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
 
 }
