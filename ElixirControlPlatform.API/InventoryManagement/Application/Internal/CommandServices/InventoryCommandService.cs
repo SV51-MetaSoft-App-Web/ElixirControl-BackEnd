@@ -16,4 +16,25 @@ public class InventoryCommandService(IInventoryRepository inventoryRepository, I
         await unitOfWork.CompleteAsync();
         return inventory;
     }
+    public async Task<Inventory?> Handle(UpdateInventoryCommand command)
+    {
+      
+        var inventory = await inventoryRepository.FindByIdAsync(command.Id);
+        if (inventory == null) return null; 
+
+        
+        inventory.Name = command.Name;
+        inventory.Type = command.Type;
+        inventory.Unit = command.Unit;
+        inventory.Expiration = command.Expiration;
+        inventory.Supplier = command.Supplier;
+        inventory.CostPerUnit = command.CostPerUnit;
+        inventory.Quantity = command.Quantity;
+
+        
+        await inventoryRepository.UpdateAsync(inventory);
+        await unitOfWork.CompleteAsync(); 
+
+        return inventory; 
+    }
 }
