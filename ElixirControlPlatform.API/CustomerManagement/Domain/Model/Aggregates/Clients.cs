@@ -40,7 +40,7 @@ public class Client
     /// This constructor is the command handle for the CreateClientsSourceCommand.
     /// </remarks>
     /// <param name="command">The CreateClientsSourceCommand</param>
-    public Client(CreateClientsSourceCommand command)
+    public Client(CreateClientCommand command)
     {
         this.PersonName = command.PersonName;
         this.Dni = command.Dni;
@@ -53,5 +53,22 @@ public class Client
         this.Ruc = command.Ruc;
     }
     
+  
+    
+   
+    public void UpdateClientById(UpdateClientByIdCommand command)
+    {
+        
+        this.PersonName = command.PersonName;
+        this.Dni = command.Dni;
+        this.Email = command.Email;
+        this.BusinessName = command.BusinessName;
+        this.Phone = command.Phone;
+        this.Address = command.Address;
+        this.Country = command.Country;
+        this.City = command.City;
+        this.Ruc = command.Ruc;
+    }
+
 }
 
