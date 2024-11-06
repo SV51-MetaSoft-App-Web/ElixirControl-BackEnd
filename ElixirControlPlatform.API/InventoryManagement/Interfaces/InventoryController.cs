@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using ElixirControlPlatform.API.InventoryManagement.Domain.Model.Commands;
 using ElixirControlPlatform.API.InventoryManagement.Domain.Model.Queries;
 using ElixirControlPlatform.API.InventoryManagement.Domain.Services;
 using ElixirControlPlatform.API.InventoryManagement.Interfaces.REST.Resources;
@@ -82,5 +83,47 @@ public class InventoryController(IInventoryQueryService inventoryQueryService, I
         var inventoryResources = inventories.Select(InventoryResourceFromEntityAssembler.ToResourceFromEntity);
         
         return Ok(inventoryResources);
+    }
+    [HttpPut("{inventoryId:int}")]
+    [SwaggerOperation(
+        Summary = "Update an Inventory",
+        Description = "Update an existing Inventory",
+        OperationId = "UpdateInventory"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Inventory was successfully updated", typeof(InventoryResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Inventory was not found")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid input data")]
+    public async Task<IActionResult> UpdateInventory(int inventoryId, [FromBody] UpdateInventoryResource resource)
+    {
+        // Validaciones
+        if (string.IsNullOrWhiteSpace(resource.Name) || 
+            string.IsNullOrWhiteSpace(resource.Type) || 
+            string.IsNullOrWhiteSpace(resource.Unit) || 
+            string.IsNullOrWhiteSpace(resource.Supplier) || 
+            resource.CostPerUnit <= 0 || 
+            resource.Quantity <= 0 || 
+            resource.Expiration <= DateTime.UtcNow)
+        {
+            return BadRequest("Invalid input data.");
+        }
+
+        var updateCommand = new UpdateInventoryCommand(
+            inventoryId,
+            resource.Name,
+            resource.Type,
+            resource.Unit,
+            resource.Expiration,
+            resource.Supplier,
+            resource.CostPerUnit,
+            resource.Quantity
+        );
+
+        var updatedInventory = await inventoryCommandService.Handle(updateCommand);
+
+        if (updatedInventory == null) return NotFound();
+        
+        var inventoryResource = InventoryResourceFromEntityAssembler.ToResourceFromEntity(updatedInventory);
+        
+        return Ok(inventoryResource);
     }
 }
