@@ -35,20 +35,20 @@ public class OrderRequestsController(IOrderRequestsQueryService orderRequestsQue
     }
 
     [HttpPost]
-    [SwaggerOperation(Summary = "Create new Order Requests", Description = "Create new Order Requests", OperationId = "CreateTutorial")]
+    [SwaggerOperation(Summary = "Create a Order Requests", Description = "Create a Order Requests", OperationId = "CreateTutorial")]
     [SwaggerResponse(StatusCodes.Status201Created, "The Order Requests was successfully created", typeof(OrderRequestsResource))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order was not found")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order was not created")]
 
-    public async Task<IActionResult> CreateOrderRequests([FromBody] CreateOrderRequestsResource requestsResource)
+    public async Task<IActionResult> CreateOrderRequests([FromBody] CreateOrderRequestsResource resource)
     {
-        var createOrderRequestsCommand = CreateOrderRequestsCommandFromResourceAssembler.ToCommandFromResource(requestsResource);
+        var createOrderRequestsCommand = CreateOrderRequestsCommandFromResourceAssembler.ToCommandFromResource(resource);
         var orderRequests = await orderRequestsCommandService.Handle(createOrderRequestsCommand);
         
         if (orderRequests is null) return BadRequest();
         
-        var orderResource = OrderRequestsResourceFromEntityAssembler.ToResourceFromEntity(orderRequests);
+        var orderRequestsResource = OrderRequestsResourceFromEntityAssembler.ToResourceFromEntity(orderRequests);
         
-        return CreatedAtAction(nameof(GetOrderRequestsById), new { orderId = orderRequests.Id }, orderResource);
+        return CreatedAtAction(nameof(GetOrderRequestsById), new { orderRequestsId = orderRequests.Id }, orderRequestsResource);
     }
 
     [HttpGet]
