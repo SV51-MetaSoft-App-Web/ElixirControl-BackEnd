@@ -67,6 +67,7 @@ public class InventoryController(IInventoryQueryService inventoryQueryService, I
         var inventoryResources = inventories.Select(InventoryResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(inventoryResources);
     }
+
     [HttpGet("search")]
     [SwaggerOperation(
         Summary = "Search Inventories",
@@ -125,5 +126,23 @@ public class InventoryController(IInventoryQueryService inventoryQueryService, I
         var inventoryResource = InventoryResourceFromEntityAssembler.ToResourceFromEntity(updatedInventory);
         
         return Ok(inventoryResource);
+    }
+    
+    [HttpDelete("{inventoryId:int}")]
+    [SwaggerOperation(
+        Summary = "Delete an Inventory",
+        Description = "Delete an existing Inventory by ID",
+        OperationId = "DeleteInventory"
+    )]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The Inventory was successfully deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Inventory was not found")]
+    public async Task<IActionResult> DeleteInventory(int inventoryId)
+    {
+        var deleteCommand = new DeleteInventoryCommand(inventoryId); 
+        var result = await inventoryCommandService.Handle(deleteCommand); 
+
+        if (!result) return NotFound();
+
+        return NoContent(); 
     }
 }
