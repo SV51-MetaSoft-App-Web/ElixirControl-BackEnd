@@ -37,4 +37,14 @@ public class InventoryCommandService(IInventoryRepository inventoryRepository, I
 
         return inventory; 
     }
+    public async Task<bool> Handle(DeleteInventoryCommand command)
+    {
+        var inventory = await inventoryRepository.GetByIdAsync(command.Id); 
+        if (inventory == null) return false; 
+
+        await inventoryRepository.DeleteAsync(inventory); 
+        await unitOfWork.CompleteAsync();
+
+        return true; 
+    }
 }
