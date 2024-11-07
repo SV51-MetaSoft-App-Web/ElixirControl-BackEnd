@@ -50,4 +50,10 @@ public class InventoryRepository(AppDbContext context) : BaseRepository<Inventor
         Context.Set<Inventory>().Update(inventory); 
         await Context.SaveChangesAsync(); 
     }
+    
+    public async Task DeleteAsync(Inventory inventory)
+    {
+        Context.Set<Inventory>().Remove(inventory);
+        await Context.SaveChangesAsync();
+    }
 }
