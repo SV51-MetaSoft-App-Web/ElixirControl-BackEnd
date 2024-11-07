@@ -10,5 +10,4 @@ public interface IInventoryQueryService
     Task<Inventory?> Handle(GetInventoryByIdQuery query);
     
     Task<IEnumerable<Inventory>> Handle(GetInventoriesByFilterQuery query);
-    
 }
