@@ -11,4 +11,6 @@ public interface IInventoryRepository : IBaseRepository<Inventory>
     
     Task<IEnumerable<Inventory>> SearchAsync(string? name, string? unit, string? type);
     Task UpdateAsync(Inventory inventory);
+    
+    Task DeleteAsync(Inventory inventory);
 }
