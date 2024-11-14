@@ -1,0 +1,61 @@
+﻿using System.Net.Mime;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Queries;
+using ElixirControlPlatform.API.Profiles.Domain.Services;
+using ElixirControlPlatform.API.Profiles.Interfaces.REST.Resources;
+using ElixirControlPlatform.API.Profiles.Interfaces.REST.Transform;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+
+namespace ElixirControlPlatform.API.Profiles.Interfaces;
+
+
+[ApiController]
+[Route("api/v1/[controller]")]
+[Produces(MediaTypeNames.Application.Json)]
+[SwaggerTag("Available Profile Endpoints.")]
+public class ProfilesController(IProfileCommandService profileCommandService, IProfileQueryService profileQueryService) : ControllerBase
+{
+    
+    [HttpGet("{profileId}")]
+    [SwaggerOperation("Get Profile by ProfileId")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Profile found", typeof(ProfileResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Profile not found")]
+    public async Task<IActionResult> GetProfileByProfileId(string profileId)
+    {
+       var getProfileByIdQuery = new GetProfileByProfileIdQuery(profileId); 
+       var profile = await profileQueryService.Handle(getProfileByIdQuery);
+       
+       if (profile is null) return BadRequest();
+       var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
+       
+       return Ok(profileResource);
+    }
+
+
+    [HttpPost]
+    [SwaggerOperation("Create Profile")]
+    [SwaggerResponse(StatusCodes.Status201Created, "Profile created", typeof(ProfileResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid Profile")]
+    public async Task<IActionResult> CreateProfileAsync([FromBody] CreateProfileResource resource)
+    {
+        var createProfileCommand = CreateProfileCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var profile = await profileCommandService.Handle(createProfileCommand);
+        if (profile is null) return BadRequest();
+        var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
+        return CreatedAtAction(nameof(GetProfileByProfileId), new { profileId = profile.GetProfileId() }, profileResource);
+    }
+
+    [HttpGet]
+    [SwaggerOperation("Get All Profiles")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Profiles found", typeof(IEnumerable<ProfileResource>))]
+    public async Task<IActionResult> GetAllProfilesAsync()
+    {
+        var getAllProfilesQuery = new GetAllProfilesQuery();
+        var profiles = await profileQueryService.Handle(getAllProfilesQuery);
+        
+        var profileResources = profiles.Select(ProfileResourceFromEntityAssembler.ToResourceFromEntity);
+        
+        return Ok(profileResources);
+    }
+    
+}

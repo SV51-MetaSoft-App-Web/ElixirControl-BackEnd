@@ -7,7 +7,7 @@ using ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST;
+namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces;
 
 
 [ApiController]

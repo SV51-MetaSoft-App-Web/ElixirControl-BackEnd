@@ -13,6 +13,11 @@ using ElixirControlPlatform.API.OrderManagement.Application.Internal.QueryServic
 using ElixirControlPlatform.API.OrderManagement.Domain.Repositories;
 using ElixirControlPlatform.API.OrderManagement.Domain.Services;
 using ElixirControlPlatform.API.OrderManagement.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.Profiles.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.Profiles.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.Profiles.Domain.Repositories;
+using ElixirControlPlatform.API.Profiles.Domain.Services;
+using ElixirControlPlatform.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -75,6 +80,13 @@ builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
 builder.Services.AddScoped<IBatchRepository, BatchRepository>();
 builder.Services.AddScoped<IBatchCommandService, BatchCommandService>();
 builder.Services.AddScoped<IBatchQueryService, BatchQueryService>();
+
+//----------------- Profiles -----------------
+
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
+
 
 //===================================== END GONZALO Bounded Context ===============================
 

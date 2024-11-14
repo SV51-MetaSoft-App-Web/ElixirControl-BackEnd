@@ -1,6 +1,7 @@
 using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Aggregates;
 using ElixirControlPlatform.API.InventoryManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Entities;
@@ -106,6 +107,40 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       //---------------- Relación uno a uno con batch ----------------
       builder.Entity<Batch>()
          .HasOne(b => b.Aging);
+      
+      
+      //---------------- CONFIGURATION DE PROFILES ----------------
+      builder.Entity<Profile>().HasKey(p => p.Id);
+      builder.Entity<Profile>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+
+      builder.Entity<Profile>().Property(p => p.ProfileId);
+      builder.Entity<Profile>().Property(p => p.CompanyName).IsRequired().HasMaxLength(50);
+      builder.Entity<Profile>().Property(p => p.PhoneNumber).IsRequired().HasMaxLength(50);
+      builder.Entity<Profile>().Property(p => p.RUC).IsRequired().HasMaxLength(50);
+      
+      builder.Entity<Profile>().OwnsOne(p => p.Name,
+         n =>
+         {
+            n.WithOwner().HasForeignKey("Id");
+            n.Property(p => p.FirstName).HasColumnName("FirstName");
+            n.Property(p => p.LastName).HasColumnName("LastName");
+         });
+
+      builder.Entity<Profile>().OwnsOne(p => p.Email, e =>
+      {
+         e.WithOwner().HasForeignKey("Id");
+         e.Property(a => a.Address).HasColumnName("EmailAddress");
+      });
+
+      builder.Entity<Profile>().OwnsOne(p => p.Address,
+         a =>
+         {
+            a.WithOwner().HasForeignKey("Id");
+            a.Property(s => s.Street).HasColumnName("AddressStreet");
+            a.Property(s => s.Number).HasColumnName("AddressNumber");
+            a.Property(s => s.City).HasColumnName("AddressCity");
+            a.Property(s => s.Country).HasColumnName("AddressCountry");
+         });
       
       //-----------------------------------------------------------------------------------------------
       //===================================== END GONZALO BOUNDED CONTEXT =============================

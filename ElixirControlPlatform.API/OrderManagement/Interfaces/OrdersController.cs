@@ -3,11 +3,10 @@ using ElixirControlPlatform.API.OrderManagement.Domain.Model.Queries;
 using ElixirControlPlatform.API.OrderManagement.Domain.Services;
 using ElixirControlPlatform.API.OrderManagement.Interfaces.REST.Resources;
 using ElixirControlPlatform.API.OrderManagement.Interfaces.REST.Transform;
-using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace ElixirControlPlatform.API.OrderManagement.Interfaces.REST;
+namespace ElixirControlPlatform.API.OrderManagement.Interfaces;
 
 [ApiController]
 [Route("api/v1/[controller]")]
