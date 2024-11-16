@@ -1,8 +1,7 @@
 ﻿namespace ElixirControlPlatform.API.Profiles.Interfaces.REST.Resources;
 
 public record ProfileResource(
-    int Id, 
-    Guid ProfileId,
+    Guid Id, 
     string FullName, 
     string Email, 
     string CompanyName,

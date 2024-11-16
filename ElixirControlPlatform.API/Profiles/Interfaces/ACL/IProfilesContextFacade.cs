@@ -33,7 +33,7 @@ public interface IProfilesContextFacade
     /// <returns>
     /// The id of the created profile if successful, 0 otherwise
     /// </returns>
-    Task<int> CreateProfile(
+    Task<Guid> CreateProfile(
         string firstName, 
         string lastName, 
         string email, 

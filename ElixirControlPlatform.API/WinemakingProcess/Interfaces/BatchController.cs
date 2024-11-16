@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using ElixirControlPlatform.API.Profiles.Domain.Repositories;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Queries;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
 using ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Resources;
@@ -13,8 +14,11 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces;
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Batch Endpoints")]
-public class BatchController(IBatchQueryService batchQueryService, IBatchCommandService batchCommandService): ControllerBase
+public class BatchController(IBatchQueryService batchQueryService, IBatchCommandService batchCommandService, IProfileRepository profileRepository): ControllerBase
 {
+    
+    
+    
     
     [HttpGet("{batchId:int}")]
     [SwaggerOperation(
@@ -42,10 +46,17 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
     )]
     [SwaggerResponse(StatusCodes.Status201Created, "The Batch was successfully created", typeof(BatchResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Batch was not created")]
-    public async Task<IActionResult> CreateBatch([FromBody] CreateBatchResource resource)
+    public async Task<IActionResult> CreateBatch([FromBody] CreateBatchResource resource, [FromQuery] Guid profileId )
     {
+        
+        var profile = await profileRepository.GetProfileByIdAsync(profileId);
+        
+        //Mensaje perosnalizado
+        if (profile is null) return BadRequest("Profile not found");
+        
         var createBatchCommand = CreateBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var batch = await batchCommandService.Handle(createBatchCommand);
+        
+        var batch = await batchCommandService.Handle(createBatchCommand, profile.Id);
         
         if (batch is null) return BadRequest();
         

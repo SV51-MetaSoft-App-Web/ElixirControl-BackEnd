@@ -8,7 +8,7 @@ namespace ElixirControlPlatform.API.Profiles.Application.ACL;
 
 public class ProfileContextFacade( IProfileCommandService profileCommandService, IProfileQueryService profileQueryService) : IProfilesContextFacade
 {
-    public async Task<int> CreateProfile(
+    public async Task<Guid> CreateProfile(
         string firstName, 
         string lastName, 
         string email, 
@@ -23,7 +23,7 @@ public class ProfileContextFacade( IProfileCommandService profileCommandService,
         var createProfileCommand = new CreateProfileCommand(firstName, lastName, email, companyName, phoneNumber, ruc, street, number, city, country);
         var profile = await profileCommandService.Handle(createProfileCommand);
         
-        return profile?.Id ?? 0;
+        return profile?.Id ?? Guid.Empty;
     }
 
     public async Task<Guid> FetchProfileIdByEmail(string email)
@@ -32,6 +32,6 @@ public class ProfileContextFacade( IProfileCommandService profileCommandService,
 
         var profile = await profileQueryService.Handle(getProfileByEmailQuery);
 
-        return profile?.ProfileId ?? Guid.Empty;
+        return profile?.Id ?? Guid.Empty;
     }
 }

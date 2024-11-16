@@ -16,20 +16,16 @@ public class ProfileRepository(AppDbContext context) : BaseRepository<Profile>(c
         return Context.Set<Profile>().FirstOrDefault(p => p.Email == email);
     }
     
-    public async Task<Profile?> GetProfileByProfileIdAsync(string profileId)
+    public async Task<Profile?> GetProfileByIdAsync(Guid Id)
     {
-        return await Context.Set<Profile>().FirstOrDefaultAsync(p => p.ProfileId.ToString() == profileId);
+        return await Context.Set<Profile>().FirstOrDefaultAsync(p => p.Id == Id);
     }
 
     public async Task<bool?> existsProfileByEmailAsync(string email)
     {
         return await Context.Set<Profile>().AnyAsync(p => p.EmailAddress == email);
     }
-
-    public async  Task<bool?> existsProfileByProfileIdAsync(string profileId)
-    {
-        return await Context.Set<Profile>().AnyAsync(p => p.GetProfileId() == profileId);
-    }
+    
 
     public async  Task<bool?> ExistsProfileByRUCAsync(string ruc)
     {

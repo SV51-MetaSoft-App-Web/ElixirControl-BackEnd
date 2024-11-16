@@ -7,7 +7,6 @@ public partial class Fermentation
     public int Id { get; private set; }
     
     //========================== Fermentation Information ==========================
-    
     public int BatchId { get; private set; }
     public string StartDate { get; private set; }
     public string EndDate { get; private set; }
@@ -19,6 +18,7 @@ public partial class Fermentation
     public double FinalDensity { get; private set; }
     public double FinalPh { get; private set; }
     public double ResidualSugar { get; private set; }
+    
     //======================== end Fermentation Information ========================
     
     public Fermentation()

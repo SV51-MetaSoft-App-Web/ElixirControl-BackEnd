@@ -27,10 +27,12 @@ public class ProfileQueryService(IProfileRepository profileRepository) : IProfil
         return await profileRepository.FindProfileByEmailAsync(query.Email);
     }
     
-
     /// <inheritdoc />
-    public async  Task<Profile?> Handle(GetProfileByProfileIdQuery query)
+    public async Task<Profile?> Handle(GetProfileByIdQuery query)
     {
-        return await profileRepository.GetProfileByProfileIdAsync(query.ProfileId);
+        return await profileRepository.GetProfileByIdAsync(query.Id);
     }
+    
+    
+
 }

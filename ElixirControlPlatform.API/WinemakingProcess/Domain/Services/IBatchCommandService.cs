@@ -5,7 +5,7 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
 
 public interface IBatchCommandService
 {
-    public Task<Batch?> Handle(CreateBatchCommand command);
+    public Task<Batch?> Handle(CreateBatchCommand command, Guid profileId);
     
     //=========== Fermentation
     public Task<Batch?> Handle(AddFermentationToBatchCommand command);

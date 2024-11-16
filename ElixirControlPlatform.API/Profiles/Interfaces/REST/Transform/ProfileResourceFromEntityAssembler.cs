@@ -9,7 +9,6 @@ public static class ProfileResourceFromEntityAssembler
     {
         return new ProfileResource(
             entity.Id,
-            entity.ProfileId,
             entity.FullName,
             entity.EmailAddress,
             entity.CompanyName,

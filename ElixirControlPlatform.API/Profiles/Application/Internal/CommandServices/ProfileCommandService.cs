@@ -34,5 +34,19 @@ public class ProfileCommandService(IProfileRepository profileRepository, IUnitOf
         
         return profile;
     }
+    
+    /// <inheritdoc />
+    public async Task<bool> Handle(DeleteProfileCommand command)
+    {
+        var profile = await profileRepository.GetProfileByIdAsync(command.Id);
+        
+        if (profile is null) return false;
+        
+        profileRepository.Remove(profile);
+        await unitOfWork.CompleteAsync();
+        return true;
+    }
+    
+    
  
 }

@@ -1,4 +1,5 @@
-﻿using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Commands;
+﻿using ElixirControlPlatform.API.Profiles.Domain.Model.Aggregate;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Commands;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Entities;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.ValueObjects;
 
@@ -7,6 +8,13 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
 public partial class Batch
 {
     public int Id { get; private set; }
+    
+    //******************* BATCH RELATIONSHIP WITH PROFILE *******************
+    public Guid ProfileId { get; set; } // Clave foránea hacia Profile
+    public Profile Profile { get; private set; }
+    
+    //*************** END BATCH RELATIONSHIP WITH PROFILE *******************
+    
 
     //========================== Batch Information ==========================
     public string VineyardCode { get; private set; }
@@ -19,8 +27,7 @@ public partial class Batch
     public CurrentBatchStatus Status { get; internal set; }
 
     //======================== end Batch Information ========================
-
-
+    
 
     //============ Winemaking Process - Propiedad de navegación =============
     public Fermentation Fermentation { get; private set; }
@@ -28,8 +35,8 @@ public partial class Batch
     public Pressing Pressing { get; private set; }
     public Aging Aging { get; private set; }
     //=========== end Winemaking Process - Propiedad de navegación ==========
-
-
+    
+    
     public Batch()
     {
         this.Status = CurrentBatchStatus.Collected;
@@ -43,7 +50,7 @@ public partial class Batch
     }
 
     public Batch(string vineyardCode, string grapeVariety, string harvestDate, int grapeQuantity, string vineyardOrigin,
-        string processStartDate) : this()
+        string processStartDate, Guid profileId) : this()
     {
         VineyardCode = vineyardCode;
         GrapeVariety = grapeVariety;
@@ -51,9 +58,10 @@ public partial class Batch
         GrapeQuantity = grapeQuantity;
         VineyardOrigin = vineyardOrigin;
         ProcessStartDate = processStartDate;
+        ProfileId = profileId;
     }
 
-    public Batch(CreateBatchCommand command) : this()
+    public Batch(CreateBatchCommand command, Guid profileId) : this()
     {
         VineyardCode = command.VineyardCode;
         GrapeVariety = command.GrapeVariety;
@@ -61,6 +69,7 @@ public partial class Batch
         GrapeQuantity = command.GrapeQuantity;
         VineyardOrigin = command.VineyardOrigin;
         ProcessStartDate = command.ProcessStartDate;
+        ProfileId = profileId;
     }
     
     
@@ -158,5 +167,4 @@ public partial class Batch
     //========================================================================
     //======================== end Winemaking Process ========================
     //========================================================================
-
 }

@@ -30,15 +30,7 @@ public interface IProfileQueryService
     /// </returns>
     Task<Profile?> Handle(GetProfileByEmailQuery query);
     
-    /// <summary>
-    /// Handle get profile by id 
-    /// </summary>
-    /// <param name="query">
-    /// The <see cref="GetProfileByProfileIdQuery"/> query
-    /// </param>
-    /// <returns><
-    /// A <see cref="Profile"/> object or null
-    /// /returns>
-    Task<Profile?> Handle(GetProfileByProfileIdQuery query);
+    
+    Task<Profile?> Handle(GetProfileByIdQuery query);
     
 }

@@ -10,9 +10,9 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Application.Internal.Comma
 public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk unitOfWork) : IBatchCommandService
 {
 
-    public async Task<Batch?> Handle(CreateBatchCommand command)
+    public async Task<Batch?> Handle(CreateBatchCommand command,  Guid profileId)
     {
-        var batch = new Batch(command);
+        var batch = new Batch(command, profileId);
         await batchRepository.AddAsync(batch);
         await unitOfWork.CompleteAsync();
         return batch;

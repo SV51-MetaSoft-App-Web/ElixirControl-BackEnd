@@ -1,3 +1,3 @@
 ﻿namespace ElixirControlPlatform.API.Profiles.Domain.Model.Queries;
 
-public record GetProfileByProfileIdQuery(string ProfileId);
+public record GetProfileByIdQuery(Guid Id);

@@ -8,11 +8,9 @@ public interface IProfileRepository : IBaseRepository<Profile>
 {
     Task<Profile?> FindProfileByEmailAsync(EmailAddress email);
     
-    Task<Profile?> GetProfileByProfileIdAsync(string profileId);
+    Task<Profile?> GetProfileByIdAsync(Guid Id);
     
     Task<bool?> existsProfileByEmailAsync(string email);
-    
-    Task<bool?> existsProfileByProfileIdAsync(string profileId);
     
     Task<bool?> ExistsProfileByRUCAsync(string ruc);
     

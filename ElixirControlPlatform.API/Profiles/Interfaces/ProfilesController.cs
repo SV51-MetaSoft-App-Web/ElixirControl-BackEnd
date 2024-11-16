@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Commands;
 using ElixirControlPlatform.API.Profiles.Domain.Model.Queries;
 using ElixirControlPlatform.API.Profiles.Domain.Services;
 using ElixirControlPlatform.API.Profiles.Interfaces.REST.Resources;
@@ -20,9 +21,11 @@ public class ProfilesController(IProfileCommandService profileCommandService, IP
     [SwaggerOperation("Get Profile by ProfileId")]
     [SwaggerResponse(StatusCodes.Status200OK, "Profile found", typeof(ProfileResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Profile not found")]
-    public async Task<IActionResult> GetProfileByProfileId(string profileId)
+    public async Task<IActionResult> GetProfileByProfileId(Guid profileId)
     {
-       var getProfileByIdQuery = new GetProfileByProfileIdQuery(profileId); 
+       var getProfileByIdQuery = new GetProfileByIdQuery(profileId); 
+       
+       
        var profile = await profileQueryService.Handle(getProfileByIdQuery);
        
        if (profile is null) return BadRequest();
@@ -42,7 +45,7 @@ public class ProfilesController(IProfileCommandService profileCommandService, IP
         var profile = await profileCommandService.Handle(createProfileCommand);
         if (profile is null) return BadRequest();
         var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
-        return CreatedAtAction(nameof(GetProfileByProfileId), new { profileId = profile.GetProfileId() }, profileResource);
+        return CreatedAtAction(nameof(GetProfileByProfileId), new { profileId = profile.Id }, profileResource);
     }
 
     [HttpGet]
@@ -57,5 +60,25 @@ public class ProfilesController(IProfileCommandService profileCommandService, IP
         
         return Ok(profileResources);
     }
+    
+
+    [HttpDelete("{profileId}")] 
+    [SwaggerOperation("Delete Profile")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Profile deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Profile not found")]
+    public async Task<IActionResult> DeleteProfile(Guid profileId)
+    {
+        var deleteProfileCommand = new DeleteProfileCommand(profileId);
+        var result = await profileCommandService.Handle(deleteProfileCommand);
+        
+        //if profile not found
+        if (!result) return BadRequest();
+        
+        return Ok();
+    }
+    
+    
+    
+    
     
 }
