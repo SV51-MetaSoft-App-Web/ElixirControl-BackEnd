@@ -1,6 +1,4 @@
 using ElixirControlPlatform.API.OrderRequest.Domain.Model.Commands;
-using ElixirControlPlatform.API.OrderRequest.Domain.Model.ValueObjects;
-using Microsoft.OpenApi.Services;
 
 namespace ElixirControlPlatform.API.OrderRequest.Domain.Model.Aggregate;
 
@@ -58,4 +56,26 @@ public class OrderRequests
         DeliveryDate = requestsCommand.DeliveryDate;
         Type = requestsCommand.Type;
     }    
+    
+    public void UpdateStatus(UpdateOrderRequestsStatusByIdCommand byIdCommand)
+    {
+        this.Status = byIdCommand.Status;
+    }
+    
+    public void UpdateOrderRequestsById(UpdateOrderRequestsByIdCommand command)
+    {
+        this.Quantity = command.Quantity;
+        this.Price = command.Price;
+        this.Status = command.Status;
+        this.OrderNumber = command.OrderNumber;
+        this.OrderDate = command.OrderDate;
+        this.TransportCondition = command.TransportCondition;
+        this.PaymentMethod = command.PaymentMethod;
+        this.ConsumerPhone = command.ConsumerPhone;
+        this.ProducerPhone = command.ProducerPhone;
+        this.PaymentTerms = command.PaymentTerms;
+        this.Date = command.Date;
+        this.DeliveryDate = command.DeliveryDate;
+        this.Type = command.Type;
+    }
 }

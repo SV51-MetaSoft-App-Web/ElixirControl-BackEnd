@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using ElixirControlPlatform.API.OrderRequest.Domain.Model.Commands;
 using ElixirControlPlatform.API.OrderRequest.Domain.Model.Queries;
 using ElixirControlPlatform.API.OrderRequest.Domain.Services;
 using ElixirControlPlatform.API.OrderRequest.Interfaces.REST.Resources;
@@ -11,6 +12,7 @@ namespace ElixirControlPlatform.API.OrderRequest.Interfaces;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
+[Tags("Order Requests")]
 [SwaggerTag("Available Order Requests Endpoints")]
 
 public class OrderRequestsController(IOrderRequestsQueryService orderRequestsQueryService, IOrderRequestsCommandService orderRequestsCommandService): ControllerBase
@@ -43,11 +45,8 @@ public class OrderRequestsController(IOrderRequestsQueryService orderRequestsQue
     {
         var createOrderRequestsCommand = CreateOrderRequestsCommandFromResourceAssembler.ToCommandFromResource(resource);
         var orderRequests = await orderRequestsCommandService.Handle(createOrderRequestsCommand);
-        
         if (orderRequests is null) return BadRequest();
-        
         var orderRequestsResource = OrderRequestsResourceFromEntityAssembler.ToResourceFromEntity(orderRequests);
-        
         return CreatedAtAction(nameof(GetOrderRequestsById), new { orderRequestsId = orderRequests.Id }, orderRequestsResource);
     }
 
@@ -63,6 +62,54 @@ public class OrderRequestsController(IOrderRequestsQueryService orderRequestsQue
         var orderRequestsResources = ordersRequests.Select(OrderRequestsResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(orderRequestsResources);
         
+    }
+    
+    [HttpPut("{id}/status")]
+    [SwaggerOperation(
+        Summary = "Update order requests status",
+        Description = "Update order requests status",
+        OperationId = "UpdateOrderRequestsStatusById"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The order requests status was updated")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order requests status  could not be updated")]
+    public async Task<IActionResult> UpdateOrderRequests(int id, [FromBody] UpdateOrderRequestsStatusByIdResource statusByIdResource)
+    {
+        var updateOrderRequestsCommand = UpdateOrderRequestsCommandFromResourceAssembler.ToCommandFromResource(id, statusByIdResource);
+        var result = await orderRequestsCommandService.Handle(updateOrderRequestsCommand);
+        if (result is null) return BadRequest();
+        return Ok(OrderRequestsResourceFromEntityAssembler.ToResourceFromEntity(result));
+    }
+    
+    [HttpDelete("{id}")]
+    [SwaggerOperation(
+        Summary = "Delete order requests",
+        Description = "Delete order requests",
+        OperationId = "DeleteOrderRequests"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The order requests was deleted")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order requests could not be deleted")]
+    public async Task<IActionResult> DeleteOrderRequests(int id)
+    {
+        var deleteOrderRequestsCommand = new DeleteOrderRequestsCommand(id);
+        var result = await orderRequestsCommandService.Handle(deleteOrderRequestsCommand);
+        if (result is null) return BadRequest();
+        return Ok(OrderRequestsResourceFromEntityAssembler.ToResourceFromEntity(result));
+    }
+    /***/
+    [HttpPut("{id}")]
+    [SwaggerOperation(
+        Summary = "Update order requests",
+        Description = "Update order requests",
+        OperationId = "UpdateOrderRequests"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The order requests was updated")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order requests could not be updated")]
+    public async Task<IActionResult> UpdateOrderRequests(int id, [FromBody] UpdateOrderRequestsByIdResource updateOrderRequestsByIdResource)
+    {
+        var updateOrderRequestsByIdCommand = UpdateOrderRequestsByIdCommandFromResourceAssembler.ToCommandFromResource(id, updateOrderRequestsByIdResource);
+        var result = await orderRequestsCommandService.Handle(updateOrderRequestsByIdCommand);
+        if (result is null) return BadRequest();
+        return Ok(OrderRequestsResourceFromEntityAssembler.ToResourceFromEntity(result));
     }
     
 }

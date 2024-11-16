@@ -5,5 +5,6 @@ namespace ElixirControlPlatform.API.OrderRequest.Domain.Repositories;
 
 public interface IOrderRequestsRepository : IBaseRepository<OrderRequests>
 {
+    Task<OrderRequests?> FindByOrderNumberAsync(string orderNumber);
     
 }

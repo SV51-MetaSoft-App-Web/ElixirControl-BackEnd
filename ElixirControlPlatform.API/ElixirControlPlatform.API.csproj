@@ -24,19 +24,4 @@
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="OrderManagement\Application\Internal\CommandServices\" />
-      <Folder Include="OrderManagement\Application\Internal\QueryServices\" />
-      <Folder Include="OrderManagement\Domain\Model\Aggregate\" />
-      <Folder Include="OrderManagement\Domain\Model\Commands\" />
-      <Folder Include="OrderManagement\Domain\Model\Entities\" />
-      <Folder Include="OrderManagement\Domain\Model\Queries\" />
-      <Folder Include="OrderManagement\Domain\Model\ValueObjects\" />
-      <Folder Include="OrderManagement\Domain\Repositories\" />
-      <Folder Include="OrderManagement\Domain\Services\" />
-      <Folder Include="OrderManagement\Infrastructure\Persistence\EFC\Repositories\" />
-      <Folder Include="OrderManagement\Interfaces\REST\Resources\" />
-      <Folder Include="OrderManagement\Interfaces\REST\Transform\" />
-    </ItemGroup>
-
 </Project>
