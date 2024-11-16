@@ -19,6 +19,8 @@ public class ClientCommandService(IClientRepository clientRepository, IUnitOfWOr
     {
         var client = await clientRepository.FindByDniAsync(command.Dni);
         if (client != null) throw new Exception("Client with DNI already exists");
+        if (command.Dni.ToString().Length != 7) throw new Exception("DNI must have 7 digits");
+        if (command.Phone.ToString().Length != 9) throw new Exception("Phone must have 9 digits");
         client = new Client(command);
         await clientRepository.AddAsync(client);
         await unitOfWork.CompleteAsync();
@@ -42,9 +44,13 @@ public class ClientCommandService(IClientRepository clientRepository, IUnitOfWOr
         if (client is null) throw new Exception("Client not found");
         var client2 = await clientRepository.FindByDniAsync(command.Dni);
         if (client2 != null && client2.Id != command.Id) throw new Exception("Client with DNI already exists");
+        if (command.Dni.ToString().Length != 7) throw new Exception("DNI must have 7 digits");
+        if (command.Phone.ToString().Length != 9) throw new Exception("Phone must have 9 digits");
         client.UpdateClientById(command);
         clientRepository.Update(client);
         await unitOfWork.CompleteAsync();
         return client;
     }
+   
+    
 }

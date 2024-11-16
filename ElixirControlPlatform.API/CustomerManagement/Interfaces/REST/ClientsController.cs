@@ -89,7 +89,7 @@ public class ClientsController(
         Summary = "Get a client by dni",
         Description = "Gets clients by dni",
         OperationId = "GetClientsByDni")]
-    public async Task<ActionResult> GetClientsFromQuery(string dni)
+    public async Task<ActionResult> GetClientsFromQuery(int dni)
     {
         return await GetClientsByDni(dni);
     }
@@ -102,7 +102,7 @@ public class ClientsController(
     /// <returns>
     /// The <see cref="ActionResult"/> of the request containing the <see cref="ClientResource"/> resources for the given dni
     /// </returns>
-    private async Task<ActionResult> GetClientsByDni(string dni)
+    private async Task<ActionResult> GetClientsByDni(int dni)
     {
         
         var getAllClientsByDniQuery = new GetAllClientsByDniQuery(dni);
@@ -133,7 +133,7 @@ public class ClientsController(
         return Ok(resources);
     }
 
-    [HttpDelete("{id}/client")]
+    [HttpDelete("{id}")]
     [SwaggerOperation(
         Summary = "Delete a client by id",
         Description = "Deletes a client by id",
@@ -150,7 +150,7 @@ public class ClientsController(
         
     }
     
-    [HttpPut("{id}/client")]
+    [HttpPut("{id}")]
     [SwaggerOperation(
         Summary = "Update a client by id",
         Description = "Updates a client by id",

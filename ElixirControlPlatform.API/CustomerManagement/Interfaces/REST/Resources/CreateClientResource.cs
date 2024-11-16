@@ -12,5 +12,5 @@
 /// <param name="Country"></param>
 /// <param name="City"></param>
 /// <param name="Ruc"></param>
-public record CreateClientResource(string PersonName, string Dni, string Email, string BusinessName, string Phone, string Address, string Country, string City, string Ruc);
+public record CreateClientResource(string PersonName, int Dni, string Email, string BusinessName, int Phone, string Address, string Country, string City, int Ruc);
 
