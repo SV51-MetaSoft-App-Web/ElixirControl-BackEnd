@@ -92,9 +92,12 @@ public class OrdersController(IOrderCommandService orderCommandService, IOrderQu
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The order could not be deleted")]
     public async Task<IActionResult> DeleteOrder(int id)
     {
-        var deleteOrderCommand = new DeleteOrderCommand(id);
-        var result = await orderCommandService.Handle(deleteOrderCommand);
-        if (result is null) return BadRequest();
-        return Ok();
+        var command = DeleteOrderCommandFromResourceAssembler.ToCommand(id);
+        var result = await orderCommandService.Handle(command);
+        if (result == null)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
 }

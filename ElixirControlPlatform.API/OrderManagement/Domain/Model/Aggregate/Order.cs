@@ -1,4 +1,5 @@
 ﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
+using ElixirControlPlatform.API.OrderManagement.Infrastructure.Persistence.EFC.Repositories;
 
 
 namespace ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
@@ -77,8 +78,5 @@ public class Order
        this.Status = command.Status;
     }
     
-    public void Delete()
-    {
-        
-    }
+
 }
