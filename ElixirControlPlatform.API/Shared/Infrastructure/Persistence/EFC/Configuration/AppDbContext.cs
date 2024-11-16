@@ -33,6 +33,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Batch>().HasKey(b => b.Id);
       builder.Entity<Batch>().Property(b => b.Id).IsRequired().ValueGeneratedOnAdd();
       
+      builder.Entity<Batch>().Property(b => b.ProfileId).IsRequired();
+      
       builder.Entity<Batch>().Property(b => b.VineyardCode).IsRequired().HasMaxLength(50);
       builder.Entity<Batch>().Property(b => b.GrapeVariety).IsRequired().HasMaxLength(50);
       builder.Entity<Batch>().Property(b => b.HarvestDate).IsRequired();
@@ -40,6 +42,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Batch>().Property(b => b.VineyardOrigin).IsRequired().HasMaxLength(50);
       builder.Entity<Batch>().Property(b => b.ProcessStartDate);
       builder.Entity<Batch>().Property(b => b.Status);
+      
+      //---------------- 
+      builder.Entity<Batch>()
+         .HasOne(b => b.Profile)
+         .WithMany(p => p.Batches)
+         .HasForeignKey(b => b.ProfileId)
+         .OnDelete(DeleteBehavior.Cascade);
+      
       
       
       //---------------- CONFIGURATION DE FERMENTATION ----------------
@@ -55,10 +65,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Fermentation>().Property(f => f.FinalDensity).IsRequired();
       builder.Entity<Fermentation>().Property(f => f.FinalPh).IsRequired();
       builder.Entity<Fermentation>().Property(f => f.ResidualSugar).IsRequired();
-      //---------------- Relación uno a uno con batch ----------------
+      //---------------- Relación uno a uno con batch y si elimino un batch se elimina el estado asociado a este ----------------
       builder.Entity<Batch>()
          .HasOne(b => b.Fermentation);
-      
       
       //---------------- CONFIGURATION DE CLARIFICATION ----------------
       builder.Entity<Clarification>().HasKey(c => c.Id);
@@ -112,8 +121,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       //---------------- CONFIGURATION DE PROFILES ----------------
       builder.Entity<Profile>().HasKey(p => p.Id);
       builder.Entity<Profile>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
-
-      builder.Entity<Profile>().Property(p => p.ProfileId);
+      
       builder.Entity<Profile>().Property(p => p.CompanyName).IsRequired().HasMaxLength(50);
       builder.Entity<Profile>().Property(p => p.PhoneNumber).IsRequired().HasMaxLength(50);
       builder.Entity<Profile>().Property(p => p.RUC).IsRequired().HasMaxLength(50);
