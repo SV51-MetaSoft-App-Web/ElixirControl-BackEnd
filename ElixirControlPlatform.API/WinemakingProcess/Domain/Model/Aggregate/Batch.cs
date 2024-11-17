@@ -72,6 +72,16 @@ public partial class Batch
         ProfileId = profileId;
     }
     
+    public void UpdateBatch(UpdateBatchCommand command)
+    {
+        VineyardCode = command.VineyardCode;
+        GrapeVariety = command.GrapeVariety;
+        HarvestDate = command.HarvestDate;
+        GrapeQuantity = command.GrapeQuantity;
+        VineyardOrigin = command.VineyardOrigin;
+        ProcessStartDate = command.ProcessStartDate;
+    }
+    
     
     //========================================================================
     //========================== Winemaking Process ==========================

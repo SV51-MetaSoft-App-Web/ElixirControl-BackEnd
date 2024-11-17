@@ -1,6 +1,6 @@
 ﻿namespace ElixirControlPlatform.API.ProductManagement.Domain.Model.Commands;
 
-public record CreateProductCommand(
+public record UpdateProductCommand(
     string ProductName,
     string GrapeVariety,
     string WineType,

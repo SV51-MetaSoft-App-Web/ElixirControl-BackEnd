@@ -1,6 +1,7 @@
 using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Aggregates;
 using ElixirControlPlatform.API.InventoryManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
+using ElixirControlPlatform.API.ProductManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.Profiles.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
@@ -149,6 +150,33 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             a.Property(s => s.City).HasColumnName("AddressCity");
             a.Property(s => s.Country).HasColumnName("AddressCountry");
          });
+      
+      //---------------- CONFIGURATION DE PRODUCTS ----------------
+      
+      builder.Entity<Product>().HasKey(p => p.Id);
+      builder.Entity<Product>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+      
+      builder.Entity<Product>().Property(p => p.ProfileId).IsRequired();
+      
+      builder.Entity<Product>().Property(p => p.ProductName).IsRequired().HasMaxLength(50);
+      builder.Entity<Product>().Property(p => p.GrapeVariety).IsRequired().HasMaxLength(50);
+      builder.Entity<Product>().Property(p => p.WineType).IsRequired().HasMaxLength(50);
+      builder.Entity<Product>().Property(p => p.Origin).IsRequired().HasMaxLength(50);
+      builder.Entity<Product>().Property(p => p.AlcoholContent).IsRequired();
+      builder.Entity<Product>().Property(p => p.Price).IsRequired();
+      builder.Entity<Product>().Property(p => p.FoodPairing).IsRequired().HasMaxLength(50);
+      builder.Entity<Product>().Property(p => p.Quantity).IsRequired();
+      builder.Entity<Product>().Property(p => p.ImageUrl).IsRequired().HasMaxLength(50);
+      
+      //---------------- Relación muchos a uno con profile ----------------
+      builder.Entity<Product>()
+         .HasOne(p => p.Profile)
+         .WithMany(p => p.Products)
+         .HasForeignKey(p => p.ProfileId)
+         .OnDelete(DeleteBehavior.Cascade);
+      
+      
+      
       
       //-----------------------------------------------------------------------------------------------
       //===================================== END GONZALO BOUNDED CONTEXT =============================

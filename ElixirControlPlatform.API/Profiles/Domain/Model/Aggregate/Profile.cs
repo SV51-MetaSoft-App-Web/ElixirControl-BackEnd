@@ -1,4 +1,5 @@
-﻿using ElixirControlPlatform.API.Profiles.Domain.Model.Commands;
+﻿using ElixirControlPlatform.API.ProductManagement.Domain.Model.Aggregate;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Commands;
 using ElixirControlPlatform.API.Profiles.Domain.Model.ValueObjects;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Aggregate;
 
@@ -11,6 +12,7 @@ public partial class Profile
     
     //Associar con batch
     public ICollection<Batch> Batches { get; set; } // Relación uno a muchos
+    public ICollection<Product> Products { get; set; } // Relación uno a muchos
     
     
     

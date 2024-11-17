@@ -1,6 +1,6 @@
-﻿namespace ElixirControlPlatform.API.ProductManagement.Domain.Model.Commands;
+﻿namespace ElixirControlPlatform.API.ProductManagement.Interfaces.REST.Resources;
 
-public record CreateProductCommand(
+public record UpdateProductResource (
     string ProductName,
     string GrapeVariety,
     string WineType,
@@ -9,5 +9,4 @@ public record CreateProductCommand(
     double? Price,
     string FoodPairing,
     int Quantity,
-    string ImageUrl
-);
+    string ImageUrl);

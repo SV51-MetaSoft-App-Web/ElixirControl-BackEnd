@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using ElixirControlPlatform.API.Profiles.Domain.Repositories;
+using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Commands;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Model.Queries;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
 using ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Resources;
@@ -17,9 +18,7 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces;
 public class BatchController(IBatchQueryService batchQueryService, IBatchCommandService batchCommandService, IProfileRepository profileRepository): ControllerBase
 {
     
-    
-    
-    
+    // GET BATCH BY ID ------------------------------------------------- ----
     [HttpGet("{batchId:int}")]
     [SwaggerOperation(
         Summary = "Get a Batch by id",
@@ -37,7 +36,7 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
         return Ok(batchResource);
     }
     
-    
+    // POST -----------------------------------------------------
     [HttpPost]
     [SwaggerOperation(
         Summary = "Create a Batch",
@@ -65,7 +64,7 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
         return CreatedAtAction(nameof(GetBatchById), new {batchId = batch.Id}, batchResource);
     }
     
-    
+    // GET ALL BATCHES -----------------------------------------------------
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all Batches",
@@ -81,6 +80,28 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
         return Ok(batchResources);
     }
     
+    // DELETE BATCH -----------------------------------------------------
+    [HttpDelete("{batchId:int}")]
+    [SwaggerOperation(
+        Summary = "Delete a Batch",
+        Description = "Delete a Batch",
+        OperationId = "DeleteBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The Batch was successfully deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Batch was not found")]
+    public async Task<IActionResult> DeleteBatch(int batchId)
+    {
+        var deleteBatchCommand = new DeleteBatchCommand(batchId);
+        
+        var result = await batchCommandService.Handle(deleteBatchCommand);
+        
+        if (!result)
+        {
+            return NotFound( new { title = "Delete Product", message = "The product does not exist" });
+        }
+        
+        return NoContent();
+    }
     
     
    

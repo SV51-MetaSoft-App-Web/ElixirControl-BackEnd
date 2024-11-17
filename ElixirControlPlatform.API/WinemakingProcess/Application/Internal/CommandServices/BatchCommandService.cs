@@ -17,6 +17,29 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         await unitOfWork.CompleteAsync();
         return batch;
     }
+    
+    public async Task<bool> Handle(DeleteBatchCommand command)
+    {
+        var batch = await batchRepository.FindByIdAsync(command.Id);
+        if (batch is null) throw new Exception("Batch not found");
+        
+        batchRepository.Remove(batch);
+        await unitOfWork.CompleteAsync();
+        return true;
+    }
+    
+    public async Task<Batch?> Handle(UpdateBatchCommand command, int batchId)
+    {
+        var batch = await batchRepository.FindByIdAsync(batchId);
+        if (batch is null) throw new Exception("Batch not found");
+        
+        batch.UpdateBatch(command);
+        
+        batchRepository.Update(batch);
+        await unitOfWork.CompleteAsync();
+        
+        return batch;
+    }
 
     
     //========================== Fermentation ==========================

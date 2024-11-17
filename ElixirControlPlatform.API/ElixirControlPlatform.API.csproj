@@ -33,16 +33,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ProductManagement\Application\Internal\CommandServices\" />
-      <Folder Include="ProductManagement\Application\Internal\QueryServices\" />
       <Folder Include="ProductManagement\Domain\Model\Entities\" />
-      <Folder Include="ProductManagement\Domain\Model\Queries\" />
       <Folder Include="ProductManagement\Domain\Model\ValueObjects\" />
-      <Folder Include="ProductManagement\Domain\Repositories\" />
-      <Folder Include="ProductManagement\Domain\Services\" />
-      <Folder Include="ProductManagement\Infrastructure\Persistence\EFC\Repositories\" />
-      <Folder Include="ProductManagement\Interfaces\REST\Resources\" />
-      <Folder Include="ProductManagement\Interfaces\REST\Transform\" />
     </ItemGroup>
 
 </Project>
