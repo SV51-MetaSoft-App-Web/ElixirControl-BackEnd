@@ -8,14 +8,14 @@ public class Inventory
 
     //========================== Inventory Information ==========================
     
-    public string Name { get; private set; } 
-    public string Type { get; private set; } 
-    public string Unit { get; private set; } 
-    public DateTime Expiration { get; private set; } 
-    public string Supplier { get; private set; } 
-    public decimal CostPerUnit { get; private set; }
+    public string Name { get; set; } 
+    public string Type { get; set; } 
+    public string Unit { get; set; } 
+    public DateTime Expiration { get; set; } 
+    public string Supplier { get; set; } 
+    public decimal CostPerUnit { get; set; }
     public DateTime LastUpdated { get; private set; }
-    public int Quantity { get; private set; } 
+    public int Quantity { get; set; } 
 
     //======================== end Inventory Information ========================
 
@@ -31,29 +31,27 @@ public class Inventory
         this.Quantity = 0;
     }
     
-    public Inventory(int id, string name, string type, string unit, DateTime expiration, string supplier, decimal costPerUnit, DateTime lastUpdated, int quantity) : this()
+    public Inventory(string name, string type, string unit, DateTime expiration, string supplier, decimal costPerUnit, int quantity) : this()
     {
-        Id = id;
         Name = name;
         Type = type;
         Unit = unit;
         Expiration = expiration;
         Supplier = supplier;
         CostPerUnit = costPerUnit;
-        LastUpdated = lastUpdated;
         Quantity = quantity;
+        LastUpdated = DateTime.UtcNow; 
     }
-    
+
     public Inventory(CreateInventoryCommand command) : this()
     {
-        Id = command.Id; 
         Name = command.Name;
         Type = command.Type;
         Unit = command.Unit;
         Expiration = command.Expiration;
         Supplier = command.Supplier;
         CostPerUnit = command.CostPerUnit;
-        LastUpdated = DateTime.Now; // Asignar la fecha y hora actual
         Quantity = command.Quantity;
+        LastUpdated = DateTime.UtcNow; 
     }
 }

@@ -8,4 +8,6 @@ public interface IInventoryQueryService
     Task<IEnumerable<Inventory>> Handle(GetAllInventoriesQuery query);
         
     Task<Inventory?> Handle(GetInventoryByIdQuery query);
+    
+    Task<IEnumerable<Inventory>> Handle(GetInventoriesByFilterQuery query);
 }
