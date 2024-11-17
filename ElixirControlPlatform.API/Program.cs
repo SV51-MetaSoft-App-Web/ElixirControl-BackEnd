@@ -22,6 +22,11 @@ using ElixirControlPlatform.API.OrderManagement.Application.Internal.QueryServic
 using ElixirControlPlatform.API.OrderManagement.Domain.Repositories;
 using ElixirControlPlatform.API.OrderManagement.Domain.Services;
 using ElixirControlPlatform.API.OrderManagement.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.OrderRequest.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.OrderRequest.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.OrderRequest.Domain.Repositories;
+using ElixirControlPlatform.API.OrderRequest.Domain.Services;
+using ElixirControlPlatform.API.OrderRequest.Infrastructure.Persistence.EFC.Repositories;
 using ElixirControlPlatform.API.ProductManagement.Application.Internal.CommandServices;
 using ElixirControlPlatform.API.ProductManagement.Application.Internal.QueryServices;
 using ElixirControlPlatform.API.ProductManagement.Domain.Repositories;
@@ -134,6 +139,10 @@ builder.Services.AddScoped<IInventoryQueryService, InventoryQueryService>();
 
 
 //===================================== 4. OSCAR Bounded Context ==================================
+
+builder.Services.AddScoped<IOrderRequestsRepository, OrderRequestsRepository>();
+builder.Services.AddScoped<IOrderRequestsCommandService, OrderRequestsCommandService>();
+builder.Services.AddScoped<IOrderRequestsQueryService, OrderRequestsQueryService>();
 
 //===================================== END OSCAR Bounded Context =================================
 

@@ -12,11 +12,9 @@ public interface IOrderCommandService
     /// <summary>
     /// Handle create order command
     /// </summary>
-    /// <param name="command"></param>
+    /// <param name="sourceCommand"></param>
     /// <returns>
     /// The created order if successful otherwise null
     /// </returns>
-    Task<Order?> Handle(CreateOrderCommand command);
-    Task<Order?> Handle(UpdateOrderStatusCommand statusCommand);
-    Task<Order?> Handle(DeleteOrderCommand command);
+    Task<Order?> Handle(CreateOrderSourceCommand sourceCommand);
 }

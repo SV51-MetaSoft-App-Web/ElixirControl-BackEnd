@@ -19,4 +19,4 @@
 /// param name="PaymentMethod">The payment method</param>
 /// param name="DeliveryDate">The delivery date of the order</param>
 
-public record CreateOrderResource(string BusinessName, string RequestedDate, int Quantity, string Phone, string ContactName, string ProductName, string TransportCondition, string PaymentTerms, string Address, string Email, string Ruc, string WineType, string PaymentMethod, string DeliveryDate);
+public record CreateOrderResource(string BusinessName, string RequestedDate, int Quantity, string Phone, string Status, string ContactName, string ProductName, string TransportCondition, string PaymentTerms, string Address, string Email, string Ruc, string WineType, string PaymentMethod, string DeliveryDate);
