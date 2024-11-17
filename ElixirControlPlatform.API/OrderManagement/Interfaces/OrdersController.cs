@@ -3,6 +3,7 @@ using ElixirControlPlatform.API.OrderManagement.Domain.Model.Queries;
 using ElixirControlPlatform.API.OrderManagement.Domain.Services;
 using ElixirControlPlatform.API.OrderManagement.Interfaces.REST.Resources;
 using ElixirControlPlatform.API.OrderManagement.Interfaces.REST.Transform;
+using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -63,5 +64,40 @@ public class OrdersController(IOrderCommandService orderCommandService, IOrderQu
         var orders = await orderQueryService.Handle(getAllOrdersQuery);
         var orderResources = orders.Select(OrderResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(orderResources);
+    }
+    
+    [HttpPut("{id}")]
+    [SwaggerOperation(
+        Summary = "Update order",
+        Description = "Update an existing order",
+        OperationId = "UpdateOrder"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The order was updated", typeof(OrderResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order could not be updated")]
+    public async Task<IActionResult> UpdateOrder(int id, [FromBody] UpdateOrderResource resource)
+    {
+        var updateOrderCommand = UpdateOrderCommandFromResourceAssembler.ToCommandFromResource(id, resource);
+        var result = await orderCommandService.Handle(updateOrderCommand);
+        if (result is null) return BadRequest();
+        return Ok(OrderResourceFromEntityAssembler.ToResourceFromEntity(result));
+    }
+    
+    [HttpDelete("{id}")]
+    [SwaggerOperation(
+        Summary = "Delete order",
+        Description = "Delete an existing order",
+        OperationId = "DeleteOrder"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The order was deleted")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The order could not be deleted")]
+    public async Task<IActionResult> DeleteOrder(int id)
+    {
+        var command = DeleteOrderCommandFromResourceAssembler.ToCommand(id);
+        var result = await orderCommandService.Handle(command);
+        if (result == null)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
 }

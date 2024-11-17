@@ -1,4 +1,5 @@
 ﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
+using ElixirControlPlatform.API.OrderManagement.Infrastructure.Persistence.EFC.Repositories;
 
 
 namespace ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
@@ -52,13 +53,13 @@ public class Order
     /// This constructor is the command handle for the CreateOrdersCommand.
     /// </remarks>
     /// <param name="command"></param>
-    public Order(CreateOrderSourceCommand command)
+    public Order(CreateOrderCommand command)
     {
         this.BusinessName = command.BusinessName;
         this.RequestedDate = command.RequestedDate;
         this.Quantity = command.Quantity;
         this.Phone = command.Phone;
-        this.Status = command.Status;
+        this.Status = "In Process";
         this.ContactName = command.ContactName;
         this.ProductName = command.ProductName;
         this.TransportCondition = command.TransportCondition;
@@ -71,4 +72,11 @@ public class Order
         this.PaymentMethod = command.PaymentMethod;
         this.DeliveryDate = command.DeliveryDate;
     }
+    
+    public void UpdateStatus(UpdateOrderStatusCommand command)
+    {
+       this.Status = command.Status;
+    }
+    
+
 }
