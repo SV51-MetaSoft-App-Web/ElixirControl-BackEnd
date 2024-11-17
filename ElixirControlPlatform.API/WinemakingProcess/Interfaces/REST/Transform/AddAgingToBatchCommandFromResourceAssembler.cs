@@ -5,10 +5,9 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Transform;
 
 public static class AddAgingToBatchCommandFromResourceAssembler
 {
-    public static AddAgingToBatchCommand ToCommandFromResource(AddAgingToBatchResource resource, int BatchId)
+    public static AddAgingToBatchCommand ToCommandFromResource(AddAgingToBatchResource resource)
     {
         return new AddAgingToBatchCommand(
-            BatchId: BatchId,
             BarrelType: resource.BarrelType,
             StartDate: resource.StartDate,
             EndDate: resource.EndDate,

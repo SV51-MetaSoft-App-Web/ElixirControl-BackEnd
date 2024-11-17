@@ -5,10 +5,9 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Transform;
 
 public static class AddClarificationToBatchCommandFromResourceAssembler
 {
-    public static AddClarificationToBatchCommand ToCommandFromResource(AddClarificationToBatchResource resource, int BatchId)
+    public static AddClarificationToBatchCommand ToCommandFromResource(AddClarificationToBatchResource resource)
     {
         return new AddClarificationToBatchCommand(
-            BatchId: BatchId,
             ProductsUsed: resource.ProductsUsed,
             ClarificationMethod: resource.ClarificationMethod,
             FiltrationDate: resource.FiltrationDate,

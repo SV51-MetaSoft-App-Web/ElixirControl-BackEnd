@@ -47,11 +47,15 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Fermentation was not added to the Batch")]
     public async Task<IActionResult> AddFermentationToBatch([FromBody] AddFermentationToBatchResource resource, int batchId)
     {
-        var addFermentationToBatchCommand = AddFermentationToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
-        var batch = await batchCommandService.Handle(addFermentationToBatchCommand);
+        var addFermentationToBatchCommand = AddFermentationToBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
+        var batch = await batchCommandService.Handle(addFermentationToBatchCommand, batchId);
+        
         if (batch is null) return BadRequest();
-        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
+        
+        var fermentationResource = FermentationResourceFromEntityAssembler.ToResourceFromEntity(batch.Fermentation);
+       
+        return CreatedAtAction(nameof(GetFermentationByBatch), new { batchId = batch.Id }, fermentationResource);    
     }
     
     // DELETE ------------------------------------------------------------------------------------------------------
@@ -129,11 +133,13 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Clarification was not added to the Batch")]
     public async Task<IActionResult> AddClarificationToBatch([FromBody] AddClarificationToBatchResource resource, int batchId)
     {
-        var addClarificationToBatchCommand = AddClarificationToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
-        var batch = await batchCommandService.Handle(addClarificationToBatchCommand);
+        var addClarificationToBatchCommand = AddClarificationToBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var batch = await batchCommandService.Handle(addClarificationToBatchCommand, batchId);
         if (batch is null) return BadRequest();
-        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
+        
+        var clarificationResource = ClarificationResourceFromEntityAssembler.ToResourceFromEntity(batch.Clarification);
+        
+        return CreatedAtAction(nameof(GetClarificationByBatch), new { batchId = batch.Id }, clarificationResource);
     }
     
     // DELETE --------------------------------------------------------------------------------------------------------
@@ -206,15 +212,17 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
         Description = "Add a Pressing to a Batch",
         OperationId = "AddPressingToBatch"
     )]
-    [SwaggerResponse(StatusCodes.Status201Created, "The Pressing was successfully added to the Batch", typeof(ClarificationResource))]
+    [SwaggerResponse(StatusCodes.Status201Created, "The Pressing was successfully added to the Batch", typeof(PressingResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Pressing was not added to the Batch")]
     public async Task<IActionResult> AddPressingToBatch([FromBody] AddPressingToBatchResource resource, int batchId)
     {
-        var addPressingToBatchCommand = AddPressingToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
-        var batch = await batchCommandService.Handle(addPressingToBatchCommand);
+        var addPressingToBatchCommand = AddPressingToBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var batch = await batchCommandService.Handle(addPressingToBatchCommand, batchId);
         if (batch is null) return BadRequest();
-        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
-        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
+        
+        var pressingResource = PressingResourceFromEntityAssembler.ToResourceFromEntity(batch.Pressing);
+        
+        return CreatedAtAction(nameof(GetPressingByBatch), new { batchId = batch.Id }, pressingResource);
     }
     
     // DELETE --------------------------------------------------------------------------------------------------------
@@ -291,12 +299,13 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Aging was not added to the Batch")]
     public async Task<IActionResult> AddAgingToBatch([FromBody] AddAgingToBatchResource resource, int batchId)
     {
-        var addAgingToBatchCommand = AddAgingToBatchCommandFromResourceAssembler.ToCommandFromResource(resource, batchId);
-        var batch = await batchCommandService.Handle(addAgingToBatchCommand);
+        var addAgingToBatchCommand = AddAgingToBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var batch = await batchCommandService.Handle(addAgingToBatchCommand,batchId);
         if (batch is null) return BadRequest();
-        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
         
-        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, resource);
+        var agingResource = AgingResourceFromEntityAssembler.ToResourceFromEntity(batch.Aging);
+        
+        return CreatedAtAction(nameof(GetAgingByBatch), new { batchId = batch.Id }, agingResource);
     }
     
     // DELETE -------------------------------------------------------------------------------------------------------

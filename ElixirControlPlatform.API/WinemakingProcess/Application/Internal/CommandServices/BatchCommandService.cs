@@ -43,13 +43,13 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
 
     
     //========================== Fermentation ==========================
-    public async Task<Batch?> Handle(AddFermentationToBatchCommand command)
+    public async Task<Batch?> Handle(AddFermentationToBatchCommand command, int batchId)
     {
-        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var batch = await batchRepository.FindByIdAsync(batchId);
         if (batch is null) throw new Exception("Batch not found");
         
         batch.AddFermentationByBatch(
-            command.BatchId, 
+            batchId,
             command.StartDate, 
             command.EndDate, 
             command.AverageTemperature, 
@@ -100,9 +100,9 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
     
     //========================== Clarification ==========================
     
-    public async Task<Batch?> Handle(AddClarificationToBatchCommand command)
+    public async Task<Batch?> Handle(AddClarificationToBatchCommand command, int batchId)
     {
-        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var batch = await batchRepository.FindByIdAsync(batchId);
         if (batch is null) throw new Exception("Batch not found");
         if (batch.Status != CurrentBatchStatus.Fermentation) throw new Exception("The batch must first go through the fermentation stage");
       
@@ -110,7 +110,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         Console.WriteLine("batch.Status: " + batch.Status);
         
         batch.AddClarificationByBatch(
-            command.BatchId, 
+            batchId, 
             command.ProductsUsed, 
             command.ClarificationMethod, 
             command.FiltrationDate, 
@@ -159,14 +159,14 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
     
     //========================== Pressing ==========================
     
-    public async Task<Batch?> Handle(AddPressingToBatchCommand command)
+    public async Task<Batch?> Handle(AddPressingToBatchCommand command, int batchId)
     {
-        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var batch = await batchRepository.FindByIdAsync(batchId);
         if (batch is null) throw new Exception("Batch not found");
         if (batch.Status != CurrentBatchStatus.Clarification) throw new Exception("The batch must first go through the clarification stage");
         
         batch.AddPressingByBatch(
-            command.BatchId, 
+            batchId,
             command.PressingDate, 
             command.MustVolume, 
             command.PressType, 
@@ -212,14 +212,14 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
     
     //========================== Aging ==========================
     
-    public async Task<Batch?> Handle(AddAgingToBatchCommand command)
+    public async Task<Batch?> Handle(AddAgingToBatchCommand command, int batchId)
     {
-        var batch = await batchRepository.FindByIdAsync(command.BatchId);
+        var batch = await batchRepository.FindByIdAsync(batchId);
         if (batch is null) throw new Exception("Batch not found");
         if (batch.Status != CurrentBatchStatus.Pressing) throw new Exception("The batch must first go through the pressing stage");
         
         batch.AddAgingByBatch(
-            command.BatchId, 
+            batchId,
             command.BarrelType, 
             command.StartDate, 
             command.EndDate, 

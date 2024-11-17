@@ -5,10 +5,9 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Interfaces.REST.Transform;
 
 public static class AddFermentationToBatchCommandFromResourceAssembler
 {
-    public static AddFermentationToBatchCommand ToCommandFromResource(AddFermentationToBatchResource resource, int BatchId)
+    public static AddFermentationToBatchCommand ToCommandFromResource(AddFermentationToBatchResource resource)
     {
         return new AddFermentationToBatchCommand(
-            BatchId: BatchId,
             StartDate: resource.StartDate,
             EndDate: resource.EndDate,
             AverageTemperature: resource.AverageTemperature,
