@@ -103,6 +103,28 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
         return NoContent();
     }
     
+    // UPDATE BATCH -----------------------------------------------------
+    [HttpPut("{batchId:int}")]
+    [SwaggerOperation(
+        Summary = "Update a Batch",
+        Description = "Update a Batch",
+        OperationId = "UpdateBatch"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Batch was successfully updated", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The Batch was not found")]
+    public async Task<IActionResult> UpdateBatch(int batchId, [FromBody] UpdateBatchResource resource)
+    {
+        var updateBatchCommand = UpdateBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
+        var batch = await batchCommandService.Handle(updateBatchCommand, batchId);
+        
+        if (batch is null) return NotFound();
+        
+        var batchResource = BatchResourceFromEntityAssembler.ToResourceFromEntity(batch);
+        
+        return Ok(batchResource);
+    }
+    
     
    
 }
