@@ -13,4 +13,4 @@
 /// <param name="Country">The country</param>
 /// <param name="City">The city</param>
 /// <param name="Ruc">The ruc</param>
-public record ClientResource(int Id, string PersonName, string Dni, string Email, string BusinessName, string Phone, string Address, string Country, string City, string Ruc);
+public record ClientResource(int Id, string PersonName, int Dni, string Email, string BusinessName, int Phone, string Address, string Country, string City, int Ruc);

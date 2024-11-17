@@ -9,14 +9,14 @@ namespace ElixirControlPlatform.API.CustomerManagement.Interfaces.REST.Transform
 public static class CreateClientCommandFromResourceAssembler
 {
     /// <summary>
-    /// Converts a <see cref="CreateClientResource"/> to a <see cref="CreateClientsSourceCommand"/>
+    /// Converts a <see cref="CreateClientResource"/> to a <see cref="CreateClientCommand"/>
     /// </summary>
     /// <param name="resource">The <see cref="CreateClientResource"/> resource</param>
     /// <returns>
-    /// A <see cref="CreateClientsSourceCommand"/> command
+    /// A <see cref="CreateClientCommand"/> command
     /// </returns>
-    public static CreateClientsSourceCommand ToCommandFromResource(CreateClientResource resource)
+    public static CreateClientCommand ToCommandFromResource(CreateClientResource resource)
     {
-        return new CreateClientsSourceCommand(resource.PersonName, resource.Dni, resource.Email, resource.BusinessName, resource.Phone, resource.Address, resource.Country, resource.City, resource.Ruc);
+        return new CreateClientCommand(resource.PersonName, resource.Dni, resource.Email, resource.BusinessName, resource.Phone, resource.Address, resource.Country, resource.City, resource.Ruc);
     }
 }

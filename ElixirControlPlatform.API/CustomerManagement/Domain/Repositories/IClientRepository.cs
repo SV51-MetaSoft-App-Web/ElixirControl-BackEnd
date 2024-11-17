@@ -13,7 +13,7 @@ public interface IClientRepository : IBaseRepository<Client>
     /// <returns>
     /// A collection of <see cref="Client"/> that matches the <paramref name="dni"/>
     /// </returns>
-    Task<Client?> FindByDniAsync(string dni);
+    Task<Client?> FindByDniAsync(int dni);
     
     
     

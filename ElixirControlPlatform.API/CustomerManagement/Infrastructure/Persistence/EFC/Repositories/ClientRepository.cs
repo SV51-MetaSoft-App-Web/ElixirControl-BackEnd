@@ -16,7 +16,7 @@ public class ClientRepository(AppDbContext context)
 {
     
     /// <inheritdoc cref="IClientRepository.FindByDniAsync"/>
-    public async Task<Client?> FindByDniAsync(string dni)
+    public async Task<Client?> FindByDniAsync(int dni)
     {
         return await Context.Set<Client>().FirstOrDefaultAsync(client => client.Dni == dni);
     }
