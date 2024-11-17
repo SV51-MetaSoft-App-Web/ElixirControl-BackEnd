@@ -1,4 +1,5 @@
 ﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Commands;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.OrderManagement.Infrastructure.Persistence.EFC.Repositories;
 
 
@@ -7,9 +8,11 @@ namespace ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
 /// <summary>
 /// This class represents the Order aggregate. It is used to store the information of the order.
 /// </summary>
-public class Order
+public partial class Order
 {
     public int Id { get; private set; }
+    public Guid ProfileId { get; set; }
+    public Profile Profile { get; set; }
     public string BusinessName {get ; private set;}
     public string RequestedDate{get; private set;}
     public int Quantity {get; private set;}
@@ -53,7 +56,7 @@ public class Order
     /// This constructor is the command handle for the CreateOrdersCommand.
     /// </remarks>
     /// <param name="command"></param>
-    public Order(CreateOrderCommand command)
+    public Order(CreateOrderCommand command, Guid profileId)
     {
         this.BusinessName = command.BusinessName;
         this.RequestedDate = command.RequestedDate;
@@ -71,6 +74,7 @@ public class Order
         this.WineType = command.WineType;
         this.PaymentMethod = command.PaymentMethod;
         this.DeliveryDate = command.DeliveryDate;
+        this.ProfileId = profileId;
     }
     
     public void UpdateStatus(UpdateOrderStatusCommand command)

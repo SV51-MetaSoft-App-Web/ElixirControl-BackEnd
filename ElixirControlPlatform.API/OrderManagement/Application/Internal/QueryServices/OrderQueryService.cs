@@ -13,8 +13,8 @@ public class OrderQueryService(IOrderRepository orderRepository) : IOrderQuerySe
         return await orderRepository.FindByIdAsync(query.Id);
     }
 
-    public async Task<IEnumerable<Order>> Handle(GetAllOrdersQuery query)
+    public async Task<IEnumerable<Order>> Handle(GetAllOrdersByProfileId query)
     {
-        return await orderRepository.ListAsync();
+        return await orderRepository.GetAllOrdersByProfileId(query);
     }
 }

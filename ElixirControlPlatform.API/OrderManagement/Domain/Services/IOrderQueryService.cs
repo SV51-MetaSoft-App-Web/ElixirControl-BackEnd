@@ -1,6 +1,6 @@
 ﻿using ElixirControlPlatform.API.OrderManagement.Domain.Model.Queries;
 using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
-
+﻿using System.Security.Cryptography;
 namespace ElixirControlPlatform.API.OrderManagement.Domain.Services;
 
 /// <summary>
@@ -16,5 +16,5 @@ public interface IOrderQueryService
     /// The order if successful otherwise null
     /// </returns>
     Task<Order?> Handle(GetOrderByIdQuery query);
-    Task<IEnumerable<Order>> Handle(GetAllOrdersQuery query); 
+    Task<IEnumerable<Order>> Handle(GetAllOrdersByProfileId query); 
 }
