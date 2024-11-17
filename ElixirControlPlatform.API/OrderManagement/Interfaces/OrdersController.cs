@@ -25,10 +25,10 @@ public class OrdersController(IOrderCommandService orderCommandService, IOrderQu
     )]
     [SwaggerResponse(StatusCodes.Status201Created, "The order was created", typeof(OrderResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The order could not be created")]
-    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderResource resource)
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderResource resource, [FromQuery] Guid profileId)
     {
         var createOrderCommand = CreateOrderCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await orderCommandService.Handle(createOrderCommand);
+        var result = await orderCommandService.Handle(createOrderCommand, profileId);
         if (result is null) return BadRequest();
         return CreatedAtAction(nameof(GetOrderById), new {id = result.Id},
             OrderResourceFromEntityAssembler.ToResourceFromEntity(result));
@@ -58,9 +58,9 @@ public class OrdersController(IOrderCommandService orderCommandService, IOrderQu
         OperationId = "GetAllOrders"
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "The orders were successfully retrieved", typeof(IEnumerable<OrderResource>))]
-    public async Task<IActionResult> GetAllOrders()
+    public async Task<IActionResult> GetAllOrdersByProfileId(Guid profileId)
     {
-        var getAllOrdersQuery = new GetAllOrdersQuery();
+        var getAllOrdersQuery = new GetAllOrdersByProfileId(profileId);
         var orders = await orderQueryService.Handle(getAllOrdersQuery);
         var orderResources = orders.Select(OrderResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(orderResources);

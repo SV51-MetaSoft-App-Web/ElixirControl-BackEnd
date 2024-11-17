@@ -9,14 +9,8 @@ namespace ElixirControlPlatform.API.OrderManagement.Domain.Services;
 
 public interface IOrderCommandService
 {
-    /// <summary>
-    /// Handle create order command
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns>
-    /// The created order if successful otherwise null
-    /// </returns>
-    Task<Order?> Handle(CreateOrderCommand command);
-    Task<Order?> Handle(UpdateOrderStatusCommand statusCommand);
-    Task<Order?> Handle(DeleteOrderCommand command);
+   
+    public Task<Order?> Handle(CreateOrderCommand command, Guid profileId);
+    public Task<Order?> Handle(UpdateOrderStatusCommand statusCommand);
+    public Task<Order?> Handle(DeleteOrderCommand command);
 }
