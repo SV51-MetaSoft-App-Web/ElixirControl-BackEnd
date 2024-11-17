@@ -1,4 +1,5 @@
 using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Aggregates;
+using ElixirControlPlatform.API.IAM.Domain.Model.Aggregates;
 using ElixirControlPlatform.API.InventoryManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.ProductManagement.Domain.Model.Aggregate;
@@ -150,6 +151,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             a.Property(s => s.City).HasColumnName("AddressCity");
             a.Property(s => s.Country).HasColumnName("AddressCountry");
          });
+      
+      // IAM Context
+      builder.Entity<User>().HasKey(u => u.Id);
+      builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<User>().Property(u => u.Username).IsRequired();
+      builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
+
+
       
       //---------------- CONFIGURATION DE PRODUCTS ----------------
       

@@ -20,7 +20,7 @@ namespace ElixirControlPlatform.API.IAM.Application.Internal.CommandServices;
 /// The <see cref="IHashingService"/> instance
 /// </param>
 /// <param name="unitOfWork">
-/// The <see cref="IUnitOfWork"/> instance
+/// The <see cref="IUnitOfWOrk"/> instance
 /// </param>
 public class UserCommandService(
     IUserRepository userRepository,

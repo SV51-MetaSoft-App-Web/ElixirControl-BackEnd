@@ -3,6 +3,15 @@ using ElixirControlPlatform.API.CustomerManagement.Application.Internal.QuerySer
 using ElixirControlPlatform.API.CustomerManagement.Domain.Repositories;
 using ElixirControlPlatform.API.CustomerManagement.Domain.Services;
 using ElixirControlPlatform.API.CustomerManagement.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.IAM.Application.Internal.CommandServices;
+using ElixirControlPlatform.API.IAM.Application.Internal.OutboundServices;
+using ElixirControlPlatform.API.IAM.Application.Internal.QueryServices;
+using ElixirControlPlatform.API.IAM.Domain.Repositories;
+using ElixirControlPlatform.API.IAM.Domain.Services;
+using ElixirControlPlatform.API.IAM.Infrastructure.Hashing.BCrypt.Services;
+using ElixirControlPlatform.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using ElixirControlPlatform.API.IAM.Infrastructure.Tokens.JWT.Services;
 using ElixirControlPlatform.API.InventoryManagement.Application.Internal.CommandServices;
 using ElixirControlPlatform.API.InventoryManagement.Application.Internal.QueryServices;
 using ElixirControlPlatform.API.InventoryManagement.Domain.Repositories;
@@ -27,6 +36,7 @@ using ElixirControlPlatform.API.Shared.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ElixirControlPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using ElixirControlPlatform.API.Shared.Infrastructure.Pipeline.Middleware.Components;
 using ElixirControlPlatform.API.WinemakingProcess.Application.Internal.CommandServices;
 using ElixirControlPlatform.API.WinemakingProcess.Application.Internal.QueryServices;
 using ElixirControlPlatform.API.WinemakingProcess.Domain.Repositories;
@@ -137,7 +147,22 @@ builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
 //===================================== END VICENTE Bounded Context ===============================
 
 
+// IAM Bounded Context Dependency Injection Configuration
 
+// TokenSettings Configuration
+
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+
+// Common Exception Handling Middleware
+builder.Services.AddExceptionHandler<CommonExceptionHandler>();
+builder.Services.AddExceptionHandler<CommonExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
