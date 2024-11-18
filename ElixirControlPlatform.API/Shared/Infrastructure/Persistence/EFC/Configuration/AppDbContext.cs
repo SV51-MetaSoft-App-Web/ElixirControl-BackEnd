@@ -257,6 +257,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Order>().HasKey(o => o.Id);
       builder.Entity<Order>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
       
+      builder.Entity<Order>().Property(o => o.ProfileId).IsRequired();
+      
       builder.Entity<Order>().Property(o => o.BusinessName).IsRequired().HasMaxLength(50);
       builder.Entity<Order>().Property(o => o.RequestedDate).IsRequired();
       builder.Entity<Order>().Property(o => o.Quantity).IsRequired();
@@ -273,6 +275,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Order>().Property(o => o.WineType).IsRequired();
       builder.Entity<Order>().Property(o => o.PaymentMethod).IsRequired();
       builder.Entity<Order>().Property(o => o.DeliveryDate).IsRequired();
+      
+      //---------------- Relación muchos a uno con profile ----------------
+      builder.Entity<Order>()
+         .HasOne(o => o.Profile)
+         .WithMany(o => o.Orders)
+         .HasForeignKey(o => o.ProfileId)
+         .OnDelete(DeleteBehavior.Cascade);
          
       //===================================== END VICENTE BOUNDED CONTEXT ===============================
       //=================================================================================================
