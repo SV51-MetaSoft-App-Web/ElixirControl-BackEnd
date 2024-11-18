@@ -1,4 +1,5 @@
 using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Commands;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Aggregate;
 
 namespace ElixirControlPlatform.API.CustomerManagement.Domain.Model.Aggregates;
 
@@ -9,6 +10,9 @@ namespace ElixirControlPlatform.API.CustomerManagement.Domain.Model.Aggregates;
 public class Client
 {
     public int Id { get; private set; }
+    
+    public Guid ProfileId { get; set; }
+    public Profile Profile { get; set; }
     public string PersonName { get; private set; }
     public int Dni { get; private set; }
     public string Email { get; private set; }
@@ -40,7 +44,7 @@ public class Client
     /// This constructor is the command handle for the CreateClientsSourceCommand.
     /// </remarks>
     /// <param name="command">The CreateClientsSourceCommand</param>
-    public Client(CreateClientCommand command)
+    public Client(CreateClientCommand command,Guid profileId)
     {
         this.PersonName = command.PersonName;
         this.Dni = command.Dni;
@@ -51,6 +55,7 @@ public class Client
         this.Country = command.Country;
         this.City = command.City;
         this.Ruc = command.Ruc;
+        this.ProfileId = profileId;
     }
     
   

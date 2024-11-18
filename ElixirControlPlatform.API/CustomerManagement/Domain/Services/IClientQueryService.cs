@@ -1,5 +1,6 @@
 ﻿using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Aggregates;
 using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Queries;
+using Mysqlx.Crud;
 
 namespace ElixirControlPlatform.API.CustomerManagement.Domain.Services;
 
@@ -30,4 +31,5 @@ public interface IClientQueryService
     
     
     Task<IEnumerable<Client>> Handle(GetAllClientsQuery query);
+    Task<IEnumerable<Client>> Handle(GetAllClientsByProfileId query);
 }

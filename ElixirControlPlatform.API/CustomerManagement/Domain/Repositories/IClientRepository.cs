@@ -1,4 +1,5 @@
 ﻿using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Aggregates;
+using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Queries;
 using ElixirControlPlatform.API.Shared.Domain.Repositories;
 
 namespace ElixirControlPlatform.API.CustomerManagement.Domain.Repositories;
@@ -14,6 +15,9 @@ public interface IClientRepository : IBaseRepository<Client>
     /// A collection of <see cref="Client"/> that matches the <paramref name="dni"/>
     /// </returns>
     Task<Client?> FindByDniAsync(int dni);
+    
+    
+    Task<IEnumerable<Client>> GetAllClientsByProfileId(GetAllClientsByProfileId query);
     
     
     

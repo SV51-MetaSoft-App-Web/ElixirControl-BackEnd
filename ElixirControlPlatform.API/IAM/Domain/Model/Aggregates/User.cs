@@ -1,4 +1,6 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using ElixirControlPlatform.API.IAM.Domain.Model.ValueObjects;
 
 namespace ElixirControlPlatform.API.IAM.Domain.Model.Aggregates;
 
@@ -11,16 +13,23 @@ namespace ElixirControlPlatform.API.IAM.Domain.Model.Aggregates;
 /// <param name="passwordHash">
 /// The password hash of the user.
 /// </param>
-public class User(string username, string passwordHash)
+public class User(string username, string passwordHash, Roles? rol)
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="User"/> class. 
     /// </summary>
-    public User() : this(string.Empty, string.Empty) {}
+    public User() : this(string.Empty, string.Empty,null) {}
     
     public int Id { get; }
 
     public string Username { get; private set; } = username;
+    
+   
+    [JsonConverter(typeof(RolesJsonConverter))]
+    public Roles? Role { get; private set; } = rol;
+
+
+
     
     [JsonIgnore] public string PasswordHash { get; private set; } = passwordHash;
     
@@ -52,5 +61,22 @@ public class User(string username, string passwordHash)
     {
         PasswordHash = passwordHash;
         return this;
+    }
+    private class RolesJsonConverter : JsonConverter<Roles?>
+    {
+        public override Roles? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var roleString = reader.GetString();
+            if (string.IsNullOrEmpty(roleString))
+            {
+                return null;
+            }
+            return Enum.TryParse<Roles>(roleString, true, out var role) ? role : throw new JsonException($"Invalid role: {roleString}");
+        }
+
+        public override void Write(Utf8JsonWriter writer, Roles? value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value?.ToString());
+        }
     }
 }

@@ -2,6 +2,8 @@
 using ElixirControlPlatform.API.CustomerManagement.Domain.Model.Queries;
 using ElixirControlPlatform.API.CustomerManagement.Domain.Repositories;
 using ElixirControlPlatform.API.CustomerManagement.Domain.Services;
+using Mysqlx.Crud;
+
 namespace ElixirControlPlatform.API.CustomerManagement.Application.Internal.QueryServices;
 
 /// <summary>
@@ -24,5 +26,10 @@ public class ClientQueryService(IClientRepository clientRepository) : IClientQue
     public async Task<IEnumerable<Client>> Handle(GetAllClientsQuery query)
     {
         return await clientRepository.ListAsync();
+    }
+
+    public async Task<IEnumerable<Client>> Handle(GetAllClientsByProfileId query)
+    {
+        return await clientRepository.GetAllClientsByProfileId(query);
     }
 }

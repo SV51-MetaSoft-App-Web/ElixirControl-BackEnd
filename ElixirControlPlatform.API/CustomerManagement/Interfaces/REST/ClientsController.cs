@@ -25,11 +25,11 @@ public class ClientsController(
     ) : ControllerBase
 
 {
-    
     /// <summary>
     /// Create a new client
     /// </summary>
     /// <param name="resource">The <see cref="CreateClientResource"/></param>
+    /// <param name="profileId"></param>
     /// <returns>
     /// The <see cref="ActionResult"/> of the request containing the <see cref="ClientResource"/> resource
     /// </returns>
@@ -40,11 +40,11 @@ public class ClientsController(
         OperationId = "CreateClient")]
     [SwaggerResponse(StatusCodes.Status201Created, "The client was created", typeof(ClientResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The client could not be created")]
-    public async Task<ActionResult> CreateClient([FromBody] CreateClientResource resource)
+    public async Task<ActionResult> CreateClient([FromBody] CreateClientResource resource, [FromQuery] Guid profileId)
     {
         var createClientCommand = 
             CreateClientCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await clientCommandService.Handle(createClientCommand);
+        var result = await clientCommandService.Handle(createClientCommand, profileId);
         if (result is null) return BadRequest();
         return CreatedAtAction(nameof(GetClientById), new {id = result.Id},
             ClientResourceFromEntityAssembler.ToResourceFromEntity(result));
@@ -163,6 +163,22 @@ public class ClientsController(
         var result = await clientCommandService.Handle(updateClientByIdCommand);
         if (result is null) return NotFound();
         return Ok(ClientResourceFromEntityAssembler.ToResourceFromEntity(result));
+    }
+    
+    //get clients by profile id
+    [HttpGet("{profileId}/clients")]
+    [SwaggerOperation(
+        Summary = "Get all clients by profile id",
+        Description = "Get all clients by profile id",
+        OperationId = "GetAllClientsByProfileId"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The clients were successfully retrieved", typeof(IEnumerable<ClientResource>))]
+    public async Task<IActionResult> GetAllClientsByProfileId(Guid profileId)
+    {
+        var getAllClientsByProfileIdQuery = new GetAllClientsByProfileId(profileId);
+        var clients = await clientQueryService.Handle(getAllClientsByProfileIdQuery);
+        var clientResources = clients.Select(ClientResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(clientResources);
     }
 
 }

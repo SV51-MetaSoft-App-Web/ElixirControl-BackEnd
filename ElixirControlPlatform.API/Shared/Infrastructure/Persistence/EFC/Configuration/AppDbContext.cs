@@ -158,6 +158,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<User>().Property(u => u.Username).IsRequired();
       builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
+      builder.Entity<User>().Property(u => u.Role).IsRequired();
 
 
       
@@ -207,6 +208,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<Client>().Property(f => f.City).IsRequired().HasMaxLength(100);
       builder.Entity<Client>().Property(f => f.Ruc).IsRequired();
          
+         builder.Entity<Client>()
+         .HasOne(b => b.Profile)
+         .WithMany(p => p.Clients)
+         .HasForeignKey(b => b.ProfileId)
+         .OnDelete(DeleteBehavior.Cascade);
+      
+      
       //===================================== END GUSTAVO Bounded Context ===============================
          
       
