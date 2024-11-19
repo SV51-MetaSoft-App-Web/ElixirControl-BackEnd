@@ -52,6 +52,18 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 
+// Configura el servicio CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()   // Permite cualquier origen
+            .AllowAnyHeader()   // Permite cualquier cabecera
+            .AllowAnyMethod();  // Permite cualquier método (GET, POST, PUT, DELETE, etc.)
+    });
+});
+
+
 
 //===================================Add services to the container=====================================
 builder.Services.AddControllers();
@@ -175,6 +187,9 @@ builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
+// Aplica la política CORS globalmente
+app.UseCors("AllowAll");
+
 
 //==================== Verify if the database exists and create it if it doesn't ===================
 using (var scope = app.Services.CreateScope())
@@ -196,6 +211,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
