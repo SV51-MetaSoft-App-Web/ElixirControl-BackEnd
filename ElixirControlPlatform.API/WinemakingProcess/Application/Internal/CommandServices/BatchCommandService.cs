@@ -28,7 +28,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         return true;
     }
     
-    public async Task<Batch?> Handle(UpdateBatchCommand command, int batchId, Guid profileId)
+    public async Task<Batch?> Handle(UpdateBatchCommand command, int batchId)
     {
         var batch = await batchRepository.FindByIdAsync(batchId);
         if (batch is null) throw new Exception("Batch not found");
@@ -140,10 +140,13 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
     
     public async Task<Batch?> Handle(UpdateClarificationByBatchCommand command, int batchId)
     {
+        
         var batch = await batchRepository.FindByIdAsync(batchId);
+        
         if (batch is null) throw new Exception("Batch not found");
         
         var clarification = await batchRepository.GetClarificationByBatchAsync(batchId);
+        
         if (clarification is null) throw new Exception("The batch has no registered clarification");
         
         batch.UpdateClarificationByBatch(command);

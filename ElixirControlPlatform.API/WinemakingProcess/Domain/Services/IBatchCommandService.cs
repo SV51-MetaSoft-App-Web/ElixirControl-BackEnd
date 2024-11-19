@@ -8,7 +8,7 @@ public interface IBatchCommandService
     //=========== BATCH
     public Task<Batch?> Handle(CreateBatchCommand command, Guid profileId);
     public Task<bool> Handle(DeleteBatchCommand command);
-    public Task<Batch?> Handle(UpdateBatchCommand command, int batchId, Guid profileId);
+    public Task<Batch?> Handle(UpdateBatchCommand command, int batchId);
     
     //=========== Fermentation
     public Task<Batch?> Handle(AddFermentationToBatchCommand command, int batchId);
@@ -20,7 +20,7 @@ public interface IBatchCommandService
     //=========== Clarification
     public Task<Batch?> Handle(AddClarificationToBatchCommand command, int batchId);
     public Task<Batch?> Handle(DeleteClarificationByBatchCommand command);
-    public Task<Batch?> Handle(UpdateClarificationByBatchCommand command, int batch);
+    public Task<Batch?> Handle(UpdateClarificationByBatchCommand command, int batchId);
     
     // =========== end Clarification
     

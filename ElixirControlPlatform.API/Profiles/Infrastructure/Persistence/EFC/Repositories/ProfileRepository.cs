@@ -20,6 +20,11 @@ public class ProfileRepository(AppDbContext context) : BaseRepository<Profile>(c
     {
         return await Context.Set<Profile>().FirstOrDefaultAsync(p => p.Id == Id);
     }
+    
+    public async Task<Profile?> GetProfileByUserIdAsync(int userId)
+    {
+        return await Context.Set<Profile>().FirstOrDefaultAsync(p => p.UserId == userId);
+    }
 
     public async Task<bool?> existsProfileByEmailAsync(string email)
     {

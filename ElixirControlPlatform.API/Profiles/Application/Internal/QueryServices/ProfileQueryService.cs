@@ -33,6 +33,9 @@ public class ProfileQueryService(IProfileRepository profileRepository) : IProfil
         return await profileRepository.GetProfileByIdAsync(query.Id);
     }
     
-    
+    public async Task<Profile?> Handle(GetProfileByUserIdQuery query)
+    {
+        return await profileRepository.GetProfileByUserIdAsync(query.UserId);
+    }
 
 }

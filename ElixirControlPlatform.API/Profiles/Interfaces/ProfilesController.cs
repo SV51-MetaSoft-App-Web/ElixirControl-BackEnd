@@ -35,11 +35,13 @@ public class ProfilesController(IProfileCommandService profileCommandService, IP
     }
 
 
-    [HttpPost]
-    [SwaggerOperation("Create Profile")]
+    // POST -----------------------------------------------------
+    // Create Profile by user Id 
+    [HttpPost ("{userId}")]
+    [SwaggerOperation("Create Profile by user Id")] 
     [SwaggerResponse(StatusCodes.Status201Created, "Profile created", typeof(ProfileResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid Profile")]
-    public async Task<IActionResult> CreateProfileAsync([FromBody] CreateProfileResource resource, [FromHeader] int userId)
+    public async Task<IActionResult> CreateProfileAsync([FromBody] CreateProfileResource resource, int userId)
     {
         var createProfileCommand = CreateProfileCommandFromResourceAssembler.ToCommandFromResource(resource);
         
@@ -78,6 +80,23 @@ public class ProfilesController(IProfileCommandService profileCommandService, IP
         
         return Ok();
     }
+    
+    //Get Profile by User Id
+    [HttpGet("user/{userId}")]
+    [SwaggerOperation("Get Profile by User Id")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Profile found", typeof(ProfileResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Profile not found")]
+    public async Task<IActionResult> GetProfileByUserId(int userId)
+    {
+        var getProfileByUserIdQuery = new GetProfileByUserIdQuery(userId);
+        var profile = await profileQueryService.Handle(getProfileByUserIdQuery);
+        
+        if (profile is null) return BadRequest();
+        var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
+        
+        return Ok(profileResource);
+    }
+    
     
     
     

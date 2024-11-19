@@ -10,6 +10,8 @@ public interface IProfileRepository : IBaseRepository<Profile>
     
     Task<Profile?> GetProfileByIdAsync(Guid Id);
     
+    Task<Profile?> GetProfileByUserIdAsync(int userId);
+    
     Task<bool?> existsProfileByEmailAsync(string email);
     
     Task<bool?> ExistsProfileByRUCAsync(string ruc);

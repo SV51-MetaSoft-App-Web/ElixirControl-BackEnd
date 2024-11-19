@@ -15,7 +15,8 @@ public static class BatchResourceFromEntityAssembler
             entity.HarvestDate,
             entity.GrapeQuantity,
             entity.VineyardOrigin,
-            entity.ProcessStartDate
+            entity.ProcessStartDate,
+            entity.Status.ToString()
         );
     }
 

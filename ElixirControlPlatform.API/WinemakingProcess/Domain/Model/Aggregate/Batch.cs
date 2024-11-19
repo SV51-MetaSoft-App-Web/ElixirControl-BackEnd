@@ -46,7 +46,6 @@ public partial class Batch
         this.GrapeQuantity = 0;
         this.VineyardOrigin = string.Empty;
         this.ProcessStartDate = string.Empty;
-
     }
 
     public Batch(string vineyardCode, string grapeVariety, string harvestDate, int grapeQuantity, string vineyardOrigin,
@@ -69,6 +68,7 @@ public partial class Batch
         GrapeQuantity = command.GrapeQuantity;
         VineyardOrigin = command.VineyardOrigin;
         ProcessStartDate = command.ProcessStartDate;
+        
         ProfileId = profileId;
     }
     

@@ -8,4 +8,6 @@ public record BatchResource(
     string HarvestDate, 
     int GrapeQuantity, 
     string VineyardOrigin, 
-    string ProcessStartDate);
+    string ProcessStartDate,
+    string Status
+    );

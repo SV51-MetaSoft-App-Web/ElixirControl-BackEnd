@@ -45,7 +45,7 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
     )]
     [SwaggerResponse(StatusCodes.Status201Created, "The Batch was successfully created", typeof(BatchResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Batch was not created")]
-    public async Task<IActionResult> CreateBatch([FromBody] CreateBatchResource resource, [FromQuery] Guid profileId )
+    public async Task<IActionResult> CreateBatch([FromBody] CreateBatchResource resource, Guid profileId )
     {
         
         var profile = await profileRepository.GetProfileByIdAsync(profileId);
@@ -120,20 +120,22 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
         return NoContent();
     }
     
-    // UPDATE BATCH BY PROFILEID-----------------------------------------------------
+    // UPDATE BATCH BY PROFILEID AND BATCHID-----------------------------------------------------
     [HttpPut("{batchId:int}")]
     [SwaggerOperation(
-        Summary = "Update a Batch by Profile Id",
-        Description = "Update a Batch by Profile Id",
-        OperationId = "UpdateBatchByBatchIdAndProfileId"
+        Summary = "Update a Batch by Id",
+        Description = "Update a Batch by Id",
+        OperationId = "UpdateBatch"
     )]
-    [SwaggerResponse(StatusCodes.Status200OK, " The Batch was successfully updated", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Batch was successfully updated", typeof(BatchResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The Batch was not found")]
-    public async Task<IActionResult> UpdateBatchByBatchIdAndProfileId([FromBody] UpdateBatchResource resource,[FromQuery]  Guid profileId, int batchId)
+    public async Task<IActionResult> UpdateBatch([FromBody] UpdateBatchResource resource, int batchId)
     {
+        
+        
         var updateBatchCommand = UpdateBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
         
-        var batch = await batchCommandService.Handle(updateBatchCommand, batchId, profileId);
+        var batch = await batchCommandService.Handle(updateBatchCommand, batchId);
         
         if (batch is null) return NotFound();
         
@@ -141,6 +143,7 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
         
         return Ok(batchResource);
     }
+    
     
     
    

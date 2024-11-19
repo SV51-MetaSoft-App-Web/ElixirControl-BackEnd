@@ -134,7 +134,9 @@ public class WinemakingProcessByBatchController(IBatchQueryService batchQuerySer
     public async Task<IActionResult> AddClarificationToBatch([FromBody] AddClarificationToBatchResource resource, int batchId)
     {
         var addClarificationToBatchCommand = AddClarificationToBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
         var batch = await batchCommandService.Handle(addClarificationToBatchCommand, batchId);
+        
         if (batch is null) return BadRequest();
         
         var clarificationResource = ClarificationResourceFromEntityAssembler.ToResourceFromEntity(batch.Clarification);
