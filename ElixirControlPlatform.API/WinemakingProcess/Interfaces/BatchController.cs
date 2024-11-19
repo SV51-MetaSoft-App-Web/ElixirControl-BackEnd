@@ -37,11 +37,11 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
     }
     
     // POST -----------------------------------------------------
-    [HttpPost]
+    [HttpPost ("profile/{profileId:guid}")]
     [SwaggerOperation(
-        Summary = "Create a Batch",
-        Description = "Create a Batch",
-        OperationId = "CreateTutorial"
+        Summary = "Create a Batch by Profile Id",
+        Description = "Create a Batch by Profile Id",
+        OperationId = "CreateBatch"
     )]
     [SwaggerResponse(StatusCodes.Status201Created, "The Batch was successfully created", typeof(BatchResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The Batch was not created")]
@@ -80,6 +80,23 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
         return Ok(batchResources);
     }
     
+    //GET ALL BATCHES BY PROFILE ID -----------------------------------------------------   
+    [HttpGet("profile/{profileId:guid}")]
+    [SwaggerOperation(
+        Summary = "Get all Batches by Profile Id",
+        Description = "Get all Batches by Profile Id",
+        OperationId = "GetAllBatchesByProfileId"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Batches were successfully retrieved", typeof(IEnumerable<BatchResource>))]
+    public async Task<IActionResult> GetAllBatchesByProfileId(Guid profileId)
+    {
+        var getAllBatchByProfileIdQuery = new GetAllBatchByProfileIdQuery(profileId);
+        var batches = await batchQueryService.Handle(getAllBatchByProfileIdQuery);
+        var batchResources = batches.Select(BatchResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(batchResources);
+    }
+    
+    
     // DELETE BATCH -----------------------------------------------------
     [HttpDelete("{batchId:int}")]
     [SwaggerOperation(
@@ -103,20 +120,20 @@ public class BatchController(IBatchQueryService batchQueryService, IBatchCommand
         return NoContent();
     }
     
-    // UPDATE BATCH -----------------------------------------------------
+    // UPDATE BATCH BY PROFILEID-----------------------------------------------------
     [HttpPut("{batchId:int}")]
     [SwaggerOperation(
-        Summary = "Update a Batch",
-        Description = "Update a Batch",
-        OperationId = "UpdateBatch"
+        Summary = "Update a Batch by Profile Id",
+        Description = "Update a Batch by Profile Id",
+        OperationId = "UpdateBatchByBatchIdAndProfileId"
     )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The Batch was successfully updated", typeof(BatchResource))]
+    [SwaggerResponse(StatusCodes.Status200OK, " The Batch was successfully updated", typeof(BatchResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The Batch was not found")]
-    public async Task<IActionResult> UpdateBatch(int batchId, [FromBody] UpdateBatchResource resource)
+    public async Task<IActionResult> UpdateBatchByBatchIdAndProfileId([FromBody] UpdateBatchResource resource,[FromQuery]  Guid profileId, int batchId)
     {
         var updateBatchCommand = UpdateBatchCommandFromResourceAssembler.ToCommandFromResource(resource);
         
-        var batch = await batchCommandService.Handle(updateBatchCommand, batchId);
+        var batch = await batchCommandService.Handle(updateBatchCommand, batchId, profileId);
         
         if (batch is null) return NotFound();
         

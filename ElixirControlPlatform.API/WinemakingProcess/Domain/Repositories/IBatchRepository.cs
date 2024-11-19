@@ -7,6 +7,7 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Domain.Repositories;
 
 public interface IBatchRepository : IBaseRepository<Batch>
 {
+    Task<IEnumerable<Batch>> GetAllBatchByProfileIdAsync(Guid profileId);
     Task<Fermentation?> GetFermentationByBatchAsync(int batchId);
     
     Task<Clarification?> GetClarificationByBatchAsync(int batchId);

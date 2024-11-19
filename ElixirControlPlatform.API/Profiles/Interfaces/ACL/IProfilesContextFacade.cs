@@ -34,6 +34,7 @@ public interface IProfilesContextFacade
     /// The id of the created profile if successful, 0 otherwise
     /// </returns>
     Task<Guid> CreateProfile(
+        int userId,
         string firstName, 
         string lastName, 
         string email, 

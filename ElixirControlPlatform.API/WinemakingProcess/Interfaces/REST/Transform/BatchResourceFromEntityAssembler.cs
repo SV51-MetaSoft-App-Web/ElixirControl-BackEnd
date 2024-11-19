@@ -9,6 +9,7 @@ public static class BatchResourceFromEntityAssembler
     {
         return new BatchResource(
             entity.Id,
+            entity.ProfileId,
             entity.VineyardCode,
             entity.GrapeVariety,
             entity.HarvestDate,

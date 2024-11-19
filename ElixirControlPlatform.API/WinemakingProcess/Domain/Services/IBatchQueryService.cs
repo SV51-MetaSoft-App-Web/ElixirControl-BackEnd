@@ -6,7 +6,7 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Domain.Services;
 
 public interface IBatchQueryService
 {
-    
+    Task<IEnumerable<Batch>> Handle(GetAllBatchByProfileIdQuery query);
     Task<Batch?> Handle(GetBatchByIdQuery query);
     
     Task<IEnumerable<Batch>> Handle(GetAllBatchesQuery query);

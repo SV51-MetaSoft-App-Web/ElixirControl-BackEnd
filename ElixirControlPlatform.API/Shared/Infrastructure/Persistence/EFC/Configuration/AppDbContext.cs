@@ -158,7 +158,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<User>().Property(u => u.Username).IsRequired();
       builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
-
+      
+      // Relación uno a uno con la entidad Profile
+      builder.Entity<User>()
+         .HasOne(u => u.Profile)
+         .WithOne(p => p.User)
+         .HasForeignKey<Profile>(p => p.UserId)
+         .OnDelete(DeleteBehavior.Cascade);
 
       
       //---------------- CONFIGURATION DE PRODUCTS ----------------

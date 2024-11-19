@@ -8,6 +8,11 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Application.Internal.Query
 
 public class BatchQueryService(IBatchRepository batchRepository) : IBatchQueryService
 {
+    public async Task<IEnumerable<Batch>> Handle(GetAllBatchByProfileIdQuery query)
+    {
+        return await batchRepository.GetAllBatchByProfileIdAsync(query.ProfileId);
+    }
+    
     public async Task<Batch?> Handle(GetBatchByIdQuery query)
     {
         return await batchRepository.FindByIdAsync(query.Id);

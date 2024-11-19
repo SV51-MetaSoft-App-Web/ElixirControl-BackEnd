@@ -18,7 +18,7 @@ public interface IProfileCommandService
     /// <returns>
     /// The <see cref="Profile"/> object with the created profile
     /// </returns>
-    Task<Profile?> Handle(CreateProfileCommand command);
+    Task<Profile?> Handle(CreateProfileCommand command, int userId);
     
     Task<bool> Handle(DeleteProfileCommand command);
 }

@@ -9,6 +9,12 @@ namespace ElixirControlPlatform.API.WinemakingProcess.Infrastructure.Persistence
 
 public class BatchRepository(AppDbContext context) : BaseRepository<Batch>(context), IBatchRepository
 {
+    public async Task<IEnumerable<Batch>> GetAllBatchByProfileIdAsync(Guid profileId)
+    {
+        return await Context.Set<Batch>()
+            .Where(batch => batch.ProfileId == profileId)
+            .ToListAsync();
+    }
 
     public async Task<Fermentation?> GetFermentationByBatchAsync(int batchId)
     {

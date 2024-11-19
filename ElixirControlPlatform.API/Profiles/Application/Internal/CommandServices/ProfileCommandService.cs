@@ -21,9 +21,9 @@ public class ProfileCommandService(IProfileRepository profileRepository, IUnitOf
 {
     
     /// <inheritdoc />
-    public async Task<Profile?> Handle(CreateProfileCommand command)
+    public async Task<Profile?> Handle(CreateProfileCommand command, int userId)
     {
-        var profile = new Profile(command);
+        var profile = new Profile(command, userId);
 
         //if ((bool)await profileRepository.existsProfileByEmailAsync(command.Email)) throw new Exception("Email already exists");
         

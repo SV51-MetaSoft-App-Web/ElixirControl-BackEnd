@@ -8,7 +8,7 @@ public interface IBatchCommandService
     //=========== BATCH
     public Task<Batch?> Handle(CreateBatchCommand command, Guid profileId);
     public Task<bool> Handle(DeleteBatchCommand command);
-    public Task<Batch?> Handle(UpdateBatchCommand command, int batchId);
+    public Task<Batch?> Handle(UpdateBatchCommand command, int batchId, Guid profileId);
     
     //=========== Fermentation
     public Task<Batch?> Handle(AddFermentationToBatchCommand command, int batchId);

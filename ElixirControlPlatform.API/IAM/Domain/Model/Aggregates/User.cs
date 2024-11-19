@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Aggregate;
 
 namespace ElixirControlPlatform.API.IAM.Domain.Model.Aggregates;
 
@@ -17,6 +18,9 @@ public class User(string username, string passwordHash)
     /// Initializes a new instance of the <see cref="User"/> class. 
     /// </summary>
     public User() : this(string.Empty, string.Empty) {}
+    
+    // Relación uno a muchos con la entidad Profile
+    public Profile Profile { get; } // Relación uno a muchos con la entidad Profile
     
     public int Id { get; }
 

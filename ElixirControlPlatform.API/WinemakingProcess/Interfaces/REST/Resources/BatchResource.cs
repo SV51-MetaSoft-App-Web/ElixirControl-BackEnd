@@ -2,6 +2,7 @@
 
 public record BatchResource(
     int Id,
+    Guid profileId,
     string VineyardCode, 
     string GrapeVariety, 
     string HarvestDate, 

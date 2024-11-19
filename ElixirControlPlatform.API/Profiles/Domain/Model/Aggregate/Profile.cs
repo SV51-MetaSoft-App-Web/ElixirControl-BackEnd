@@ -1,4 +1,5 @@
-﻿using ElixirControlPlatform.API.ProductManagement.Domain.Model.Aggregate;
+﻿using ElixirControlPlatform.API.IAM.Domain.Model.Aggregates;
+using ElixirControlPlatform.API.ProductManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.OrderManagement.Domain.Model.Aggregate;
 using ElixirControlPlatform.API.Profiles.Domain.Model.Commands;
 using ElixirControlPlatform.API.Profiles.Domain.Model.ValueObjects;
@@ -11,13 +12,14 @@ public partial class Profile
 
     public Guid Id { get; }
     
-    //Associar con batch
-    public ICollection<Batch> Batches { get; set; } // Relación uno a muchos
-    public ICollection<Product> Products { get; set; } // Relación uno a muchos
+    public ICollection<Batch> Batches { get; set; } // Relación uno a muchos con Batch
+    public ICollection<Product> Products { get; set; } // Relación uno a muchos con Product
+    public ICollection<Order> Orders { get; set; } // Relación uno a muchos con Order
     
-    //Associar con Order
-    public ICollection<Order> Orders { get; set; } // Relación uno a muchos
-  
+    
+    public int UserId { get; set; }
+    public User User { get; set; } // Relación uno a uno con User
+    
     
     public PersonName Name { get; private set; }
     public EmailAddress Email { get; private set; }
@@ -54,7 +56,7 @@ public partial class Profile
         Address = new StreetAddress(street, number, city, country);
     }
 
-    public Profile(CreateProfileCommand command)
+    public Profile(CreateProfileCommand command, int userId)
     {
         Name = new PersonName(command.FirstName, command.LastName);
         Email = new EmailAddress(command.Email);
@@ -62,7 +64,11 @@ public partial class Profile
         PhoneNumber = command.PhoneNumber;
         RUC = command.RUC;
         Address = new StreetAddress(command.Street, command.Number, command.City, command.Country);
+        
+        UserId = userId;
     }
+    
+    
     
 
     

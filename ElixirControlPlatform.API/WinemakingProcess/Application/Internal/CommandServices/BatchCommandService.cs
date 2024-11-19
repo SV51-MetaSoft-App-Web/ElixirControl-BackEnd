@@ -28,7 +28,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         return true;
     }
     
-    public async Task<Batch?> Handle(UpdateBatchCommand command, int batchId)
+    public async Task<Batch?> Handle(UpdateBatchCommand command, int batchId, Guid profileId)
     {
         var batch = await batchRepository.FindByIdAsync(batchId);
         if (batch is null) throw new Exception("Batch not found");

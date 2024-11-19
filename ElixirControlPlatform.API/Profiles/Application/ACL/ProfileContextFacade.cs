@@ -9,6 +9,7 @@ namespace ElixirControlPlatform.API.Profiles.Application.ACL;
 public class ProfileContextFacade( IProfileCommandService profileCommandService, IProfileQueryService profileQueryService) : IProfilesContextFacade
 {
     public async Task<Guid> CreateProfile(
+        int userId,
         string firstName, 
         string lastName, 
         string email, 
@@ -21,7 +22,8 @@ public class ProfileContextFacade( IProfileCommandService profileCommandService,
         string country)
     {
         var createProfileCommand = new CreateProfileCommand(firstName, lastName, email, companyName, phoneNumber, ruc, street, number, city, country);
-        var profile = await profileCommandService.Handle(createProfileCommand);
+        
+        var profile = await profileCommandService.Handle(createProfileCommand, userId);
         
         return profile?.Id ?? Guid.Empty;
     }

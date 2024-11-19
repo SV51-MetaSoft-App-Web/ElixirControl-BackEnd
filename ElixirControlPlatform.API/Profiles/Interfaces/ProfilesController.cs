@@ -39,10 +39,12 @@ public class ProfilesController(IProfileCommandService profileCommandService, IP
     [SwaggerOperation("Create Profile")]
     [SwaggerResponse(StatusCodes.Status201Created, "Profile created", typeof(ProfileResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid Profile")]
-    public async Task<IActionResult> CreateProfileAsync([FromBody] CreateProfileResource resource)
+    public async Task<IActionResult> CreateProfileAsync([FromBody] CreateProfileResource resource, [FromHeader] int userId)
     {
         var createProfileCommand = CreateProfileCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var profile = await profileCommandService.Handle(createProfileCommand);
+        
+        var profile = await profileCommandService.Handle(createProfileCommand, userId);
+        
         if (profile is null) return BadRequest();
         var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
         return CreatedAtAction(nameof(GetProfileByProfileId), new { profileId = profile.Id }, profileResource);
