@@ -3,6 +3,9 @@ using ElixirControlPlatform.API.IAM.Domain.Services;
 using ElixirControlPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using ElixirControlPlatform.API.IAM.Interfaces.REST.Resources;
 using ElixirControlPlatform.API.IAM.Interfaces.REST.Transform;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Commands;
+using ElixirControlPlatform.API.Profiles.Domain.Repositories;
+using ElixirControlPlatform.API.Profiles.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -67,6 +70,8 @@ public class AuthenticationController(IUserCommandService userCommandService) : 
     {
         var signUpCommand = SignUpCommandFromResourceAssembler.ToCommandFromResource(resource);
         await userCommandService.Handle(signUpCommand);
+        
+       
         return Ok(new { message = "User signed up successfully." });
     }
 }

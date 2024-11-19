@@ -3,6 +3,9 @@ using ElixirControlPlatform.API.IAM.Domain.Model.Aggregates;
 using ElixirControlPlatform.API.IAM.Domain.Model.Commands;
 using ElixirControlPlatform.API.IAM.Domain.Repositories;
 using ElixirControlPlatform.API.IAM.Domain.Services;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Aggregate;
+using ElixirControlPlatform.API.Profiles.Domain.Model.Commands;
+using ElixirControlPlatform.API.Profiles.Domain.Repositories;
 using ElixirControlPlatform.API.Shared.Domain.Repositories;
 
 namespace ElixirControlPlatform.API.IAM.Application.Internal.CommandServices;
@@ -25,7 +28,7 @@ namespace ElixirControlPlatform.API.IAM.Application.Internal.CommandServices;
 public class UserCommandService(
     IUserRepository userRepository,
     ITokenService tokenService,
-    IHashingService hashingService,
+    IHashingService hashingService, IProfileRepository profileRepository,
     IUnitOfWOrk unitOfWork
     ) : IUserCommandService
 {
@@ -45,6 +48,30 @@ public class UserCommandService(
         catch (Exception e)
         {
             throw new Exception($"An error occurred while creating the user: {e.Message}");
+        }
+        //string firstName, string lastName, string email, string companyName, string phoneNumber, string ruc, string street, string number, string city, string country
+        
+        //combinar user name con @gmail.com
+        var profile = new Profile( new CreateProfileCommand( 
+            user.Username, 
+            user.Username, 
+            user.Username + "@gmail.com", 
+            "MetaSoft", 
+            "0987654321", 
+            "123456789",
+            "Calle 1",
+            "123",
+            "Cuenca",
+            "Ecuador"
+            ), user.Id);
+        try
+        {
+            await profileRepository.AddAsync(profile);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"An error occurred while creating the profile: {e.Message}");
         }
     }
 
