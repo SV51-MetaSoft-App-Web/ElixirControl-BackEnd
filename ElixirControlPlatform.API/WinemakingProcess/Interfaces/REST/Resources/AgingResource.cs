@@ -4,8 +4,8 @@ public record AgingResource(
     int Id,
     int BatchId, 
     string BarrelType, 
-    DateTime? StartDate, 
-    DateTime? EndDate, 
+    string StartDate, 
+    string EndDate, 
     int AgingDurationMonths, 
     int InspectionsPerformed, 
     string InspectionResult);

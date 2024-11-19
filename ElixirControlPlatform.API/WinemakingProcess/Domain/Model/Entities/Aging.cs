@@ -7,8 +7,8 @@ public class Aging
     //========================== Aging Information ==========================
     public int BatchId { get; private set; }
     public string BarrelType { get; private set; }
-    public DateTime?  StartDate { get; private set; }
-    public DateTime? EndDate { get; private set; }
+    public string  StartDate { get; private set; }
+    public string EndDate { get; private set; }
     public int AgingDurationMonths { get; private set; }
     public int InspectionsPerformed { get; private set; }
     public string InspectionResult { get; private set; }
@@ -19,8 +19,8 @@ public class Aging
     {
         this.BatchId = 0;
         this.BarrelType = string.Empty;
-        this.StartDate = null;
-        this.EndDate = null;
+        this.StartDate = string.Empty;
+        this.EndDate = string.Empty;
         this.AgingDurationMonths = 0;
         this.InspectionsPerformed = 0;
         this.InspectionResult = string.Empty;
@@ -30,21 +30,11 @@ public class Aging
     {
         BatchId = batchId;
         BarrelType = barrelType;
-        StartDate = ConvertToDate(startDate);
-        EndDate = ConvertToDate(endDate);
+        StartDate = startDate;
+        EndDate = endDate;
         AgingDurationMonths = agingDurationMonths;
         InspectionsPerformed = inspectionsPerformed;
         InspectionResult = inspectionResult;
-    }
-    
-    
-    private static DateTime? ConvertToDate(string date)
-    {
-        if (DateTime.TryParseExact(date, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate))
-        {
-            return parsedDate;
-        }
-        return null;
     }
     
 }

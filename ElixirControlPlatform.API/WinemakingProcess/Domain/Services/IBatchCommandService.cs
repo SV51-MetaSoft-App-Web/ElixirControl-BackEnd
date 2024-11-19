@@ -13,7 +13,7 @@ public interface IBatchCommandService
     //=========== Fermentation
     public Task<Batch?> Handle(AddFermentationToBatchCommand command, int batchId);
     public Task<Batch?> Handle(DeleteFermentationByBatchCommand command);
-    public Task<Batch?> Handle(UpdateFermentationByBatchCommand command, int batch);   
+    public Task<Batch?> Handle(UpdateFermentationByBatchCommand command, int batchId);   
     
     // =========== end Fermentation
     

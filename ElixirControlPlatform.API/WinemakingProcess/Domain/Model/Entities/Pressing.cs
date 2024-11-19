@@ -6,7 +6,7 @@ public class Pressing
     
     //========================== Fermentation Pressing ==========================
     public int BatchId { get; private set; }
-    public DateTime? PressingDate { get; private set; }
+    public string PressingDate { get; private set; }
     public double MustVolume { get; private set; }
     public string PressType { get; private set; }
     public double AppliedPressure { get; private set; }
@@ -15,7 +15,7 @@ public class Pressing
     public Pressing()
     {
         this.BatchId = 0;
-        this.PressingDate = null;
+        this.PressingDate = string.Empty;
         this.MustVolume = 0;
         this.PressType = string.Empty;
         this.AppliedPressure = 0;
@@ -24,19 +24,10 @@ public class Pressing
     public Pressing(int batchId, string pressingDate, double mustVolume, string pressType, double appliedPressure) : this()
     {
         BatchId = batchId;
-        PressingDate = ConvertToDate(pressingDate);
+        PressingDate = pressingDate;
         MustVolume = mustVolume;
         PressType = pressType;
         AppliedPressure = appliedPressure;
-    }
-    
-    private static DateTime? ConvertToDate(string date)
-    {
-        if (DateTime.TryParseExact(date, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate))
-        {
-            return parsedDate;
-        }
-        return null;
     }
 
 }

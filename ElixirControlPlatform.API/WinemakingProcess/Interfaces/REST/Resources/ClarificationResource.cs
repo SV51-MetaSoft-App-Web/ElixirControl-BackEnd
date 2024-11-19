@@ -5,7 +5,7 @@ public record ClarificationResource(
     int BatchId, 
     string ProductsUsed, 
     string ClarificationMethod, 
-    DateTime? FiltrationDate, 
+    string FiltrationDate, 
     double ClarityLevel, 
-    DateTime? StartDate,
-    DateTime? EndDate);
+    string StartDate,
+    string EndDate);

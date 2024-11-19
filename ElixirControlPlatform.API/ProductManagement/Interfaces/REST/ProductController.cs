@@ -86,11 +86,11 @@ public class ProductController(IProductCommandService productCommandService, IPr
     }
     
     // POST ----------------------------------------------------------------------------------------------------------
-    [HttpPost]
-    [SwaggerOperation("Create Product")]
+    [HttpPost ("profile/{profileId}")]
+    [SwaggerOperation("Create Product by Profile")]
     [SwaggerResponse(StatusCodes.Status201Created, "Product created", typeof(ProductResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid Product")]
-    public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductResource resource, [FromQuery] Guid profileId)
+    public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductResource resource, Guid profileId)
     {
         var createProductCommand = CreateProductCommandFromResourceAssembler.ToCommandFromResource(resource);
         

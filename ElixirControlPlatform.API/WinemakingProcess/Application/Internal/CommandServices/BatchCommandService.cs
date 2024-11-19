@@ -69,6 +69,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         var fermentation = await batchRepository.GetFermentationByBatchAsync(command.BatchId);
         
         if (batch is null) throw new Exception("Batch not found");
+        
         if (fermentation is null) throw new Exception("The batch has no registered fermentation");
  
         batch.DeleteFermentationByBatch();
@@ -104,10 +105,9 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
     {
         var batch = await batchRepository.FindByIdAsync(batchId);
         if (batch is null) throw new Exception("Batch not found");
-        if (batch.Status != CurrentBatchStatus.Fermentation) throw new Exception("The batch must first go through the fermentation stage");
-      
         
-        Console.WriteLine("batch.Status: " + batch.Status);
+        //Quiero validar que el batch haya pasado por la etapa de fermentación para poder crear un clarificado
+        if (batch.Status != CurrentBatchStatus.Fermentation) throw new Exception("The batch must first go through the fermentation stage");      
         
         batch.AddClarificationByBatch(
             batchId, 
@@ -118,6 +118,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
             command.StartDate, 
             command.EndDate);
         
+        batchRepository.Update(batch);
         await unitOfWork.CompleteAsync();
         return batch;
     }
@@ -132,7 +133,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         
         batch.DeleteClarificationByBatch();
         
-        batchRepository.Update(batch);
+        batchRepository.Remove(batch);
         
         await unitOfWork.CompleteAsync();
         return batch;
@@ -175,6 +176,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
             command.PressType, 
             command.AppliedPressure);
         
+        batchRepository.Update(batch);
         await unitOfWork.CompleteAsync();
         return batch;
     }
@@ -190,7 +192,6 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         batch.DeletePressingByBatch();
         
         batchRepository.Update(batch);
-        
         await unitOfWork.CompleteAsync();
         return batch;
     }
@@ -203,10 +204,10 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         var pressing = await batchRepository.GetPressingByBatchAsync(batchId);
         if (pressing is null) throw new Exception("The batch has no registered pressing");
         
+        
         batch.UpdatePressingToBatch(command);
         
         batchRepository.Update(batch);
-        
         await unitOfWork.CompleteAsync();
         return batch;
     }
@@ -230,6 +231,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
             command.InspectionsPerformed, 
             command.InspectionResult);
         
+        batchRepository.Update(batch);
         await unitOfWork.CompleteAsync();
         return batch;
     }
@@ -244,8 +246,7 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         
         batch.DeleteAgingByBatch();
         
-        batchRepository.Update(batch);
-        
+        batchRepository.Remove(batch);
         await unitOfWork.CompleteAsync();
         return batch;
     }
@@ -261,7 +262,6 @@ public class BatchCommandService(IBatchRepository batchRepository, IUnitOfWOrk u
         batch.UpdateAgingByBatch(command);
         
         batchRepository.Update(batch);
-        
         await unitOfWork.CompleteAsync();
         return batch;
     }

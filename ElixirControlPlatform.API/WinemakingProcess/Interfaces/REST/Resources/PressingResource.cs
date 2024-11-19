@@ -3,7 +3,7 @@
 public record PressingResource(
     int Id,
     int BatchId, 
-    DateTime? PressingDate, 
+    string PressingDate, 
     double MustVolume, 
     string PressType, 
     double AppliedPressure);
